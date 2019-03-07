@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Dashboard</ui:define>
+
+    <ui:define name="head">
+           <script type="text/javascript">
+               //<![CDATA[
+               function skinBar() {
+                   this.cfg.shadow = false;
+                   this.cfg.title = '';
+                   this.cfg.seriesColors = ['#3984b8','#7e8dcd'];
+                   this.cfg.grid = {
+                       background: '#ffffff',
+                       borderColor: '#ffffff',
+                       gridLineColor: '#dee4e9',
+                       shadow: false
+                   };
+                   this.cfg.axesDefaults = {
+                       borderWidth: 0.1,
+                       borderColor: 'dce2e7',
+                       rendererOptions: {
+                           textColor: '#757575'
+                       }
+                   };
+                   this.cfg.seriesDefaults = {
+                       shadow: false,
+                       lineWidth: 1,
+                       renderer: $.jqplot.BarRenderer,
+                       markerOptions: {
+                           shadow: false,
+                           size: 7,
+                           style: 'circle'
+                       }
+                   }
+               }
+               //]]>
+           </script>
+           <style type="text/css">
+               .main-content {
+                   padding: 0;
+               }
+           </style>
+       </ui:define>
+        
+    <ui:define name="content">
+        <p:dataTable var="person" value="#{PersonBean.persona}" paginator="true" rows="10">
+            <f:facet name="header">
+                Listado de personas.
+            </f:facet>
+            <p:column headerText="Id" sortBy="#{person.idPersona}">
+                <h:outputText value="#{person.idPersona}" />
+            </p:column>
+
+            <p:column headerText="Nombre" sortBy="#{person.strNombre}">
+                <h:outputText value="#{person.strNombre}" />
+            </p:column>
+
+            <p:column headerText="Apellido" sortBy="#{person.strApellido}">
+                <h:outputText value="#{person.strApellido}" />
+            </p:column>
+
+            <p:column headerText="Documento" sortBy="#{person.strNumeroDocumento}">
+                <h:outputText value="#{person.strNumeroDocumento}" />
+            </p:column>
+            <p:column headerText="Activo" sortBy="#{person.bitActivo}">
+                <h:outputText value="#{person.bitActivo}" />
+            </p:column>
+            <p:column headerText="Fecha de creación" sortBy="#{person.dtmFechaCreacion}">
+                <h:outputText value="#{person.dtmFechaCreacion.toGMTString}" />
+            </p:column>
+        </p:dataTable>
+    </ui:define>
+
+</ui:composition>
