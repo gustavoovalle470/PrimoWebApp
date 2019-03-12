@@ -5,11 +5,19 @@
  */
 package com.primo.client.persona;
 
+import com.google.gson.Gson;
 import com.primo.constants.ws.PrimoURI;
 import com.primo.model.Persona;
+import java.io.IOException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 /**
  * Esta clase realiza el consumo del servicio web, expuesto que realiza las 
@@ -66,5 +74,14 @@ public class PersonaWSClient {
      */
     public Persona getPerson(int personId){
         return client.target(PrimoURI.GET_PERSON_WS.replace(PrimoURI.URL_CHAR_CHANGE, ""+personId)).request(MediaType.APPLICATION_JSON).get(Persona.class);
+    }
+    
+    public void register(Persona p) throws IOException{
+        Gson gson = new Gson();
+        StringEntity entity = new StringEntity(gson.toJson(p), ContentType.APPLICATION_JSON);
+        HttpPost request = new HttpPost(PrimoURI.REG_PERSON_WS);
+        request.setEntity(entity);
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpResponse response = httpClient.execute(request);
     }
 }
