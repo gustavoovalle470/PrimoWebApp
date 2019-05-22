@@ -46,52 +46,15 @@
                }
            </style>
        </ui:define>
-        
+
     <ui:define name="content">
-        <p:autoUpdate disabled="false"/>
-        <h:form id="FormTablaPrincipal">
-            <p:dataTable var="person" value="#{PersonBean.persona}" paginator="true" rows="10" id="personasTbl" >
-                <f:facet name="header">
-                    Listado de personas.
-                </f:facet>
-                <p:column headerText="Id" sortBy="#{person.idPersona}">
-                    <h:outputText value="#{person.idPersona}" />
-                </p:column>
-
-                <p:column headerText="Nombre" sortBy="#{person.strNombre}">
-                    <h:outputText value="#{person.strNombre}" />
-                </p:column>
-
-                <p:column headerText="Apellido" sortBy="#{person.strApellido}">
-                    <h:outputText value="#{person.strApellido}" />
-                </p:column>
-
-                <p:column headerText="Documento" sortBy="#{person.strNumeroDocumento}">
-                    <h:outputText value="#{person.strNumeroDocumento}" />
-                </p:column>
-                <p:column headerText="Activo" sortBy="#{person.bitActivo}">
-                    <h:outputText value="#{person.bitActivo}" />
-                </p:column>
-                <p:column headerText="Fecha de creación" sortBy="#{person.dtmFechaCreacion}">
-                    <h:outputText value="#{person.dtmFechaCreacion.toGMTString}" />
-                </p:column>
-            </p:dataTable>
-            <p:dialog widgetVar="addPerson" closeOnEscape="true" header="Agregar persona">
-                <h:form>
-                    <p:outputLabel value="Adicionar nueva persona" for="panelPersona"/>
-                    <p:panelGrid columns="2" id="panelPersona" style="border: 0px;">
-                        <p:outputLabel value="Nombre" for="personNameIn"/>
-                        <p:inputText id="personNameIn" value="#{PersonBean.person_name}"/>
-                        <p:outputLabel value="Apellido" for="personSurameIn"/>
-                        <p:inputText id="personSurameIn" value="#{PersonBean.person_surname}"/>
-                        <p:outputLabel value="Documento:" for="personDocumentIn"/>
-                        <p:inputText id="personDocumentIn" value="#{PersonBean.person_document}"/>
-                    </p:panelGrid>
-                    <p:commandButton value="Crear" onclick="PF('addPerson').hide();" action="#{PersonBean.createPerson()}"/>
-                </h:form>
-            </p:dialog>
-            <p:commandButton value="Agregar persona" onclick="PF('addPerson').show();"/>
-        </h:form>
+        <div class="card" style="width: 100%; height: 500px;">
+            <h:form>
+                <div align="center">
+                    <h1>Bienvenido a su sistema NOMBRE_SISTEMA</h1>
+                </div>
+            </h:form>
+        </div>
     </ui:define>
 
 </ui:composition>

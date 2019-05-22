@@ -255,26 +255,7 @@
 	@return $list;
 }
 
-@mixin animation($name, $tupleList) {
-	@keyframes #{$name} {
-		$steps: length($tupleList);
-		//@debug "Steps: " + $steps;
-		@if $steps > 1{
-			@for $i from 0 to $steps {
-				// <start> to <end> -> not include <end>
-				$percentage: decimal-round( $i*(100/($steps - 1)), 2); //calc percentage with 2 decimals
-				#{$percentage}% {
-					$tuple: nth($tupleList, $i+1);
-					transform: translate( v(nth($tuple, 1), nth($tuple, 2)));
-				}
-			}
-			0% 	{ opacity: 0 }
-			15% { opacity: 1 }
-			85% { opacity: 1 }
-			100%{ opacity: 0 }
-		}
-	}
-}
+
 
 //Create random animations
 @for $i from 1 to 20 {
