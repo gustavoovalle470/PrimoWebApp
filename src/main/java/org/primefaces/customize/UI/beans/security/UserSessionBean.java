@@ -10,8 +10,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.customize.UI.security.menu.MenuFactory;
 import org.primefaces.customize.UI.utils.UIMessageManagement;
 import org.primefaces.customize.controllers.security.UserSessionManager;
+import org.primefaces.model.menu.DefaultMenuModel;
 
 /**
  *
@@ -22,10 +24,13 @@ import org.primefaces.customize.controllers.security.UserSessionManager;
 public class UserSessionBean implements Serializable{
     private String username;
     private final HttpSession session;
+    private DefaultMenuModel user_sec_menu;
 
     public UserSessionBean(){
         session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         username = UserSessionManager.getInstance().getUser(session);
+        System.out.println("Pre cargando la sesion");
+        user_sec_menu = MenuFactory.getInstance().getSecMenuUser(username);
     }
     
     public String getUsername() {
@@ -38,6 +43,14 @@ public class UserSessionBean implements Serializable{
     
     public boolean isValidHttpSession(){
         return session.equals((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true));
+    }
+
+    public DefaultMenuModel getUser_sec_menu() {
+        return user_sec_menu;
+    }
+    
+    public void setUser_sec_menu(DefaultMenuModel user_sec_menu) {
+        this.user_sec_menu = user_sec_menu;
     }
     
     public String logout(){

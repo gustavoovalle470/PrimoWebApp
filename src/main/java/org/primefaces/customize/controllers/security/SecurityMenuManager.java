@@ -40,7 +40,7 @@ public class SecurityMenuManager {
     public ArrayList<String> getMenuSec(String username){
         ArrayList<String> menusId = new ArrayList<>();
         menusId.add("1.1.1");
-        menusId.add("1.1.3");
+        menusId.add("1.1.2");
         menusId.add("2");
         return menusId;
     }
