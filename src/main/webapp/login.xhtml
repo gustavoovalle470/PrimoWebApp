@@ -15,44 +15,39 @@
         <title>#{SystemInfoBean.header_view}</title>
     </h:head>
 
-    <h:body styleClass="login-body">
+    <h:body style="background: #C379B6">
         <h:form id="FormLoggin">
             <p:growl id="PrincipalGrowl" showDetail="true">
                 <p:autoUpdate/>
             </p:growl>
-            <div class="ui-g">
-                <div class="ui-g-12" style="text-align:center">
-                    <p:graphicImage name="images/logo-manhattan.png" library="manhattan-layout" styleClass="logo" />
+            <br></br>
+            <br></br>
+            <br></br>   
+            <br></br>   
+            <div class="ui-g-12" style="text-align:center">
+                    <p:graphicImage name="images/LogoPrimoPequeno.png" library="manhattan-layout" styleClass="logo" />
                 </div>
+            <div align="center" style="color: #000000">
+                <p style="color: grey; font-style: italic">El vinculo que nos une...</p>
             </div>
-            <div class="login-panel ui-fluid">
-                <div class="ui-g">
-                    <div class="ui-g-6 left-side">
-                        <p:graphicImage name="images/login/login-photo.png" library="manhattan-layout" styleClass="login-image" />
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div style="background: white; height: 310px;">
+                <div align="center" style="color: #000000">
+                    <br></br>
+                    <br></br>
+                    <h1 style="color: gray">Bienvenido</h1>
+                    <p style="color: gray">Iniciemos</p>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <div class="ui-g-12 button-container">
+                        <p:commandButton action="#{LoginBean.login()}" value="Iniciar sesión" style="background: gray;width: 270px; height: 50px;" update="PrincipalGrowl"/>
                     </div>
-                    <div class="ui-g-6 ui-sm-12 right-side">
-                        <div class="ui-g-12 container">
-                            <h3>Bienvenido al sistema  #{SystemInfoBean.app_name}</h3>
-                            <h2>Inicie sesión para continuar</h2>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:outputLabel for="username" value="Usuario"/>
-                            <div class="input-wrapper">
-                                <p:inputText id="username" value="#{LoginBean.username}" placeholder="Nombre de usuario" required="true" requiredMessage="El nombre de usuario es necesario para iniciar sesión"/>
-                                <i class="fa fa-user" />
-                            </div>
-                        </div>
-                        <div class="ui-g-12">
-                            <p:outputLabel for="password" value="Contraseña" />
-                            <div class="input-wrapper">
-                                <p:password id="password" value="#{LoginBean.password}" placeholder="Contraseña" feedback="false" required="true" requiredMessage="La contraseña es necesaria para iniciar sesión."/>
-                                <i class="fa fa-lock" />
-                            </div>
-                        </div>
-                        <div class="ui-g-12 button-container">
-                            <p:commandButton action="#{LoginBean.login()}" value="Iniciar sesión" styleClass="green-btn raised-btn" update="PrincipalGrowl"/>
-                        </div>
-                    </div>
+                    <br></br>
+                    <p:commandLink value="Don't have an account? Sign Up!"/>
                 </div>
             </div>
         </h:form>
