@@ -35,12 +35,12 @@
                             <p:autoUpdate/>
                         </p:growl>
                         <h:panelGrid columns="1" cellpadding="5" style="align-items: center;">
-                            <p:inputText id="PMLoginEmailEntry" placeholder="Email" required="true" style="width: 270px;"/>
-                            <p:password id="PMLoginPwd" required="true" placeholder="Password" style="width: 270px;"/>
+                            <p:inputText value="#{LoginBean.username}" id="PMLoginEmailEntry" placeholder="Email" required="true" style="width: 270px;"/>
+                            <p:password value="#{LoginBean.password}" id="PMLoginPwd" required="true" placeholder="Password" style="width: 270px;"/>
                         </h:panelGrid>
                         <br></br>
                         <br></br>
-                        <p:commandButton value="Sign In" style="background: gray;width: 270px; height: 40px;"/>
+                        <p:commandButton value="Sign In" style="background: gray;width: 270px; height: 40px;" action="#{LoginBean.login()}"/>
                     </h:form>
                     <h:form id="FormRegisterButton">
                         <br></br>
