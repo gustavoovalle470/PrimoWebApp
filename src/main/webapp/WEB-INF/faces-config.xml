@@ -29,6 +29,19 @@
             <from-outcome>autowired</from-outcome>
             <to-view-id>/dashboard.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>/registerPage.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <display-name>Register rules</display-name>
+        <description>Describe todas las rutas que se pueden tomar desde el registro</description>
+        <from-view-id>/registerPage.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>registerBackToLogin</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <display-name>404 Rules</display-name>

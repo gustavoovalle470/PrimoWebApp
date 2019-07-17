@@ -14,12 +14,7 @@
         </f:facet>
         <title>#{SystemInfoBean.header_view}</title>
     </h:head>
-
     <h:body style="background: #C379B6">
-        <h:form id="FormLoggin">
-            <p:growl id="PrincipalGrowl" showDetail="true">
-                <p:autoUpdate/>
-            </p:growl>
             <br></br>
             <br></br>
             <br></br>   
@@ -31,27 +26,28 @@
                 <p style="color: grey; font-style: italic">El vinculo que nos une...</p>
             </div>
             <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <div style="background: white; height: 310px;">
+            <div style="background: white; height: 345px;">
                 <div align="center" style="color: #000000">
-                    <br></br>
-                    <br></br>
                     <h1 style="color: gray">Bienvenido</h1>
                     <p style="color: gray">Iniciemos</p>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <div class="ui-g-12 button-container">
-                        <p:commandButton action="#{LoginBean.login()}" value="Iniciar sesión" style="background: gray;width: 270px; height: 50px;" update="PrincipalGrowl"/>
-                    </div>
-                    <br></br>
-                    <p:commandLink value="Don't have an account? Sign Up!"/>
+                    <h:form id="FormLoggin">
+                        <p:growl id="PrincipalGrowl" showDetail="true">
+                            <p:autoUpdate/>
+                        </p:growl>
+                        <h:panelGrid columns="1" cellpadding="5" style="align-items: center;">
+                            <p:inputText id="PMLoginEmailEntry" placeholder="Email" required="true" style="width: 270px;"/>
+                            <p:password id="PMLoginPwd" required="true" placeholder="Password" style="width: 270px;"/>
+                        </h:panelGrid>
+                        <br></br>
+                        <br></br>
+                        <p:commandButton value="Sign In" style="background: gray;width: 270px; height: 40px;"/>
+                    </h:form>
+                    <h:form id="FormRegisterButton">
+                        <br></br>
+                        <p:commandLink value="Don't have an account? Sign Up!" action="register"/>
+                    </h:form>
                 </div>
             </div>
-        </h:form>
         <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="manhattan-layout" />
     </h:body>
-
 </html>
