@@ -22,6 +22,7 @@ import org.primefaces.customize.controllers.security.LoginUsers;
 public class LoginBean {
     private String username;
     private String password;
+    private String confim_pasword;
 
     public String getUsername() {
         return username;
@@ -38,6 +39,14 @@ public class LoginBean {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getConfim_pasword() {
+        return confim_pasword;
+    }
+
+    public void setConfim_pasword(String confim_pasword) {
+        this.confim_pasword = confim_pasword;
+    }
     
     public String login(){
         username = username.toUpperCase();
@@ -52,5 +61,14 @@ public class LoginBean {
             UIMessageManagement.putErrorMessage(ex.getMessage());
             return "denied";
         }
+    }
+    
+    public String register(){
+        if(password != null && confim_pasword != null && username != null
+           && password.equals(confim_pasword)){
+            System.out.println("REGISTRAR AQUI!");
+            return login();
+        }
+        return "denied";
     }
 }

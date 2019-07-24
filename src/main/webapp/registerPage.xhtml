@@ -35,17 +35,17 @@
                 <br></br>
                 <h:panelGrid columns="1" cellpadding="5">
                     <p:outputLabel value="Email:" for="PMRegisterEmailEntry"/>
-                    <p:inputText id="PMRegisterEmailEntry" placeholder="Email" required="true" style="width: 270px;"/>
+                    <p:inputText id="PMRegisterEmailEntry" placeholder="Email" required="true" style="width: 270px;" value="#{LoginBean.username}"/>
                     <p:outputLabel value="Password:" for="PMRegisterPwd"/>
-                    <p:password id="PMRegisterPwd" required="true" placeholder="Password" style="width: 270px;"/>
+                    <p:password id="PMRegisterPwd" required="true" placeholder="Password" style="width: 270px;" value="#{LoginBean.password}"/>
                     <p:outputLabel  value="Confirm password:" for="PMRegisterPwdConfirm"/>
-                    <p:password id="PMRegisterPwdConfirm" required="true" placeholder="Confirm password" style="width: 270px;"/>
+                    <p:password id="PMRegisterPwdConfirm" required="true" placeholder="Confirm password" style="width: 270px;" value="#{LoginBean.confim_pasword}"/>
                 </h:panelGrid>
                 <br></br>
                 <br></br>
                 <br></br>
                 <div align="center" class="ui-g-12 button-container">
-                    <p:commandButton action="#{LoginBean.login()}" value="REGISTER NOW!" style="background: #00758f;width: 270px; height: 50px;" update="RegisterGrowl"/>
+                    <p:commandButton action="#{LoginBean.register()}" value="REGISTER NOW!" style="background: #00758f;width: 270px; height: 50px;" update="RegisterGrowl"/>
                 </div>
             </p:fieldset>
         </h:form>
