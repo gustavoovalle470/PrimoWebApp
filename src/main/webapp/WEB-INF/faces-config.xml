@@ -42,6 +42,14 @@
             <from-outcome>registerBackToLogin</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>denied</from-outcome>
+            <to-view-id>/registerPage.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>autowired</from-outcome>
+            <to-view-id>/dashboard.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <display-name>404 Rules</display-name>
