@@ -5,6 +5,11 @@
  */
 package org.primefaces.customize.UI.beans.security;
 
+import com.primo.model.Usuario;
+import com.primo.ws.user.UserWSClient;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -66,8 +71,18 @@ public class LoginBean {
     public String register(){
         if(password != null && confim_pasword != null && username != null
            && password.equals(confim_pasword)){
-            System.out.println("REGISTRAR AQUI!");
-            return login();
+            Usuario user = new Usuario();
+            user.setStrUsuario(username);
+            user.setStrPassword(password);
+            user.setIntNumIntentos(3);
+            user.setBitActivo(true);
+            try {
+                UserWSClient.registerUser(user);
+                return login();
+            } catch (IOException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+                return "denied";
+            }
         }
         return "denied";
     }
