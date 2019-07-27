@@ -9,8 +9,12 @@ import com.google.gson.Gson;
 import com.primo.constants.ws.PrimoURI;
 import com.primo.model.Usuario;
 import java.io.IOException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -29,5 +33,15 @@ public class UserWSClient {
         request.setEntity(entity);
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = httpClient.execute(request);
+    }
+    
+    public static Usuario login(Usuario myUusario) throws IOException{
+        Client myClient = ClientBuilder.newClient();
+        String myURL = PrimoURI.LOG_USER_WS + myUusario.getStrUsuario() + "/" + myUusario.getStrPassword();
+        System.out.println("URL: " + myURL);
+        Usuario myUsuarioTemp = myClient.target(myURL).request(MediaType.APPLICATION_JSON_TYPE).get(Usuario.class);
+        System.out.println("Usuario : " + myUsuarioTemp.getStrUsuario());
+        myClient.close();
+        return myUsuarioTemp;
     }
 }

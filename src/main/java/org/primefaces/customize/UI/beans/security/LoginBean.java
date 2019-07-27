@@ -56,7 +56,12 @@ public class LoginBean {
     public String login(){
         username = username.toUpperCase();
         try {
-            if(LoginUsers.getInstance().ValidateCredentials(username, password, (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true))){
+            Usuario myUsuario = new Usuario();
+            myUsuario.setStrUsuario(username);
+            myUsuario.setStrPassword(password);
+            Usuario myUsuarioTemp = UserWSClient.login(myUsuario);
+            
+            if(myUsuarioTemp != null){
                 UIMessageManagement.putInfoMessage("Bienvenido "+username);
                 return "autowired";
             }else{
