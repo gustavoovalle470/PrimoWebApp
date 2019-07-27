@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.primo.constants.ws.PrimoURI;
 import com.primo.model.Usuario;
 import java.io.IOException;
+import java.math.BigInteger;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
@@ -19,13 +20,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 /**
  *
  * @author OvalleGA
  */
 public class UserWSClient {
-    public static void registerUser(Usuario user) throws IOException{
+    public static void registerUser(Usuario user) throws IOException, Exception{
         Gson gson = new Gson();
         StringEntity entity = new StringEntity(gson.toJson(user), ContentType.APPLICATION_JSON);
         System.out.println(entity);
@@ -33,6 +35,12 @@ public class UserWSClient {
         request.setEntity(entity);
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = httpClient.execute(request);
+        String json = EntityUtils.toString(response.getEntity());
+        BigInteger usuarioId = gson.fromJson(json, BigInteger.class);
+        System.out.println("Usuario id= "+usuarioId);
+        if(usuarioId==null){
+            throw new Exception("Usuario ya registrado previamente.");
+        }
     }
     
     public static Usuario login(Usuario myUusario) throws IOException{

@@ -84,7 +84,8 @@ public class LoginBean {
             try {
                 UserWSClient.registerUser(user);
                 return login();
-            } catch (IOException ex) {
+            } catch (Exception ex) {
+                UIMessageManagement.putException(ex);
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
                 return "denied";
             }
