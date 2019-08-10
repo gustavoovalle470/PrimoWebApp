@@ -28,6 +28,7 @@ public class LoginBean {
     private String username;
     private String password;
     private String confim_pasword;
+    private boolean acept_terms;
 
     public String getUsername() {
         return username;
@@ -51,6 +52,14 @@ public class LoginBean {
 
     public void setConfim_pasword(String confim_pasword) {
         this.confim_pasword = confim_pasword;
+    }
+
+    public boolean isAcept_terms() {
+        return acept_terms;
+    }
+
+    public void setAcept_terms(boolean acept_terms) {
+        this.acept_terms = acept_terms;
     }
     
     public String login(){
