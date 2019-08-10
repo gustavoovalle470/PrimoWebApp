@@ -15,6 +15,24 @@
     </h:head>
 
     <h:body style="background: #C379B6">
+        <p:dialog header="Terminos y condiciones" 
+                  widgetVar="termsdlg" 
+                  resizable="false" 
+                  modal="true" 
+                  style="size: 300px;"
+                  closable="false"
+                  >
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p> AQUI VAMOS A VER LOS TERMINOS Y CONDICIONES DE USO DE LA APLICACION Y EL TRATAMIENTO DE DATOS PERSONALES.</p>
+                    <f:facet name="footer">
+                        <div align="right">
+                        <p:commandButton value="Aceptar y continuar" onclick="PF('termsdlg').hide()"/>
+                        </div>
+                    </f:facet>  
+                </h:panelGrid>
+        </h:form>
+        </p:dialog>    
         <h:form id="ReturnLogin">
             <p:commandButton icon="fa fa-arrow-left" action="registerBackToLogin"/>
         </h:form>
@@ -42,10 +60,16 @@
                     <p:password id="PMRegisterPwdConfirm" required="true" placeholder="Confirm password" style="width: 270px;" value="#{LoginBean.confim_pasword}"/>
                 </h:panelGrid>
                 <br></br>
+                <div align="center" class="ui-g-12 button-container">
+                    <p:selectBooleanCheckbox itemLabel="Acepto terminos y condiciones" value="#{LoginBean.acept_terms}" onchange="PF('termsdlg').show();">
+                        <p:ajax update="RegisterButton"/>
+                    </p:selectBooleanCheckbox>
+                </div>
+                <br></br>
                 <br></br>
                 <br></br>
                 <div align="center" class="ui-g-12 button-container">
-                    <p:commandButton action="#{LoginBean.register()}" value="REGISTER NOW!" style="background: #00758f;width: 270px; height: 50px;" update="RegisterGrowl"/>
+                    <p:commandButton id="RegisterButton" action="#{LoginBean.register()}" value="REGISTER NOW!" style="background: #00758f;width: 270px; height: 50px;" update="RegisterGrowl" disabled="#{!LoginBean.acept_terms}"/>
                 </div>
             </p:fieldset>
         </h:form>
