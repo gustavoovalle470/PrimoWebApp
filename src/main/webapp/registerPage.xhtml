@@ -20,18 +20,21 @@
                   resizable="false" 
                   modal="true" 
                   style="size: 300px;"
-                  closable="false"
+                  closable="true"
                   >
             <h:form>
+                <p:growl id="RegisterGrowl2" showDetail="true">
+                    <p:autoUpdate/>
+                </p:growl>
                 <h:panelGrid columns="2" cellpadding="5">
                     <p> AQUI VAMOS A VER LOS TERMINOS Y CONDICIONES DE USO DE LA APLICACION Y EL TRATAMIENTO DE DATOS PERSONALES.</p>
                     <f:facet name="footer">
                         <div align="right">
-                        <p:commandButton value="Aceptar y continuar" onclick="PF('termsdlg').hide()"/>
+                            <p:commandButton value="Aceptar y continuar" onclick="PF('termsdlg').hide()"/>
                         </div>
                     </f:facet>  
                 </h:panelGrid>
-        </h:form>
+            </h:form>
         </p:dialog>    
         <h:form id="ReturnLogin">
             <p:commandButton icon="fa fa-arrow-left" action="registerBackToLogin"/>
@@ -48,20 +51,22 @@
             <br></br>
             <br></br>
             <br></br>
-            <p:fieldset legend="CREATE AN ACCOUNT" style="margin-bottom:20px">
+            <p:fieldset legend="CREAR CUENTA DE USUARIO" style="margin-bottom:20px">
                 <br></br>
                 <br></br>
                 <h:panelGrid columns="1" cellpadding="5">
-                    <p:outputLabel value="Email:" for="PMRegisterEmailEntry"/>
-                    <p:inputText id="PMRegisterEmailEntry" placeholder="Email" required="true" style="width: 270px;" value="#{LoginBean.username}"/>
-                    <p:outputLabel value="Password:" for="PMRegisterPwd"/>
-                    <p:password id="PMRegisterPwd" required="true" placeholder="Password" style="width: 270px;" value="#{LoginBean.password}"/>
-                    <p:outputLabel  value="Confirm password:" for="PMRegisterPwdConfirm"/>
-                    <p:password id="PMRegisterPwdConfirm" required="true" placeholder="Confirm password" style="width: 270px;" value="#{LoginBean.confim_pasword}"/>
+                    <p:outputLabel value="Correo electronico:" for="PMRegisterEmailEntry"/>
+                    <p:inputText id="PMRegisterEmailEntry" placeholder="Correo electronico" required="true" style="width: 270px;" value="#{LoginBean.username}" validatorMessage="Formato de correo invalido" requiredMessage="Debe ingresar su correo eletronico">
+                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                    </p:inputText>
+                    <p:outputLabel value="Contraseña:" for="PMRegisterPwd"/>
+                    <p:password id="PMRegisterPwd" required="true" placeholder="Contraseña" style="width: 270px;" value="#{LoginBean.password}" requiredMessage="Debe ingresar una contraseña"/>
+                    <p:outputLabel  value="Confirmar contraseña:" for="PMRegisterPwdConfirm"/>
+                    <p:password id="PMRegisterPwdConfirm" required="true" placeholder="Confirmar contraseña" style="width: 270px;" value="#{LoginBean.confim_pasword}" requiredMessage="Debe confirmar la contraseña"/>
                 </h:panelGrid>
                 <br></br>
                 <div align="center" class="ui-g-12 button-container">
-                    <p:selectBooleanCheckbox itemLabel="Acepto terminos y condiciones" value="#{LoginBean.acept_terms}" onchange="PF('termsdlg').show();">
+                    <p:selectBooleanCheckbox itemLabel="Acepto terminos y condiciones" value="#{LoginBean.acept_terms}" onchange="PF('termsdlg').show();" required="true">
                         <p:ajax update="RegisterButton"/>
                     </p:selectBooleanCheckbox>
                 </div>
@@ -69,7 +74,7 @@
                 <br></br>
                 <br></br>
                 <div align="center" class="ui-g-12 button-container">
-                    <p:commandButton id="RegisterButton" action="#{LoginBean.register()}" value="REGISTER NOW!" style="background: #00758f;width: 270px; height: 50px;" update="RegisterGrowl" disabled="#{!LoginBean.acept_terms}"/>
+                    <p:commandButton id="RegisterButton" action="#{LoginBean.register()}" value="REGISTRAME AHORA!" style="background: #00758f;width: 270px; height: 50px;" update="RegisterGrowl"/>
                 </div>
             </p:fieldset>
         </h:form>
