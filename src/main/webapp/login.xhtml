@@ -35,21 +35,21 @@
                             <p:autoUpdate/>
                         </p:growl>
                         <h:panelGrid columns="1" cellpadding="5" style="align-items: center;">
-                            <p:inputText value="#{LoginBean.username}" id="PMLoginEmailEntry" placeholder="Email" required="true" style="width: 270px;"
+                            <p:inputText value="#{LoginBean.username}" id="PMLoginEmailEntry" placeholder="Correo electronico" required="true" style="width: 270px;"
                                          requiredMessage="Debe ingresar su correo eletronico"
                                          validatorMessage="Formato de correo invalido">
                                 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                             </p:inputText>
-                            <p:password value="#{LoginBean.password}" id="PMLoginPwd" required="true" placeholder="Password" style="width: 270px;"
+                            <p:password value="#{LoginBean.password}" id="PMLoginPwd" required="true" placeholder="Contraseña" style="width: 270px;"
                                         requiredMessage="Debe ingresar una contraseña"/>
                         </h:panelGrid>
                         <br></br>
                         <br></br>
-                        <p:commandButton value="Sign In" style="background: gray;width: 270px; height: 40px;" action="#{LoginBean.login()}"/>
+                        <p:commandButton value="Iniciar sesión" style="background: gray;width: 270px; height: 40px;" action="#{LoginBean.login()}"/>
                     </h:form>
                     <h:form id="FormRegisterButton">
                         <br></br>
-                        <p:commandLink value="Don't have an account? Sign Up!" action="register"/>
+                        <p:commandLink value="¿No tienes una cuenta? Registrate!" action="register"/>
                     </h:form>
                 </div>
             </div>

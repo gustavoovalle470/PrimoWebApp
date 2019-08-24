@@ -7,15 +7,12 @@ package org.primefaces.customize.UI.beans.security;
 
 import com.primo.model.Usuario;
 import com.primo.ws.user.UserWSClient;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.primefaces.customize.UI.utils.UIMessageManagement;
-import org.primefaces.customize.controllers.security.LoginUsers;
+import org.primefaces.customize.controllers.security.UserSessionManager;
 
 
 /**
@@ -71,6 +68,7 @@ public class LoginBean {
             Usuario myUsuarioTemp = UserWSClient.login(myUsuario);
             
             if(myUsuarioTemp != null){
+                UserSessionManager.getInstance().connectUser(username, (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true));
                 UIMessageManagement.putInfoMessage("Bienvenido "+username);
                 return "autowired";
             }else{
@@ -84,7 +82,7 @@ public class LoginBean {
     
     public String register(){
         if(password != null && confim_pasword != null && username != null
-           && password.equals(confim_pasword)){
+           && password.equals(confim_pasword) && acept_terms){
             Usuario user = new Usuario();
             user.setStrUsuario(username);
             user.setStrPassword(password);
@@ -95,9 +93,11 @@ public class LoginBean {
                 return login();
             } catch (Exception ex) {
                 UIMessageManagement.putException(ex);
-                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
                 return "denied";
             }
+        }
+        if(!acept_terms){
+            UIMessageManagement.putWarnMessage("Le recomendamos leer y si esta de acuerdo aceptar nuestros terminos y condiciones de uso de esta aplicacion.");
         }
         return "denied";
     }
