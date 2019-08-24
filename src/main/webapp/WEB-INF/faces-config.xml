@@ -18,8 +18,8 @@
         </renderer>
     </render-kit>
     <navigation-rule>
-        <display-name>Login rules</display-name>
         <description>Describe todas las rutas que se pueden tomar desde el login</description>
+        <display-name>Login rules</display-name>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>denied</from-outcome>
@@ -32,6 +32,10 @@
         <navigation-case>
             <from-outcome>register</from-outcome>
             <to-view-id>/registerPage.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>recuperar</from-outcome>
+            <to-view-id>/recuperarContrasena.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -75,6 +79,17 @@
         <navigation-case>
             <from-outcome>failed</from-outcome>
             <to-view-id>/dashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/recuperarContrasena.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>registerBackToLogin</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>autowired</from-outcome>
+            <to-view-id>/recuperarContrasena.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

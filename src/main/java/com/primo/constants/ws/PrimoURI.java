@@ -16,4 +16,5 @@ public class PrimoURI {
     public final static String REG_PERSON_WS="http://localhost:7001/PrimoApp/persona/register";
     public final static String REG_USER_WS="http://localhost:7001/PrimoApp/usuario";
     public final static String LOG_USER_WS="http://localhost:7001/PrimoApp/login/";
+    public final static String REC_USER_WS="http://localhost:7001/PrimoApp/recuperar/";
 }

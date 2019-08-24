@@ -45,11 +45,15 @@
                         </h:panelGrid>
                         <br></br>
                         <br></br>
-                        <p:commandButton value="Sign In" style="background: gray;width: 270px; height: 40px;" action="#{LoginBean.login()}"/>
+                        <p:commandButton value="Sign In" style="background: gray;width: 270px; height: 40px;" action="#{LoginBean.login()}" update="PrincipalGrowl"/>
                     </h:form>
                     <h:form id="FormRegisterButton">
                         <br></br>
                         <p:commandLink value="Don't have an account? Sign Up!" action="register"/>
+                    </h:form>
+                    <h:form id="FormRecuperarButton">
+                        <br></br>
+                        <p:commandLink value="Olvidó su Contraseña" action="recuperar"/>
                     </h:form>
                 </div>
             </div>

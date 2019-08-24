@@ -7,15 +7,11 @@ package org.primefaces.customize.UI.beans.security;
 
 import com.primo.model.Usuario;
 import com.primo.ws.user.UserWSClient;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import org.primefaces.customize.UI.utils.UIMessageManagement;
-import org.primefaces.customize.controllers.security.LoginUsers;
 
 
 /**
@@ -74,6 +70,7 @@ public class LoginBean {
                 UIMessageManagement.putInfoMessage("Bienvenido "+username);
                 return "autowired";
             }else{
+                UIMessageManagement.putErrorMessage("Usuario o Contraseña incorrecta");
                 return "denied";
             }
         } catch (Exception ex) {
@@ -93,6 +90,35 @@ public class LoginBean {
             try {
                 UserWSClient.registerUser(user);
                 return login();
+            } catch (Exception ex) {
+                UIMessageManagement.putException(ex);
+                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+                return "denied";
+            }
+        }
+        return "denied";
+    }
+
+    public String recuperarContrasena(){
+        //Atributos de Metodo
+        String myResultado = "";
+        
+        if(username != null){
+            Usuario myUsuario = new Usuario();
+            myUsuario.setStrUsuario(username);
+
+            try {
+                myResultado = UserWSClient.recuperarContrasena(myUsuario);
+                
+                //Verificar el resultado
+                if(myResultado.equalsIgnoreCase("OK")){
+                    UIMessageManagement.putInfoMessage("Se envío la contraseña por Correo");
+                }
+                else{
+                    UIMessageManagement.putInfoMessage(myResultado);
+                }
+                
+                return "autowired";
             } catch (Exception ex) {
                 UIMessageManagement.putException(ex);
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);

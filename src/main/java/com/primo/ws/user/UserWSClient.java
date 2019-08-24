@@ -15,7 +15,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -43,11 +42,31 @@ public class UserWSClient {
         }
     }
     
+    /**
+     * 
+     * @param myUusario
+     * @return
+     * @throws IOException 
+     */
     public static Usuario login(Usuario myUusario) throws IOException{
         Client myClient = ClientBuilder.newClient();
         String myURL = PrimoURI.LOG_USER_WS + myUusario.getStrUsuario() + "/" + myUusario.getStrPassword();
         Usuario myUsuarioTemp = myClient.target(myURL).request(MediaType.APPLICATION_JSON_TYPE).get(Usuario.class);
         myClient.close();
         return myUsuarioTemp;
+    }
+
+    /**
+     * 
+     * @param myUusario
+     * @return
+     * @throws IOException 
+     */
+    public static String recuperarContrasena(Usuario myUsuario) throws IOException{
+        Client myClient = ClientBuilder.newClient();
+        String myURL = PrimoURI.REC_USER_WS + myUsuario.getStrUsuario() + "/";
+        String myresultado = myClient.target(myURL).request(MediaType.APPLICATION_JSON_TYPE).get(String.class);
+        myClient.close();
+        return myresultado;
     }
 }

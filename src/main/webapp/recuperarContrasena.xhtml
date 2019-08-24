@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>#{SystemInfoBean.header_view}</title>
+    </h:head>
+
+    <h:body style="background: #C379B6">
+        <h:form id="ReturnLogin">
+            <p:commandButton icon="fa fa-arrow-left" action="registerBackToLogin"/>
+        </h:form>
+        <h:form id="FormRecuperar">
+            <p:growl id="RecuperarGrowl" showDetail="true">
+                <p:autoUpdate/>
+            </p:growl>
+            <br></br>   
+            <div class="ui-g-12" style="text-align:center">
+                    <p:graphicImage name="images/LogoPrimoPequeno.png" library="manhattan-layout" styleClass="logo" />
+            </div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <p:fieldset legend="RECUPERAR CONTRASEÑA" style="margin-bottom:20px">
+                <br></br>
+                <br></br>
+                <h:panelGrid columns="1" cellpadding="5">
+                    <p:outputLabel value="Email:" for="PMRecuperarEmailEntry"/>
+                    <p:inputText id="PMRecuperarEmailEntry" placeholder="Email" required="true" style="width: 270px;" value="#{LoginBean.username}"/>
+                </h:panelGrid>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <div align="center" class="ui-g-12 button-container">
+                    <p:commandButton id="RecuperarButton" action="#{LoginBean.recuperarContrasena()}" value="RECUPERAR CONTRASEÑA" style="background: #00758f;width: 270px; height: 50px;" update="RecuperarGrowl"/>
+                </div>
+            </p:fieldset>
+        </h:form>
+        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="manhattan-layout" />
+    </h:body>
+</html>
