@@ -69,8 +69,8 @@
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
-        <display-name>Dashboard rules</display-name>
         <description>Describe todas las rutas que se pueden tomar desde la pagina dashboard</description>
+        <display-name>Dashboard rules</display-name>
         <from-view-id>/dashboard.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>logout</from-outcome>
@@ -79,6 +79,10 @@
         <navigation-case>
             <from-outcome>failed</from-outcome>
             <to-view-id>/dashboard.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>cambiarContrasena</from-outcome>
+            <to-view-id>/registro/cambiarContrasena.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -90,6 +94,32 @@
         <navigation-case>
             <from-outcome>autowired</from-outcome>
             <to-view-id>/recuperarContrasena.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/registro/cambiarContrasena.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>autowired</from-outcome>
+            <to-view-id>/registro/cambiarContrasena.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>denied</from-outcome>
+            <to-view-id>/registro/cambiarContrasena.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>chgPwdBackToDashboard</from-outcome>
+            <to-view-id>/dashboard.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/registro/cambiarContrasenaEmail.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>autowired</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>denied</from-outcome>
+            <to-view-id>/registro/cambiarContrasenaEmail.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>
