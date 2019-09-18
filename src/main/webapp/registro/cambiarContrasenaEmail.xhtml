@@ -18,8 +18,8 @@
         <h:form id="ReturnDashboard">
             <p:commandButton icon="fa fa-arrow-left" action="chgPwdBackToDashboard"/>
         </h:form>
-        <h:form id="FormCambiarContrasena">
-            <p:growl id="CambiarContrasenaGrowl" showDetail="true">
+        <h:form id="FormCambiarContrasenaEmail">
+            <p:growl id="CambiarContrasenaEmailGrowl" showDetail="true">
                 <p:autoUpdate/>
             </p:growl>
             <br></br>   
@@ -34,6 +34,11 @@
                 <br></br>
                 <br></br>
                 <h:panelGrid columns="1" cellpadding="5">
+                    <p:inputText value="#{LoginBean.username}" id="PMLoginEmailEntry" placeholder="Correo electronico" required="true" style="width: 270px;"
+                                 requiredMessage="Debe ingresar su correo eletronico"
+                                 validatorMessage="Formato de correo invalido">
+                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                    </p:inputText>
                     <p:outputLabel value="Contraseña Anterior:" for="PMRecuperarContrasenaAntEntry"/>
                     <p:password id="PMRecuperarContrasenaAntEntry" placeholder="Contraseña Anterior" required="true" style="width: 270px;" value="#{LoginBean.contrasenaAnt}" requiredMessage="Debe ingresar la contraseña anterior"/>
                     <p:outputLabel value="Contraseña Nueva:" for="PMContrasenaNew"/>
@@ -43,7 +48,7 @@
                 </h:panelGrid>
                 <br></br>
                 <div align="center" class="ui-g-12 button-container">
-                    <p:commandButton id="ContrasenaNewButton" action="#{LoginBean.cambiarContrasena()}" value="CAMBIAR CONTRASEÑA" style="background: #00758f;width: 270px; height: 50px;" update="CambiarContrasenaGrowl"/>
+                    <p:commandButton id="ContrasenaNewEmailButton" action="#{LoginBean.cambiarContrasenaEmail()}" value="CAMBIAR CONTRASEÑA" style="background: #00758f;width: 270px; height: 50px;" update="CambiarContrasenaEmailGrowl"/>
                 </div>
             </p:fieldset>
         </h:form>
