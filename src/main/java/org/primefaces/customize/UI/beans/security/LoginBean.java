@@ -7,7 +7,6 @@ package org.primefaces.customize.UI.beans.security;
 
 import com.primo.model.Usuario;
 import com.primo.ws.user.UserWSClient;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;

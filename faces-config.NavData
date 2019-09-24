@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
-    <Scope Scope="Project"/>
+    <Scope Scope="Project">
+        <Node id="registro/cambiarContrasena.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="login.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="dashboard.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="system/core/dialogs/logout_dlg.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="system/core/error_pages/error.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="system/core/error_pages/404.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="registerPage.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="recuperarContrasena.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="system/core/error_pages/access.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="registro/cambiarContrasenaEmail.xhtml" x="150" y="450" zoom="true"/>
+    </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>
