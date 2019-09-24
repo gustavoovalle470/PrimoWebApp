@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -21,25 +23,21 @@ import javax.persistence.Table;
  * @date 17/07/2019
  */
 
-@Entity
-@Table(name="usuario")
 public class Usuario {
 
     /** Atributos de Clase **/
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger idUsuario;
     
-    @Column
+    
     private String strUsuario;
     
-    @Column
+    
     private String strPassword;
     
-    @Column
+    
     private int intNumIntentos;
     
-    @Column
+    
     private boolean bitActivo;
 
     /**

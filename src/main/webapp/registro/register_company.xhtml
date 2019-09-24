@@ -1,0 +1,30 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:form>
+        <p:dialog header="Registre su empresa" 
+                  widgetVar="companyregisterdlg" 
+                  resizable="false" 
+                  modal="true" 
+                  style="size: 300px;"
+                  closable="true"
+                  visible="#{!CompanyBean.company_is_register}">
+            <h:panelGrid columns="2" cellpadding="5">
+                <p>Bienvenido queremos saber mas de ti:</p>
+                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                    <p:outputLabel value="Nombre de su empresa:"/>
+                </p:panelGrid>
+                <f:facet name="footer">
+                    <div align="right">
+                        <p:commandButton value="Cancelar" onclick="PF('logoutdlg').hide()"/>
+                        <p:commandButton value="Cerrar sesión" action="#{UserSessionBean.logout()}" oncomplete="PF('logoutdlg').hide()"/>
+                    </div>
+                </f:facet>  
+            </h:panelGrid>
+        </p:dialog>    
+    </h:form>
+
+</ui:composition>

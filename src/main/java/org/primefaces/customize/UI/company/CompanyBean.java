@@ -5,8 +5,10 @@
  */
 package org.primefaces.customize.UI.company;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.customize.UI.utils.UIMessageManagement;
 
 /**
  *
@@ -21,15 +23,15 @@ public class CompanyBean {
     private int company_ranking_zone;
     private int company_ranking_service;
     private String company_status;
+    private int company_client_attend;
+    private int company_new_client;
+    private int company_recurrent_client;
+    private boolean company_is_register;
 
     public CompanyBean(){
         // Recuperar informacion con WS.
-        company_name = "Sin asignar";
-        company_address = "Sin asignar";
-        company_rate_primos = 0;
-        company_ranking_zone = 0;
-        company_ranking_service = 0;
-        company_status="close";
+        setDefaultValues();
+        
     }
     
     public String getCompany_name() {
@@ -79,13 +81,61 @@ public class CompanyBean {
     public void setCompany_status(String company_status) {
         this.company_status = company_status;
     }
+
+    public int getCompany_client_attend() {
+        return company_client_attend;
+    }
+
+    public void setCompany_client_attend(int company_client_attend) {
+        this.company_client_attend = company_client_attend;
+    }
+
+    public int getCompany_new_client() {
+        return company_new_client;
+    }
+
+    public void setCompany_new_client(int company_new_client) {
+        this.company_new_client = company_new_client;
+    }
+
+    public int getCompany_recurrent_client() {
+        return company_recurrent_client;
+    }
+
+    public void setCompany_recurrent_client(int company_recurrent_client) {
+        this.company_recurrent_client = company_recurrent_client;
+    }
+
+    public boolean isCompany_is_register() {
+        return company_is_register;
+    }
+
+    public void setCompany_is_register(boolean company_is_register) {
+        this.company_is_register = company_is_register;
+    }
+    
+    private void setDefaultValues(){
+        company_name = "NOMBRE DE TU EMPRESA";
+        company_address = "DIRECCION DE TU EMRPESA";
+        company_rate_primos = 0;
+        company_ranking_zone = 0;
+        company_ranking_service = 0;
+        company_status="close";
+        company_client_attend=0;
+        company_new_client=0;
+        company_recurrent_client=0;
+        company_is_register=false;
+    }
     
     public void change_status_company(){
-        System.out.println("Click actual: "+company_status);
-        if(company_status.equals("open")){
-            company_status = "close";
+        if(company_is_register){
+            if(company_status.equals("open")){
+                company_status = "close";
+            }else{
+                company_status = "open";
+            }
         }else{
-            company_status = "open";
+            UIMessageManagement.putCustomMessage(FacesMessage.SEVERITY_WARN, "Registro incompleto", "Debe completar el registro de su compañia para poder abrir.");
         }
     }
     

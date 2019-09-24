@@ -78,10 +78,22 @@
                     </div>
                     <div class="ui-g-12 ui-lg-3 ui-xl-3">
                         <div class="ui-g overview-box overview-box-details" style="background: white">
-                            <p:panelGrid columns="1" styleClass="ui-panelgrid-blank form-group">
-                                <p:outputLabel value="Clientes recurrentes:" style="color: black"/>
-                                <p:outputLabel value="Clientes nuevos este mes:" style="color: black"/>
-                                <p:outputLabel value="Clientes atendidos:" style="color: black"/>
+                            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                                <p:panelGrid columns="3" styleClass="ui-panelgrid-blank form-group">
+                                    <p:graphicImage name="images/refresh_icon.png" library="manhattan-layout" height="20"/>
+                                    <p:outputLabel value="Clientes recurrentes:" style="color: black"/> 
+                                    <p:outputLabel value="#{CompanyBean.company_recurrent_client}" style="color: black"/> 
+                                    <p:graphicImage name="images/in_icon.png" library="manhattan-layout" height="20"/>
+                                    <p:outputLabel value="Clientes nuevos este mes:" style="color: black"/>
+                                    <p:outputLabel value="#{CompanyBean.company_new_client}" style="color: black"/> 
+                                    <p:graphicImage name="images/car_icon.png" library="manhattan-layout" height="20"/>
+                                    <p:outputLabel value="Clientes atendidos:" style="color: black"/>
+                                    <p:outputLabel value="#{CompanyBean.company_client_attend}" style="color: black"/> 
+                                </p:panelGrid>
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank form-group">
+                                    <p:graphicImage name="images/adv_icon.png" library="manhattan-layout" height="80"/>
+                                    <p:outputLabel value="Mi publicidad" style="color: black"/> 
+                                </p:panelGrid>
                             </p:panelGrid>
                         </div>
                     </div>
