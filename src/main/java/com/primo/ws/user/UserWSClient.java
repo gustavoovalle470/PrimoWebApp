@@ -62,7 +62,7 @@ public class UserWSClient {
 
     /**
      * 
-     * @param myUusario
+     * @param myUsuario
      * @return
      * @throws IOException 
      */
@@ -71,6 +71,25 @@ public class UserWSClient {
         String myURL = PrimoURI.REC_USER_WS + myUsuario.getStrUsuario() + "/";
         String myresultado = myClient.target(myURL).request(MediaType.APPLICATION_JSON_TYPE).get(String.class);
         myClient.close();
+        return myresultado;
+    }
+
+    /**
+     * 
+     * @param myUsuario
+     * @return
+     * @throws IOException 
+     */
+    public static String cambiarContrasena(Usuario myUsuario) throws IOException, Exception{
+        
+	SSLContext ctx = SSLContext.getDefault();
+        HostnameVerifier hostnameVerifier = SSLConnectionSocketFactory.getDefaultHostnameVerifier();
+        ClientBuilder builder = ClientBuilder.newBuilder().sslContext(ctx);
+	Client myClient = builder.hostnameVerifier(hostnameVerifier).build();
+	WebTarget resourceTarget= myClient.target(PrimoURI.CHG_PASS_WS);
+	Builder invocationBuilder = resourceTarget.request();
+        Response response= invocationBuilder.put(Entity.json(myUsuario));
+        String myresultado = response.readEntity(String.class);
         return myresultado;
     }
 }
