@@ -51,9 +51,9 @@
         <h:form>
             <div class="ui-g dashboard">
                 <div class="ui-g-5 ui-lg-3 ui-xl-3">
-                        <div class="ui-g overview-box overview-box-1">
-                            <div class="overview-box-content">
-                                <p:panelGrid columns="1" columnClasses="primo_grid" class="primo_grid">
+                        <div class="ui-g overview-box overview-box-0">
+                            <div align="center" class="ui-g-12 button-container">
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank form-group">
                                     <p:commandLink action="#{CompanyBean.change_status_company()}" update="PRCompanyStatus">
                                         <p:graphicImage id="PRCompanyStatus" name="images/#{CompanyBean.company_status}.png" library="manhattan-layout" height="80"/>
                                     </p:commandLink>
@@ -65,32 +65,30 @@
                     </div>
 
                     <div class="ui-g-7 ui-lg-3 ui-xl-3">
-                        <div class="ui-g overview-box overview-box-1">
-                            <div class="overview-box-content">
-                                <p:outputLabel value="#{CompanyBean.company_name}"/>
-                                <br/>
-                                <p:outputLabel value="Puntaje:"/> <p:rating value="#{CompanyBean.company_rate_primos}" disabled="true" />
-                                <br/>
-                                <p:outputLabel value="Puesto mejores 20 talleres del sector: #{CompanyBean.company_ranking_zone}"/>
-                                <br/>
-                                <p:outputLabel value="Puesto mejores 20 talleres de servicio: #{CompanyBean.company_ranking_service}"/>
+                        <div class="ui-g overview-box overview-box-details" style="background: white">
+                            <div align="center" class="ui-g-12 button-container">
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank form-group">
+                                    <p:outputLabel value="#{CompanyBean.company_name}" style="color: black"/>
+                                    <p:outputLabel value="Puntaje:"/> <p:rating value="#{CompanyBean.company_rate_primos}" disabled="true" style="color: black"/>
+                                    <p:outputLabel value="Puesto mejores 20 talleres del sector: #{CompanyBean.company_ranking_zone}" style="color: black"/>
+                                    <p:outputLabel value="Puesto mejores 20 talleres de servicio: #{CompanyBean.company_ranking_service}" style="color: black"/>
+                                </p:panelGrid>                                
                             </div>
                         </div>
                     </div>
                     <div class="ui-g-12 ui-lg-3 ui-xl-3">
-                        <div class="ui-g overview-box overview-box-3">
-                            <div class="overview-box-icon">
-                                 <i class="fa fa-map-marker" />
-                            </div>
-                            <div class="overview-box-content">
-                                <div class="overview-box-title">Informacion clientes</div>
-                            </div>
+                        <div class="ui-g overview-box overview-box-details" style="background: white">
+                            <p:panelGrid columns="1" styleClass="ui-panelgrid-blank form-group">
+                                <p:outputLabel value="Clientes recurrentes:" style="color: black"/>
+                                <p:outputLabel value="Clientes nuevos este mes:" style="color: black"/>
+                                <p:outputLabel value="Clientes atendidos:" style="color: black"/>
+                            </p:panelGrid>
                         </div>
                     </div>
                     <div class="ui-g-12 ui-lg-3 ui-xl-3">
-                        <div class="ui-g overview-box overview-box-3">
-                            <div class="overview-box-content" align="center">
-                                <p:panelGrid columns="1">
+                        <div class="ui-g overview-box overview-box-0">
+                            <div align="center" class="ui-g-12 button-container">
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank form-group">
                                     <p:commandButton value="Lanzar promociones" style="background: gray;width: 270px; height: 40px;"/>
                                     <p:commandButton value="Servicios programados" style="background: gray;width: 270px; height: 40px;"/>
                                     <p:commandButton value="Mi vitrina" style="background: gray;width: 270px; height: 40px;"/>
