@@ -57,9 +57,9 @@ public class UserSessionBean implements Serializable{
         System.out.println("Cerrar la sesion para el usuario: "+username);
         if (UserSessionManager.getInstance().disconectUser(session)) {
             UIMessageManagement.putInfoMessage("La sesion del usuario "+username+" finalizó correctamente.");
-            return "logout";
+            return "/login.xhtml?faces-redirect=true";
         } else {
-            return "failed";
+            return "/dashboard.xhtml?faces-redirect=true";
         }
     }
 }

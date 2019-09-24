@@ -33,7 +33,7 @@ public class SystemInfoBean implements Serializable{
 
     {
         try {
-            myInputStream = new FileInputStream("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\appPrimo\\src\\main\\webapp\\resources\\application.properties");
+            myInputStream = new FileInputStream("C:\\Users\\OvalleGA\\Documents\\NetBeansProjects\\PrimoApp\\src\\main\\resources\\application.properties");
             myProperties.load(myInputStream);
             this.app_name = myProperties.getProperty("appName");
             this.header_view = myProperties.getProperty("appName");

@@ -72,14 +72,14 @@ public class LoginBean {
             if(myUsuarioTemp != null){
                 UserSessionManager.getInstance().connectUser(username, (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true));
                 UIMessageManagement.putInfoMessage("Bienvenido "+username);
-                return "autowired";
+                return "/dashboard.xhtml?faces-redirect=true";
             }else{
                 UIMessageManagement.putErrorMessage("Usuario o Contraseña incorrecta");
-                return "denied";
+                return "/login.xhtml?faces-redirect=true";
             }
         } catch (Exception ex) {
             UIMessageManagement.putErrorMessage(ex.getMessage());
-            return "denied";
+            return "/login.xhtml?faces-redirect=true";
         }
     }
     
@@ -96,13 +96,13 @@ public class LoginBean {
                 return login();
             } catch (Exception ex) {
                 UIMessageManagement.putException(ex);
-                return "denied";
+                return "/login.xhtml?faces-redirect=true";
             }
         }
         if(!acept_terms){
             UIMessageManagement.putWarnMessage("Le recomendamos leer y si esta de acuerdo aceptar nuestros terminos y condiciones de uso de esta aplicacion.");
         }
-        return "denied";
+        return "/login.xhtml?faces-redirect=true";
     }
 
     public String recuperarContrasena(){
@@ -124,13 +124,13 @@ public class LoginBean {
                     UIMessageManagement.putInfoMessage(myResultado);
                 }
                 
-                return "autowired";
+                return "/dashboard.xhtml?faces-redirect=true";
             } catch (Exception ex) {
                 UIMessageManagement.putException(ex);
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-                return "denied";
+                return "/login.xhtml?faces-redirect=true";
             }
         }
-        return "denied";
+        return "/login.xhtml?faces-redirect=true";
     }
 }

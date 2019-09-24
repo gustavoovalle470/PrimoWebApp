@@ -48,13 +48,58 @@
        </ui:define>
 
     <ui:define name="content">
-        <div class="card" style="width: 100%; height: 500px;">
-            <h:form>
-                <div align="center">
-                    <h1>Bienvenido</h1>
-                </div>
-            </h:form>
-        </div>
+        <h:form>
+            <div class="ui-g dashboard">
+                <div class="ui-g-5 ui-lg-3 ui-xl-3">
+                        <div class="ui-g overview-box overview-box-1">
+                            <div class="overview-box-content">
+                                <p:panelGrid columns="1" columnClasses="primo_grid" class="primo_grid">
+                                    <p:commandLink action="#{CompanyBean.change_status_company()}" update="PRCompanyStatus">
+                                        <p:graphicImage id="PRCompanyStatus" name="images/#{CompanyBean.company_status}.png" library="manhattan-layout" height="80"/>
+                                    </p:commandLink>
+                                    <p:outputLabel style="color: #000000" value="#{CompanyBean.company_address}"/>
+                                </p:panelGrid>
+                                <p:spacer height="40"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-7 ui-lg-3 ui-xl-3">
+                        <div class="ui-g overview-box overview-box-1">
+                            <div class="overview-box-content">
+                                <p:outputLabel value="#{CompanyBean.company_name}"/>
+                                <br/>
+                                <p:outputLabel value="Puntaje:"/> <p:rating value="#{CompanyBean.company_rate_primos}" disabled="true" />
+                                <br/>
+                                <p:outputLabel value="Puesto mejores 20 talleres del sector: #{CompanyBean.company_ranking_zone}"/>
+                                <br/>
+                                <p:outputLabel value="Puesto mejores 20 talleres de servicio: #{CompanyBean.company_ranking_service}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-3 ui-xl-3">
+                        <div class="ui-g overview-box overview-box-3">
+                            <div class="overview-box-icon">
+                                 <i class="fa fa-map-marker" />
+                            </div>
+                            <div class="overview-box-content">
+                                <div class="overview-box-title">Informacion clientes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-3 ui-xl-3">
+                        <div class="ui-g overview-box overview-box-3">
+                            <div class="overview-box-content" align="center">
+                                <p:panelGrid columns="1">
+                                    <p:commandButton value="Lanzar promociones" style="background: gray;width: 270px; height: 40px;"/>
+                                    <p:commandButton value="Servicios programados" style="background: gray;width: 270px; height: 40px;"/>
+                                    <p:commandButton value="Mi vitrina" style="background: gray;width: 270px; height: 40px;"/>
+                                </p:panelGrid>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </h:form>
     </ui:define>
 
 </ui:composition>

@@ -345,3 +345,9 @@
 .ui-g-nopad {
     padding: 0px;
 }
+
+.primo_grid{
+    background: transparent;
+    border: none;
+    align-content: center;
+}
