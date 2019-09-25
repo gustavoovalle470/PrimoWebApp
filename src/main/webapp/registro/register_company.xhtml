@@ -12,15 +12,22 @@
                   style="size: 300px;"
                   closable="true"
                   visible="#{!CompanyBean.company_is_register}">
-            <h:panelGrid columns="2" cellpadding="5">
-                <p>Bienvenido queremos saber mas de ti:</p>
+            <p>Bienvenido queremos saber mas de tu empresa:</p>
+            <h:panelGrid columns="2" cellpadding="5">                
                 <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
-                    <p:outputLabel value="Nombre de su empresa:"/>
+                    <p:outputLabel for="PRRegNit" value="NIT:"/>
+                    <p:inputText id="PRRegNit" />
+                    <p:outputLabel for="PRRegCompName" value="Nombre o razon social:"/>
+                    <p:inputText id="PRRegCompName" />
+                    <p:outputLabel for="PRRegFundDate" value="Fecha de fundacion:"/>
+                    <p:inputText id="PRRegFundDate" />
+                    <p:outputLabel for="PRRegLogo" value="Logo:"/>
+                    <p:inputText id="PRRegLogo" />
                 </p:panelGrid>
                 <f:facet name="footer">
                     <div align="right">
-                        <p:commandButton value="Cancelar" onclick="PF('logoutdlg').hide()"/>
-                        <p:commandButton value="Cerrar sesión" action="#{UserSessionBean.logout()}" oncomplete="PF('logoutdlg').hide()"/>
+                        <p:commandButton value="Cancelar" onclick="PF('companyregisterdlg').hide()"/>
+                        <p:commandButton value="Cerrar sesión" oncomplete="PF('companyregisterdlg').hide()"/>
                     </div>
                 </f:facet>  
             </h:panelGrid>
