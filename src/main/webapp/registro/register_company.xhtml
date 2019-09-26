@@ -15,8 +15,9 @@
             <p>Bienvenido queremos saber mas de tu empresa:</p>
             <h:panelGrid columns="2" cellpadding="5">                
                 <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
-                    <p:outputLabel for="PRRegNit" value="NIT:"/>
-                    <p:inputText id="PRRegNit" />
+                    <p:outputLabel for="PRRegTipoIdentificacion" value="Tipo de Identificación:"/>
+                    <p:selectOneMenu id="PRRegTipoIdentificacion">
+                    </p:selectOneMenu>
                     <p:outputLabel for="PRRegCompName" value="Nombre o razon social:"/>
                     <p:inputText id="PRRegCompName" />
                     <p:outputLabel for="PRRegFundDate" value="Fecha de fundacion:"/>
