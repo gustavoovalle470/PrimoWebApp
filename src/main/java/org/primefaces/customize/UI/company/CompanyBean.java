@@ -5,6 +5,7 @@
  */
 package org.primefaces.customize.UI.company;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -31,6 +32,14 @@ public class CompanyBean {
     public CompanyBean(){
         // Recuperar informacion con WS.
         setDefaultValues();
+        
+    }
+    
+    /**
+     * Método que inicializa la pantalla de creación de la empresa
+     */
+    @PostConstruct
+    public void init(){
         
     }
     
