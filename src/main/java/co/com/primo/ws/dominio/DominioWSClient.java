@@ -3,17 +3,16 @@
  */
 package co.com.primo.ws.dominio;
 
-import co.com.primo.util.DominioUtilList;
+import com.google.gson.Gson;
 import com.primo.constants.ws.PrimoURI;
 import com.primo.model.Dominio;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 /**
  * Clase que implementa el cliente de los Servicios Web para valores del Dominio
@@ -30,10 +29,14 @@ public class DominioWSClient {
      * @throws IOException 
      */
     public static List<Dominio> traerDominiosPorTipo(BigInteger myIdTipoDominio) throws IOException{
+        
+        //Atributos de Metodo
+        Gson myGson = new Gson();
+        
         Client myClient = ClientBuilder.newClient();
         String myURL = PrimoURI.GET_DOM_WS + myIdTipoDominio;
-        DominioUtilList myDominioUtilList = myClient.target(myURL).request(MediaType.APPLICATION_JSON_TYPE).get(DominioUtilList.class);
-        List<Dominio> myListDominio = myDominioUtilList.getMyListDominio();
+        String myStringList = myClient.target(myURL).request(MediaType.APPLICATION_JSON).get(String.class);
+        List<Dominio> myListDominio = myGson.fromJson(myStringList, ArrayList.class);
         System.out.println("Tamaño Lista : " + myListDominio.size());
         myClient.close();
         return myListDominio;
