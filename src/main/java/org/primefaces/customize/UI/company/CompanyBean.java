@@ -5,6 +5,13 @@
  */
 package org.primefaces.customize.UI.company;
 
+import co.com.primo.ws.dominio.DominioWSClient;
+import com.primo.model.Dominio;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -30,19 +37,19 @@ public class CompanyBean {
     private boolean company_is_register;
 
     public CompanyBean(){
-        // Recuperar informacion con WS.
-        setDefaultValues();
-        
+        try {
+            // Recuperar informacion con WS.
+            setDefaultValues();
+
+            //Traer la Lista de los Tipos de Identificación
+            List<Dominio> myListDominio = DominioWSClient.traerDominiosPorTipo(new BigInteger("2"));
+            System.out.println("Lista Dominio " + myListDominio);
+        } 
+        catch (Exception ex) {
+            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    /**
-     * Método que inicializa la pantalla de creación de la empresa
-     */
-    @PostConstruct
-    public void init(){
         
-    }
-    
     public String getCompany_name() {
         return company_name;
     }

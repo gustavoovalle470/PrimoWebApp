@@ -9,7 +9,6 @@ import com.primo.constants.ws.PrimoURI;
 import com.primo.model.Usuario;
 import com.primo.ws.PrimoMsg;
 import java.io.IOException;
-import javax.ws.rs.core.MediaType;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
