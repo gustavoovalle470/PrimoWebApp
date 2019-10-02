@@ -4,6 +4,7 @@
 package co.com.primo.ws.dominio;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.primo.constants.ws.PrimoURI;
 import com.primo.model.Dominio;
 import java.io.IOException;
@@ -36,8 +37,7 @@ public class DominioWSClient {
         Client myClient = ClientBuilder.newClient();
         String myURL = PrimoURI.GET_DOM_WS + myIdTipoDominio;
         String myStringList = myClient.target(myURL).request(MediaType.APPLICATION_JSON).get(String.class);
-        List<Dominio> myListDominio = myGson.fromJson(myStringList, ArrayList.class);
-        System.out.println("Tamaño Lista : " + myListDominio.size());
+        List<Dominio> myListDominio = myGson.fromJson(myStringList, new TypeToken<List<Dominio>>(){}.getType());
         myClient.close();
         return myListDominio;
     }

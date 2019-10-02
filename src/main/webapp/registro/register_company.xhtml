@@ -16,7 +16,9 @@
             <h:panelGrid columns="2" cellpadding="5">                
                 <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
                     <p:outputLabel for="PRRegTipoIdentificacion" value="Tipo de Identificación:"/>
-                    <p:selectOneMenu id="PRRegTipoIdentificacion">
+                    <p:selectOneMenu id="PRRegTipoIdentificacion" value="#{CompanyBean.myDominio.idDominio}">
+                        <f:selectItem itemLabel="Seleccione Tipo de Identificación" itemValue="0"></f:selectItem>
+                        <f:selectItems value="#{CompanyBean.obtenerListadoTipoIdentificacion()}"></f:selectItems>
                     </p:selectOneMenu>
                     <p:outputLabel for="PRRegCompName" value="Nombre o razon social:"/>
                     <p:inputText id="PRRegCompName" />

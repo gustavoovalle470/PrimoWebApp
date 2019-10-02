@@ -27,6 +27,14 @@ public class Dominio {
     
     private Dominio myDominioPadre;
 
+    
+    /**
+     * Constructor vacio de la Clase
+     */
+    public Dominio(){
+        super();
+    }
+
     /**
      * Constructor
      */
