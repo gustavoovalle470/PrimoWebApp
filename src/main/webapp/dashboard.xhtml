@@ -57,7 +57,7 @@
                                     <p:commandLink action="#{CompanyBean.change_status_company()}" update="PRCompanyStatus">
                                         <p:graphicImage id="PRCompanyStatus" name="images/#{CompanyBean.company_status}.png" library="manhattan-layout" height="80"/>
                                     </p:commandLink>
-                                    <p:outputLabel style="color: #000000" value="#{CompanyBean.company_address}"/>
+                                    <p:commandButton style="color: #000000; background: transparent" value="#{CompanyBean.company_address}" onclick="PF('companyregisterdlg').show();"/>
                                 </p:panelGrid>
                                 <p:spacer height="40"/>
                             </div>
@@ -68,7 +68,7 @@
                         <div class="ui-g overview-box overview-box-details" style="background: white">
                             <div align="center" class="ui-g-12 button-container">
                                 <p:panelGrid columns="1" styleClass="ui-panelgrid-blank form-group">
-                                    <p:outputLabel value="#{CompanyBean.company_name}" style="color: black"/>
+                                    <p:commandButton style="color: #000000; background: transparent" value="#{CompanyBean.company_name}" onclick="PF('companyregisterdlg').show();"/>
                                     <p:outputLabel value="Puntaje:"/> <p:rating value="#{CompanyBean.company_rate_primos}" disabled="true" style="color: black"/>
                                     <p:outputLabel value="Puesto mejores 20 talleres del sector: #{CompanyBean.company_ranking_zone}" style="color: black"/>
                                     <p:outputLabel value="Puesto mejores 20 talleres de servicio: #{CompanyBean.company_ranking_service}" style="color: black"/>

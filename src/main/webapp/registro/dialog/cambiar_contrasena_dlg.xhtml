@@ -1,0 +1,33 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:form>
+        <p:dialog header="Cambiar contraseña de usuario" 
+                  widgetVar="ownchgpwddlg" 
+                  resizable="false" 
+                  modal="true" 
+                  style="size: 300px;"
+                  closable="true">
+            <h:panelGrid columns="2" cellpadding="5">                
+                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                    <p:outputLabel value="Contraseña Anterior:" for="PMRecuperarContrasenaAntEntry"/>
+                    <p:password id="PMRecuperarContrasenaAntEntry" placeholder="Contraseña Anterior" required="true" style="width: 270px;" value="#{LoginBean.contrasenaAnt}" requiredMessage="Debe ingresar la contraseña anterior"/>
+                    <p:outputLabel value="Contraseña Nueva:" for="PMContrasenaNew"/>
+                    <p:password id="PMContrasenaNew" required="true" placeholder="Contraseña Nueva" style="width: 270px;" value="#{LoginBean.password}" requiredMessage="Debe ingresar una contraseña"/>
+                    <p:outputLabel  value="Confirmar contraseña:" for="PMContrasenaNewConfirm"/>
+                    <p:password id="PMContrasenaNewConfirm" required="true" placeholder="Confirmar contraseña" style="width: 270px;" value="#{LoginBean.confim_pasword}" requiredMessage="Debe confirmar la contraseña"/>
+                </p:panelGrid>
+                <f:facet name="footer">
+                    <div align="right">
+                        <p:commandButton value="Cancelar" onclick="PF('ownchgpwddlg').hide()"/>
+                        <p:commandButton value="Cambiar contraseña" oncomplete="PF('ownchgpwddlg').hide()" action="#{LoginBean.cambiarContrasena()}"/>
+                    </div>
+                </f:facet>  
+            </h:panelGrid>
+        </p:dialog>    
+    </h:form>
+
+</ui:composition>

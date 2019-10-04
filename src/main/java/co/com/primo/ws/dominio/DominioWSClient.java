@@ -30,8 +30,8 @@ public class DominioWSClient {
     public static List<Dominio> traerDominiosPorTipo(BigInteger myIdTipoDominio) throws IOException{
         Client myClient = ClientBuilder.newClient();
         String myURL = PrimoURI.GET_DOM_WS + myIdTipoDominio;
-        List<Dominio> myListDominio = myClient.target(myURL).request(MediaType.APPLICATION_JSON_TYPE).get(Usuario.class);
+        //List<Dominio> myListDominio = myClient.target(myURL).request(MediaType.APPLICATION_JSON_TYPE).get(Usuario.class);
         myClient.close();
-        return myListDominio;
+        return null;
     }
 }
