@@ -3,11 +3,13 @@
  */
 package co.com.primo.ws.dominio;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.primo.constants.ws.PrimoURI;
 import com.primo.model.Dominio;
-import com.primo.model.Usuario;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -24,13 +26,18 @@ public class DominioWSClient {
     /**
      * Método que encarga de traer la información de los dominios de acuerdo al tipo
      * @param myIdTipoDominio
-     * @return
+     * @return myListDominio
      * @throws IOException 
      */
     public static List<Dominio> traerDominiosPorTipo(BigInteger myIdTipoDominio) throws IOException{
+        
+        //Atributos de Metodo
+        Gson myGson = new Gson();
+        
         Client myClient = ClientBuilder.newClient();
         String myURL = PrimoURI.GET_DOM_WS + myIdTipoDominio;
-        //List<Dominio> myListDominio = myClient.target(myURL).request(MediaType.APPLICATION_JSON_TYPE).get(Usuario.class);
+        String myStringList = myClient.target(myURL).request(MediaType.APPLICATION_JSON).get(String.class);
+        List<Dominio> myListDominio = myGson.fromJson(myStringList, new TypeToken<List<Dominio>>(){}.getType());
         myClient.close();
         return null;
     }

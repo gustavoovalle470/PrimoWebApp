@@ -5,10 +5,18 @@
  */
 package org.primefaces.customize.UI.company;
 
-import javax.annotation.PostConstruct;
+import co.com.primo.ws.dominio.DominioWSClient;
+import com.primo.model.Dominio;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 import org.primefaces.customize.UI.utils.UIMessageManagement;
 
 /**
@@ -18,6 +26,8 @@ import org.primefaces.customize.UI.utils.UIMessageManagement;
 @ManagedBean(name="CompanyBean")
 @SessionScoped
 public class CompanyBean {
+
+    /** Atributos de Clase **/
     private String company_name;
     private String company_address;
     private int company_rate_primos;
@@ -28,21 +38,13 @@ public class CompanyBean {
     private int company_new_client;
     private int company_recurrent_client;
     private boolean company_is_register;
+    private Dominio myDominio;
 
     public CompanyBean(){
-        // Recuperar informacion con WS.
+        //Inicializar los Valores
         setDefaultValues();
-        
     }
-    
-    /**
-     * Método que inicializa la pantalla de creación de la empresa
-     */
-    @PostConstruct
-    public void init(){
         
-    }
-    
     public String getCompany_name() {
         return company_name;
     }
@@ -123,6 +125,20 @@ public class CompanyBean {
         this.company_is_register = company_is_register;
     }
     
+    /**
+     * @return the myDominio
+     */
+    public Dominio getMyDominio() {
+        return myDominio;
+    }
+
+    /**
+     * @param myDominio the myDominio to set
+     */
+    public void setMyDominio(Dominio myDominio) {
+        this.myDominio = myDominio;
+    }
+
     private void setDefaultValues(){
         company_name = "NOMBRE DE TU EMPRESA";
         company_address = "DIRECCION DE TU EMRPESA";
@@ -134,6 +150,7 @@ public class CompanyBean {
         company_new_client=0;
         company_recurrent_client=0;
         company_is_register=false;
+        this.myDominio = new Dominio();
     }
     
     public void change_status_company(){
@@ -151,5 +168,37 @@ public class CompanyBean {
     public String save_company_info(){
         // SALVAR INFORMACION CON EL WS.
         return "";
+    }
+    
+    /**
+     * Metodo que obtiene la informacion de la lista de los tipos de Identificacion
+     * @return myListSelectItems
+     */
+    public List<SelectItem> obtenerListadoTipoIdentificacion() {
+        //Atributos de Método
+        List<SelectItem> myListSelectItems= new ArrayList<SelectItem>();
+                    
+        try {
+            //Traer la Lista de los Tipos de Identificación
+            List<Dominio> myListDominio = DominioWSClient.traerDominiosPorTipo(new BigInteger("2"));
+            System.out.println(myListDominio.size());
+            //Recorrer la lista de los dominios
+            for (Dominio myDominioTemp : myListDominio)
+            {
+                //Crear el Item
+                SelectItem item = new SelectItem();
+                item.setLabel(myDominioTemp.getStrDescripcion());
+                item.setDescription(myDominioTemp.getStrDescripcion());
+                item.setValue(myDominioTemp.getIdDominio());
+                
+                //Adicionarlo en la lista
+                myListSelectItems.add(item);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //Retornar la lista de los tipos de Identificación
+        return myListSelectItems;
     }
 }
