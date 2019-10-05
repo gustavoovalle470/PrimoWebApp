@@ -16,23 +16,26 @@
             <h:panelGrid columns="2" cellpadding="5">                
                 <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
                     <p:outputLabel for="PRRegTipoIdentificacion" value="Tipo de Identificación:"/>
-                    <p:selectOneMenu id="PRRegTipoIdentificacion">
+                    <p:selectOneMenu id="PRRegTipoIdentificacion" value="#{CompanyBean.myDominio.idDominio}" required="true" requiredMessage="Debe seleccionar un tipo de Identificación">
+                        <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{CompanyBean.obtenerListadoTipoIdentificacion()}"></f:selectItems>
                     </p:selectOneMenu>
-                    <p:outputLabel for="PRRegCompName" value="Nombre o razon social:"/>
-                    <p:inputText id="PRRegCompName" />
-                    <p:outputLabel for="PRRegFundDate" value="Fecha de fundacion:"/>
-                    <p:inputText id="PRRegFundDate" />
+                    <p:outputLabel for="PRRegNumIdentificacion" value="Número Identificación:"/>
+                    <p:inputText id="PRRegNumIdentificacion" value="#{CompanyBean.company_identification}" required="true" requiredMessage="Debe un número de Identificación"/>
+                    <p:outputLabel for="PRRegCompName" value="Nombre o razón social:"/>
+                    <p:inputText id="PRRegCompName" value="#{CompanyBean.company_name}" required="true" requiredMessage="Debe ingresar el Nombre o razón social"/>
+                    <p:outputLabel for="PRRegFundDate" value="Fecha de fundación:" />
+                    <p:calendar id="PRRegFundDate" showOn="button" value="#{CompanyBean.company_fundation_date}" required="true" requiredMessage="Debe seleccionar una fecha"/>
                     <p:outputLabel for="PRRegLogo" value="Logo:"/>
-                    <p:inputText id="PRRegLogo" />
+                    <p:fileUpload id="PRRegLogo" mode="simple" skinSimple="true"/>
                 </p:panelGrid>
                 <f:facet name="footer">
                     <div align="right">
                         <p:commandButton value="Cancelar" onclick="PF('companyregisterdlg').hide()"/>
-                        <p:commandButton value="Cerrar sesión" oncomplete="PF('companyregisterdlg').hide()"/>
+                        <p:commandButton value="Guardar" oncomplete="PF('companyregisterdlg').hide()" action="#{CompanyBean.guardarEmpresa()}"/>
                     </div>
                 </f:facet>  
             </h:panelGrid>
         </p:dialog>    
     </h:form>
-
 </ui:composition>
