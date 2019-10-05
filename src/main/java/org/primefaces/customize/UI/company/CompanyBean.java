@@ -7,9 +7,12 @@ package org.primefaces.customize.UI.company;
 
 import co.com.primo.ws.dominio.DominioWSClient;
 import com.primo.model.Dominio;
+import com.primo.model.Empresa;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +20,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
+import javax.sql.rowset.serial.SerialBlob;
 import org.primefaces.customize.UI.utils.UIMessageManagement;
+import org.primefaces.model.DefaultUploadedFile;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -28,7 +34,12 @@ import org.primefaces.customize.UI.utils.UIMessageManagement;
 public class CompanyBean {
 
     /** Atributos de Clase **/
+    private Dominio myDominio;
+    private String company_identification;
     private String company_name;
+    private Date company_fundation_date;
+    private UploadedFile company_logo_file;
+    
     private String company_address;
     private int company_rate_primos;
     private int company_ranking_zone;
@@ -38,7 +49,6 @@ public class CompanyBean {
     private int company_new_client;
     private int company_recurrent_client;
     private boolean company_is_register;
-    private Dominio myDominio;
 
     public CompanyBean(){
         //Inicializar los Valores
@@ -139,8 +149,50 @@ public class CompanyBean {
         this.myDominio = myDominio;
     }
 
+    /**
+     * @return the company_identification
+     */
+    public String getCompany_identification() {
+        return company_identification;
+    }
+
+    /**
+     * @param company_identification the company_identification to set
+     */
+    public void setCompany_identification(String company_identification) {
+        this.company_identification = company_identification;
+    }
+
+    /**
+     * @return the company_fundation_date
+     */
+    public Date getCompany_fundation_date() {
+        return company_fundation_date;
+    }
+
+    /**
+     * @param company_fundation_date the company_fundation_date to set
+     */
+    public void setCompany_fundation_date(Date company_fundation_date) {
+        this.company_fundation_date = company_fundation_date;
+    }
+
+    /**
+     * @return the company_logo_file
+     */
+    public UploadedFile getCompany_logo_file() {
+        return company_logo_file;
+    }
+
+    /**
+     * @param company_logo_file the company_logo_file to set
+     */
+    public void setCompany_logo_file(UploadedFile company_logo_file) {
+        this.company_logo_file = company_logo_file;
+    }
+
     private void setDefaultValues(){
-        company_name = "NOMBRE DE TU EMPRESA";
+        this.company_name = "NOMBRE DE TU EMPRESA";
         company_address = "DIRECCION DE TU EMRPESA";
         company_rate_primos = 0;
         company_ranking_zone = 0;
@@ -151,6 +203,9 @@ public class CompanyBean {
         company_recurrent_client=0;
         company_is_register=false;
         this.myDominio = new Dominio();
+        this.company_identification = "";
+        this.company_fundation_date = new Date();
+        this.company_logo_file = new DefaultUploadedFile();
     }
     
     public void change_status_company(){
@@ -176,29 +231,58 @@ public class CompanyBean {
      */
     public List<SelectItem> obtenerListadoTipoIdentificacion() {
         //Atributos de Método
-        List<SelectItem> myListSelectItems= new ArrayList<SelectItem>();
+        List<SelectItem> myListSelectItems= new ArrayList<>();
                     
         try {
             //Traer la Lista de los Tipos de Identificación
             List<Dominio> myListDominio = DominioWSClient.traerDominiosPorTipo(new BigInteger("2"));
             System.out.println(myListDominio.size());
+            
             //Recorrer la lista de los dominios
-            for (Dominio myDominioTemp : myListDominio)
-            {
+            myListDominio.stream().map((myDominioTemp) -> {
                 //Crear el Item
                 SelectItem item = new SelectItem();
                 item.setLabel(myDominioTemp.getStrDescripcion());
                 item.setDescription(myDominioTemp.getStrDescripcion());
                 item.setValue(myDominioTemp.getIdDominio());
-                
+                return item;                
+            }).forEachOrdered((item) -> {
                 //Adicionarlo en la lista
                 myListSelectItems.add(item);
-            }
+            });
         } catch (IOException ex) {
             Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         //Retornar la lista de los tipos de Identificación
         return myListSelectItems;
+    }
+    
+    /**
+     * Método que guarda la información de la empresa
+     */
+    public void guardarEmpresa(){
+        
+        //Atributos de Método
+        Empresa myEmpresa = new Empresa();
+        
+        try{
+            //Crear el objeto Empresa
+            myEmpresa.setMyDominio(this.myDominio);
+            myEmpresa.setStrIdentificacion(this.company_identification);
+            myEmpresa.setStrRazonSocial(this.company_name);
+            myEmpresa.setDtmFechaFundacion(this.company_fundation_date);
+
+            if(this.company_logo_file.getFileName().equals("")){
+                Blob myImgBlob = new SerialBlob(this.company_logo_file.getContents());
+                myEmpresa.setImgLogo(myImgBlob);
+            }
+            else{
+                myEmpresa.setImgLogo(null);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

@@ -39,6 +39,6 @@ public class DominioWSClient {
         String myStringList = myClient.target(myURL).request(MediaType.APPLICATION_JSON).get(String.class);
         List<Dominio> myListDominio = myGson.fromJson(myStringList, new TypeToken<List<Dominio>>(){}.getType());
         myClient.close();
-        return null;
+        return myListDominio;
     }
 }
