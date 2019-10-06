@@ -5,6 +5,7 @@
  */
 package org.primefaces.customize.controllers.security;
 
+import com.primo.model.Usuario;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -21,12 +22,12 @@ public class LoginUsers {
         return instance;
     }
     
-    public boolean ValidateCredentials(String user, String password, HttpSession session) throws Exception{
+    public boolean ValidateCredentials(Usuario user, String password, HttpSession session) throws Exception{
         String msg ="No se pudo iniciar sesión porque: ";
         msg = msg+(user == null?"\n - El usuario no puede ser nulo":"")
                  +(password == null?"\n - La contraseña no puede ser nula":"")
                  +(UserSessionManager.getInstance().isUserConnected(session)?"\n - El usuario "+user+" ya tiene una sesión abierta.":"")
-                 +(!isInvalidCrendetial(user, password)?"\n - El usuario y/o contraseña no son validos.":"");
+                 +(!isInvalidCrendetial(user.getStrUsuario(), password)?"\n - El usuario y/o contraseña no son validos.":"");
         System.out.println("El mensaje es: "+msg);
         if(!msg.equals("No se pudo iniciar sesión porque: ")){
             throw new Exception(msg);

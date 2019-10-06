@@ -5,6 +5,7 @@
  */
 package org.primefaces.customize.controllers.security;
 
+import com.primo.model.Usuario;
 import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 
@@ -14,10 +15,10 @@ import javax.servlet.http.HttpSession;
  */
 public class UserSessionManager {
     private static UserSessionManager instance;
-    private final HashMap<HttpSession, String> users_online;
+    private final HashMap<HttpSession, Usuario> users_online;
     
     public UserSessionManager(){
-        users_online = new HashMap<HttpSession, String>();
+        users_online = new HashMap<HttpSession, Usuario>();
     }
     
     public static UserSessionManager getInstance(){
@@ -31,7 +32,7 @@ public class UserSessionManager {
         return users_online.containsKey(session);
     }
     
-    public void connectUser(String user, HttpSession session){
+    public void connectUser(Usuario user, HttpSession session){
         users_online.put(session, user);
     }
     
@@ -49,7 +50,7 @@ public class UserSessionManager {
         return users_online.get(user).getAttribute(attribute);
     }
  */   
-    public String getUser(HttpSession session){
+    public Usuario getUser(HttpSession session){
         return users_online.get(session);
     }
 }

@@ -8,6 +8,7 @@ package org.primefaces.customize.UI.company;
 import co.com.primo.ws.dominio.DominioWSClient;
 import com.primo.model.Dominio;
 import com.primo.model.Empresa;
+import com.primo.ws.company.CompanyWSClient;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Blob;
@@ -19,9 +20,12 @@ import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 import org.primefaces.customize.UI.utils.UIMessageManagement;
+import org.primefaces.customize.controllers.security.UserSessionManager;
 import org.primefaces.model.DefaultUploadedFile;
 import org.primefaces.model.UploadedFile;
 
@@ -34,6 +38,7 @@ import org.primefaces.model.UploadedFile;
 public class CompanyBean {
 
     /** Atributos de Clase **/
+    private Empresa company;
     private Dominio myDominio;
     private String company_identification;
     private String company_name;
@@ -50,11 +55,89 @@ public class CompanyBean {
     private int company_recurrent_client;
     private boolean company_is_register;
 
+    private String company_sucursal_address;
+    private String company_sucursal_name;
+    
+    private String company_contact_name;
+    private String company_contact_surname;
+    private String company_contact_address;
+    private String company_contact_phone;
+    private String company_contact_email;
+    private Date company_contact_birthdate;
+    
     public CompanyBean(){
-        //Inicializar los Valores
-        setDefaultValues();
+        company = null;//CompanyWSClient.getCompany(UserSessionManager.getInstance().getUser((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getIdUsuario()).get(0);
+        if(company != null){
+            company_name=company.getStrRazonSocial();
+        }else{
+            setDefaultValues();
+        }
     }
-        
+
+    public String getCompany_sucursal_address() {
+        return company_sucursal_address;
+    }
+
+    public void setCompany_sucursal_address(String company_sucursal_address) {
+        this.company_sucursal_address = company_sucursal_address;
+    }
+
+    public String getCompany_sucursal_name() {
+        return company_sucursal_name;
+    }
+
+    public void setCompany_sucursal_name(String company_sucursal_name) {
+        this.company_sucursal_name = company_sucursal_name;
+    }
+
+    public String getCompany_contact_name() {
+        return company_contact_name;
+    }
+
+    public void setCompany_contact_name(String company_contact_name) {
+        this.company_contact_name = company_contact_name;
+    }
+
+    public String getCompany_contact_surname() {
+        return company_contact_surname;
+    }
+
+    public void setCompany_contact_surname(String company_contact_surname) {
+        this.company_contact_surname = company_contact_surname;
+    }
+
+    public String getCompany_contact_address() {
+        return company_contact_address;
+    }
+
+    public void setCompany_contact_address(String company_contact_address) {
+        this.company_contact_address = company_contact_address;
+    }
+
+    public String getCompany_contact_phone() {
+        return company_contact_phone;
+    }
+
+    public void setCompany_contact_phone(String company_contact_phone) {
+        this.company_contact_phone = company_contact_phone;
+    }
+
+    public String getCompany_contact_email() {
+        return company_contact_email;
+    }
+
+    public void setCompany_contact_email(String company_contact_email) {
+        this.company_contact_email = company_contact_email;
+    }
+
+    public Date getCompany_contact_birthdate() {
+        return company_contact_birthdate;
+    }
+
+    public void setCompany_contact_birthdate(Date company_contact_birthdate) {
+        this.company_contact_birthdate = company_contact_birthdate;
+    }
+    
     public String getCompany_name() {
         return company_name;
     }
@@ -268,18 +351,20 @@ public class CompanyBean {
         
         try{
             //Crear el objeto Empresa
+            myEmpresa.setMyUsuario(UserSessionManager.getInstance().getUser((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)));
             myEmpresa.setMyDominio(this.myDominio);
             myEmpresa.setStrIdentificacion(this.company_identification);
             myEmpresa.setStrRazonSocial(this.company_name);
             myEmpresa.setDtmFechaFundacion(this.company_fundation_date);
 
-            if(this.company_logo_file.getFileName().equals("")){
+            /**if(this.company_logo_file.getFileName().equals("")){
                 Blob myImgBlob = new SerialBlob(this.company_logo_file.getContents());
                 myEmpresa.setImgLogo(myImgBlob);
             }
-            else{
+            else{*/
                 myEmpresa.setImgLogo(null);
-            }
+            //}
+            CompanyWSClient.registerCompany(myEmpresa);
         }
         catch(Exception e){
             e.printStackTrace();

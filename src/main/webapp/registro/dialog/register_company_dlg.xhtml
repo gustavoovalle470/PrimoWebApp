@@ -13,26 +13,56 @@
                   closable="true"
                   visible="#{!CompanyBean.company_is_register}">
             <p>Bienvenido queremos saber mas de tu empresa:</p>
-            <h:panelGrid columns="2" cellpadding="5">                
-                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
-                    <p:outputLabel for="PRRegTipoIdentificacion" value="Tipo de Identificación:"/>
-                    <p:selectOneMenu id="PRRegTipoIdentificacion" value="#{CompanyBean.myDominio.idDominio}" required="true" requiredMessage="Debe seleccionar un tipo de Identificación">
-                        <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
-                        <f:selectItems value="#{CompanyBean.obtenerListadoTipoIdentificacion()}"></f:selectItems>
-                    </p:selectOneMenu>
-                    <p:outputLabel for="PRRegNumIdentificacion" value="Número Identificación:"/>
-                    <p:inputText id="PRRegNumIdentificacion" value="#{CompanyBean.company_identification}" required="true" requiredMessage="Debe un número de Identificación"/>
-                    <p:outputLabel for="PRRegCompName" value="Nombre o razón social:"/>
-                    <p:inputText id="PRRegCompName" value="#{CompanyBean.company_name}" required="true" requiredMessage="Debe ingresar el Nombre o razón social"/>
-                    <p:outputLabel for="PRRegFundDate" value="Fecha de fundación:" />
-                    <p:calendar id="PRRegFundDate" showOn="button" value="#{CompanyBean.company_fundation_date}" required="true" requiredMessage="Debe seleccionar una fecha"/>
-                    <p:outputLabel for="PRRegLogo" value="Logo:"/>
-                    <p:fileUpload id="PRRegLogo" mode="simple" skinSimple="true"/>
-                </p:panelGrid>
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:wizard>
+                    <p:tab id="company_info" title="Informacion basica">
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                            <p:outputLabel for="PRRegTipoIdentificacion" value="Tipo de Identificación:"/>
+                            <p:selectOneMenu id="PRRegTipoIdentificacion" value="#{CompanyBean.myDominio.idDominio}" required="true" requiredMessage="Debe seleccionar un tipo de Identificación">
+                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                                <f:selectItems value="#{CompanyBean.obtenerListadoTipoIdentificacion()}"></f:selectItems>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="PRRegNumIdentificacion" value="Número Identificación:"/>
+                            <p:inputText id="PRRegNumIdentificacion" value="#{CompanyBean.company_identification}" required="true" requiredMessage="Debe un número de Identificación"/>
+                            <p:outputLabel for="PRRegCompName" value="Nombre o razón social:"/>
+                            <p:inputText id="PRRegCompName" value="#{CompanyBean.company_name}" required="true" requiredMessage="Debe ingresar el Nombre o razón social"/>
+                            <p:outputLabel for="PRRegFundDate" value="Fecha de fundación:" />
+                            <p:calendar id="PRRegFundDate" showOn="button" value="#{CompanyBean.company_fundation_date}" required="true" requiredMessage="Debe seleccionar una fecha"/>
+                            <p:outputLabel for="PRRegLogo" value="Logo:"/>
+                            <p:fileUpload id="PRRegLogo" mode="simple" skinSimple="true"/>
+                        </p:panelGrid>
+                    </p:tab>
+                    <p:tab id="company_address" title="Direccion">
+                        <p>En que lugar se encuentra tu sucursal principal.</p>
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                            <p:outputLabel for="PRSucursalAddress" value="Direccion sucursal:" />
+                            <p:inputText id="PRSucursalAddress" value="#{CompanyBean.company_sucursal_address}" required="true" requiredMessage="Debe ingresar la direccion de una sucursal"/>
+                            <p:outputLabel for="PRSucursalName" value="Nombre sucursal:" />
+                            <p:inputText id="PRSucursalName" value="#{CompanyBean.company_sucursal_name}" required="true" requiredMessage="Debe ingresar un nombre para la sucursal"/>
+                        </p:panelGrid>
+                    </p:tab>
+                    <p:tab id="company_contact" title="Contacto">
+                        <p>En caso de necesitar tu ayuda con quien nos podremos comunicar:</p>
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                            <p:outputLabel for="PRContactName" value="Nombre:" />
+                            <p:inputText id="PRContactName" value="#{CompanyBean.company_contact_name}" required="true" requiredMessage="Debe ingresar un nombre de contacto."/>
+                            <p:outputLabel for="PRContactSurname" value="Apellido:" />
+                            <p:inputText id="PRContactSurname" value="#{CompanyBean.company_contact_surname}" required="true" requiredMessage="Debe ingresar un apellido de contacto."/>
+                            <p:outputLabel for="PRContactAddress" value="Dirección:" />
+                            <p:inputText id="PRContactAddress" value="#{CompanyBean.company_contact_address}" required="true" requiredMessage="Debe ingresar una direccion de contacto."/>
+                            <p:outputLabel for="PRContactPhone" value="Telefono:" />
+                            <p:inputText id="PRContactPhone" value="#{CompanyBean.company_contact_phone}" required="true" requiredMessage="Debe ingresar un telefono de contacto."/>
+                            <p:outputLabel for="PRContactEmail" value="Correo electronico:" />
+                            <p:inputText id="PRContactEmail" value="#{CompanyBean.company_contact_email}" required="true" requiredMessage="Debe ingresar un correo electronico de contacto."/>
+                            <p:outputLabel for="PRContactBirthday" value="Fecha de nacimiento:" />
+                            <p:calendar id="PRContactBirthday" showOn="button" value="#{CompanyBean.company_contact_birthdate}" required="true" requiredMessage="Debe seleccionar una fecha"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" oncomplete="PF('companyregisterdlg').hide()" action="#{CompanyBean.guardarEmpresa()}"/>
+                    </p:tab>                
+                </p:wizard>
                 <f:facet name="footer">
                     <div align="right">
                         <p:commandButton value="Cancelar" onclick="PF('companyregisterdlg').hide()"/>
-                        <p:commandButton value="Guardar" oncomplete="PF('companyregisterdlg').hide()" action="#{CompanyBean.guardarEmpresa()}"/>
                     </div>
                 </f:facet>  
             </h:panelGrid>

@@ -28,7 +28,7 @@ public class UserSessionBean implements Serializable{
 
     public UserSessionBean(){
         session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        username = UserSessionManager.getInstance().getUser(session);
+        username = UserSessionManager.getInstance().getUser(session).getStrUsuario();
         System.out.println("Pre cargando la sesion");
         user_sec_menu = MenuFactory.getInstance().getSecMenuUser(username);
     }

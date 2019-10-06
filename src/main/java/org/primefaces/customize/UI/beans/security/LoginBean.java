@@ -86,7 +86,7 @@ public class LoginBean {
             Usuario myUsuarioTemp = UserWSClient.login(myUsuario);
             
             if(myUsuarioTemp != null){
-                UserSessionManager.getInstance().connectUser(username, (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true));
+                UserSessionManager.getInstance().connectUser(myUsuarioTemp, (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true));
                 UIMessageManagement.putInfoMessage("Bienvenido "+username);
                 return "/dashboard.xhtml?faces-redirect=true";
             }else{
@@ -159,7 +159,7 @@ public class LoginBean {
 
            if(password != null && confim_pasword != null && password.equals(confim_pasword)){
                 //Traer la información del Usuario
-                String myUser = UserSessionManager.getInstance().getUser((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true));
+                String myUser = UserSessionManager.getInstance().getUser((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getStrUsuario();
 
                 //Verificar que sea un Usuario Válido
                 Usuario myUsuario = new Usuario();
