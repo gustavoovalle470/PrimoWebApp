@@ -66,7 +66,7 @@ public class CompanyBean {
     private Date company_contact_birthdate;
     
     public CompanyBean(){
-        company = null;//CompanyWSClient.getCompany(UserSessionManager.getInstance().getUser((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getIdUsuario()).get(0);
+        company = CompanyWSClient.getCompany(UserSessionManager.getInstance().getUser((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getIdUsuario()).get(0);
         if(company != null){
             company_name=company.getStrRazonSocial();
         }else{
