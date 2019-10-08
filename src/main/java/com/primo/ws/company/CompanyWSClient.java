@@ -48,14 +48,23 @@ public class CompanyWSClient {
         }
     }
     
+    /**
+     * Método que se encarga de traer la información de las empresas por usuario
+     * @param idUser
+     * @return List<Empresa>
+     */
     public static List<Empresa> getCompany(BigInteger idUser){
+        //Atributos de Metodo
         Gson myGson = new Gson();
         Client myClient = ClientBuilder.newClient();
+        
+        //Traer la información de la empresa
         String myURL = PrimoURI.REG_COMP_WS +"/"+ idUser;
-        System.out.println("URL to: "+myURL);
         String myStringList = myClient.target(myURL).request(MediaType.APPLICATION_JSON).get(String.class);
         List<Empresa> myListDominio = myGson.fromJson(myStringList, new TypeToken<List<Empresa>>(){}.getType());
         myClient.close();
+        
+        //Retornar la información de las empresas
         return myListDominio;
     }
 }

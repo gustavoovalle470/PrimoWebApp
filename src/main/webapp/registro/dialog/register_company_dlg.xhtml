@@ -20,7 +20,7 @@
                             <p:outputLabel for="PRRegTipoIdentificacion" value="Tipo de Identificación:"/>
                             <p:selectOneMenu id="PRRegTipoIdentificacion" value="#{CompanyBean.myDominio.idDominio}" required="true" requiredMessage="Debe seleccionar un tipo de Identificación">
                                 <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
-                                <f:selectItems value="#{CompanyBean.obtenerListadoTipoIdentificacion()}"></f:selectItems>
+                                <f:selectItems value="#{CompanyBean.obtenerListadoDominioTipo('2')}"></f:selectItems>
                             </p:selectOneMenu>
                             <p:outputLabel for="PRRegNumIdentificacion" value="Número Identificación:"/>
                             <p:inputText id="PRRegNumIdentificacion" value="#{CompanyBean.company_identification}" required="true" requiredMessage="Debe un número de Identificación"/>
@@ -35,6 +35,11 @@
                     <p:tab id="company_address" title="Direccion">
                         <p>En que lugar se encuentra tu sucursal principal.</p>
                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                            <p:outputLabel for="PRRegPais" value="País:"/>
+                            <p:selectOneMenu id="PRRegPais" value="#{CompanyBean.myIdPais}" required="true" requiredMessage="Debe seleccionar un País">
+                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                                <f:selectItems value="#{CompanyBean.obtenerListadoDominioTipo('4')}"></f:selectItems>
+                            </p:selectOneMenu>
                             <p:outputLabel for="PRSucursalAddress" value="Direccion sucursal:" />
                             <p:inputText id="PRSucursalAddress" value="#{CompanyBean.company_sucursal_address}" required="true" requiredMessage="Debe ingresar la direccion de una sucursal"/>
                             <p:outputLabel for="PRSucursalName" value="Nombre sucursal:" />

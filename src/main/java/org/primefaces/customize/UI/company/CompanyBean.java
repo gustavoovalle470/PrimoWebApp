@@ -65,13 +65,25 @@ public class CompanyBean {
     private String company_contact_email;
     private Date company_contact_birthdate;
     
+    private BigInteger myIdPais;
+    
     public CompanyBean(){
-        company = CompanyWSClient.getCompany(UserSessionManager.getInstance().getUser((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getIdUsuario()).get(0);
-        if(company != null){
-            company_name=company.getStrRazonSocial();
+        
+        //Traer la información de la empresa
+        List<Empresa> myListEmpresa = CompanyWSClient.getCompany(UserSessionManager.getInstance().getUser((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getIdUsuario());
+        
+        //Validar si existe la empresa
+        if(myListEmpresa.size() > 0){
+            this.company = myListEmpresa.get(0);
+            this.company_name=company.getStrRazonSocial();
+            this.company_is_register = true;
         }else{
-            setDefaultValues();
+            this.company_name = "NOMBRE DE TU EMPRESA";
+            this.company_is_register = false;
         }
+
+        //Inicializar los campos
+        setDefaultValues();
     }
 
     public String getCompany_sucursal_address() {
@@ -274,8 +286,21 @@ public class CompanyBean {
         this.company_logo_file = company_logo_file;
     }
 
+    /**
+     * @return the myIdPais
+     */
+    public BigInteger getMyIdPais() {
+        return myIdPais;
+    }
+
+    /**
+     * @param myIdPais the myIdPais to set
+     */
+    public void setMyIdPais(BigInteger myIdPais) {
+        this.myIdPais = myIdPais;
+    }
+
     private void setDefaultValues(){
-        this.company_name = "NOMBRE DE TU EMPRESA";
         company_address = "DIRECCION DE TU EMRPESA";
         company_rate_primos = 0;
         company_ranking_zone = 0;
@@ -284,7 +309,7 @@ public class CompanyBean {
         company_client_attend=0;
         company_new_client=0;
         company_recurrent_client=0;
-        company_is_register=false;
+
         this.myDominio = new Dominio();
         this.company_identification = "";
         this.company_fundation_date = new Date();
@@ -309,16 +334,17 @@ public class CompanyBean {
     }
     
     /**
-     * Metodo que obtiene la informacion de la lista de los tipos de Identificacion
+     * Metodo que obtiene la informacion de la lista de dominios de acuerdo al tipo
+     * @param myIdTipoDominio
      * @return myListSelectItems
      */
-    public List<SelectItem> obtenerListadoTipoIdentificacion() {
+    public List<SelectItem> obtenerListadoDominioTipo(String myIdTipoDominio) {
         //Atributos de Método
         List<SelectItem> myListSelectItems= new ArrayList<>();
                     
         try {
             //Traer la Lista de los Tipos de Identificación
-            List<Dominio> myListDominio = DominioWSClient.traerDominiosPorTipo(new BigInteger("2"));
+            List<Dominio> myListDominio = DominioWSClient.traerDominiosPorTipo(new BigInteger(myIdTipoDominio));
             System.out.println(myListDominio.size());
             
             //Recorrer la lista de los dominios
