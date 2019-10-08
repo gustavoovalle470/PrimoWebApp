@@ -37,8 +37,20 @@
                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
                             <p:outputLabel for="PRRegPais" value="País:"/>
                             <p:selectOneMenu id="PRRegPais" value="#{CompanyBean.myIdPais}" required="true" requiredMessage="Debe seleccionar un País">
+                                <p:ajax listener="#{CompanyBean.onPaisChange}" update="PRRegDepartamento" />
                                 <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
                                 <f:selectItems value="#{CompanyBean.obtenerListadoDominioTipo('4')}"></f:selectItems>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="PRRegDepartamento" value="Departamento:"/>
+                            <p:selectOneMenu id="PRRegDepartamento" value="#{CompanyBean.myIdDepartamento}" required="true" requiredMessage="Debe seleccionar un Departamento">
+                                <p:ajax listener="#{CompanyBean.onDepartamentoChange}" update="PRRegCiudad" />
+                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                                <f:selectItems value="#{CompanyBean.myListDepartamento}"></f:selectItems>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="PRRegCiudad" value="Ciudad:"/>
+                            <p:selectOneMenu id="PRRegCiudad" value="#{CompanyBean.myIdCiudad}" required="true" requiredMessage="Debe seleccionar una Ciudad">
+                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                                <f:selectItems value="#{CompanyBean.myListCiudad}"></f:selectItems>
                             </p:selectOneMenu>
                             <p:outputLabel for="PRSucursalAddress" value="Direccion sucursal:" />
                             <p:inputText id="PRSucursalAddress" value="#{CompanyBean.company_sucursal_address}" required="true" requiredMessage="Debe ingresar la direccion de una sucursal"/>

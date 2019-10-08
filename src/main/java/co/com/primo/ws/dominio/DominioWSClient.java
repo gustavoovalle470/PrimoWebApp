@@ -41,4 +41,23 @@ public class DominioWSClient {
         myClient.close();
         return myListDominio;
     }
+
+    /**
+     * Método que encarga de traer la información de los dominios de acuerdo al Padre
+     * @param myIdDominioPadre
+     * @return myListDominio
+     * @throws IOException 
+     */
+    public static List<Dominio> traerDominiosPorPadre(BigInteger myIdDominioPadre) throws IOException{
+        
+        //Atributos de Metodo
+        Gson myGson = new Gson();
+        
+        Client myClient = ClientBuilder.newClient();
+        String myURL = PrimoURI.GET_DOM_WS + "/padre/" + myIdDominioPadre;
+        String myStringList = myClient.target(myURL).request(MediaType.APPLICATION_JSON).get(String.class);
+        List<Dominio> myListDominio = myGson.fromJson(myStringList, new TypeToken<List<Dominio>>(){}.getType());
+        myClient.close();
+        return myListDominio;
+    }
 }

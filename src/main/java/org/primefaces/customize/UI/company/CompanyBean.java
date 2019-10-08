@@ -14,7 +14,9 @@ import java.math.BigInteger;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -66,6 +68,10 @@ public class CompanyBean {
     private Date company_contact_birthdate;
     
     private BigInteger myIdPais;
+    private BigInteger myIdDepartamento;
+    private BigInteger myIdCiudad;
+    private Map<String,String> myListDepartamento;
+    private Map<String,String> myListCiudad;
     
     public CompanyBean(){
         
@@ -300,6 +306,62 @@ public class CompanyBean {
         this.myIdPais = myIdPais;
     }
 
+    /**
+     * @return the myIdDepartamento
+     */
+    public BigInteger getMyIdDepartamento() {
+        return myIdDepartamento;
+    }
+
+    /**
+     * @param myIdDepartamento the myIdDepartamento to set
+     */
+    public void setMyIdDepartamento(BigInteger myIdDepartamento) {
+        this.myIdDepartamento = myIdDepartamento;
+    }
+
+    /**
+     * @return the myListDepartamento
+     */
+    public Map<String,String> getMyListDepartamento() {
+        return myListDepartamento;
+    }
+
+    /**
+     * @param myListDepartamento the myListDepartamento to set
+     */
+    public void setMyListDepartamento(Map<String,String> myListDepartamento) {
+        this.myListDepartamento = myListDepartamento;
+    }
+
+    /**
+     * @return the myIdCiudad
+     */
+    public BigInteger getMyIdCiudad() {
+        return myIdCiudad;
+    }
+
+    /**
+     * @param myIdCiudad the myIdCiudad to set
+     */
+    public void setMyIdCiudad(BigInteger myIdCiudad) {
+        this.myIdCiudad = myIdCiudad;
+    }
+
+    /**
+     * @return the myListCiudad
+     */
+    public Map<String,String> getMyListCiudad() {
+        return myListCiudad;
+    }
+
+    /**
+     * @param myListCiudad the myListCiudad to set
+     */
+    public void setMyListCiudad(Map<String,String> myListCiudad) {
+        this.myListCiudad = myListCiudad;
+    }
+
     private void setDefaultValues(){
         company_address = "DIRECCION DE TU EMRPESA";
         company_rate_primos = 0;
@@ -343,9 +405,8 @@ public class CompanyBean {
         List<SelectItem> myListSelectItems= new ArrayList<>();
                     
         try {
-            //Traer la Lista de los Tipos de Identificación
+            //Traer la Lista de Dominios
             List<Dominio> myListDominio = DominioWSClient.traerDominiosPorTipo(new BigInteger(myIdTipoDominio));
-            System.out.println(myListDominio.size());
             
             //Recorrer la lista de los dominios
             myListDominio.stream().map((myDominioTemp) -> {
@@ -394,6 +455,56 @@ public class CompanyBean {
         }
         catch(Exception e){
             e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Método que se encarga de traer los departamentos por ciudad
+     */
+    public void onPaisChange() {
+        try {
+            //Verificar que se seleccionó un valor
+            if(this.myIdPais != null && !this.myIdPais.equals("")){
+                //Traer la Lista de Dominios
+                List<Dominio> myListDominio = DominioWSClient.traerDominiosPorPadre(myIdPais);
+                
+                //Cargar la lista
+                myListDepartamento = new HashMap<String, String>();
+                
+                for(Dominio myDominio : myListDominio){
+                    myListDepartamento.put(myDominio.getStrDescripcion(),myDominio.getIdDominio().toString());
+                }
+            }
+            else{
+                this.myListDepartamento = new HashMap<String, String>();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Método que se encarga de traer las ciudad por departamento
+     */
+    public void onDepartamentoChange() {
+        try {
+            //Verificar que se seleccionó un valor
+            if(this.myIdDepartamento != null && !this.myIdDepartamento.equals("")){
+                //Traer la Lista de Dominios
+                List<Dominio> myListDominio = DominioWSClient.traerDominiosPorPadre(myIdDepartamento);
+                
+                //Cargar la lista
+                myListCiudad = new HashMap<String, String>();
+                
+                for(Dominio myDominio : myListDominio){
+                    myListCiudad.put(myDominio.getStrDescripcion(),myDominio.getIdDominio().toString());
+                }
+            }
+            else{
+                this.myListCiudad = new HashMap<String, String>();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
