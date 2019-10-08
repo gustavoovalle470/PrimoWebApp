@@ -8,7 +8,6 @@ package com.primo.ws.company;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.primo.constants.ws.PrimoURI;
-import com.primo.model.Dominio;
 import com.primo.model.Empresa;
 import com.primo.ws.PrimoMsg;
 import java.math.BigInteger;

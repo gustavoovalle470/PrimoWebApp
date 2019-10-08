@@ -27,14 +27,28 @@ public class Sucursal implements Serializable {
 
     /** Atributos de Clase **/
     private BigInteger idSucursal;
-    
-    
     private String strNombre;
-    
-    
     private boolean bitPrincipal;
-    
     private Empresa myEmpresa;
+
+    /**
+     * Constructor vacio de la Clase Sucursal
+     */
+    public Sucursal(){
+        super();
+    }
+    
+    /**
+     * Constructor de la Clase Sucursal
+     * @param strNombre
+     * @param bitPrincipal
+     * @param myEmpresa 
+     */
+    public Sucursal(String strNombre, boolean bitPrincipal, Empresa myEmpresa){
+        this.strNombre = strNombre;
+        this.bitPrincipal = bitPrincipal;
+        this.myEmpresa = myEmpresa;
+    }
 
     /**
      * @return the idSucursal

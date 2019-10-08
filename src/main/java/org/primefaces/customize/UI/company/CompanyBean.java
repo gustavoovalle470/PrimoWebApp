@@ -8,6 +8,7 @@ package org.primefaces.customize.UI.company;
 import co.com.primo.ws.dominio.DominioWSClient;
 import com.primo.model.Dominio;
 import com.primo.model.Empresa;
+import com.primo.model.Sucursal;
 import com.primo.ws.company.CompanyWSClient;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -58,8 +59,10 @@ public class CompanyBean {
     private boolean company_is_register;
 
     private String company_sucursal_address;
+    private String company_sucursal_address_complemento;
     private String company_sucursal_name;
     
+    private String company_contact_id;
     private String company_contact_name;
     private String company_contact_surname;
     private String company_contact_address;
@@ -72,6 +75,7 @@ public class CompanyBean {
     private BigInteger myIdCiudad;
     private Map<String,String> myListDepartamento;
     private Map<String,String> myListCiudad;
+    private Dominio myDominioContact;
     
     public CompanyBean(){
         
@@ -362,6 +366,48 @@ public class CompanyBean {
         this.myListCiudad = myListCiudad;
     }
 
+    /**
+     * @return the company_sucursal_address_complemento
+     */
+    public String getCompany_sucursal_address_complemento() {
+        return company_sucursal_address_complemento;
+    }
+
+    /**
+     * @param company_sucursal_address_complemento the company_sucursal_address_complemento to set
+     */
+    public void setCompany_sucursal_address_complemento(String company_sucursal_address_complemento) {
+        this.company_sucursal_address_complemento = company_sucursal_address_complemento;
+    }
+
+    /**
+     * @return the myDominioContact
+     */
+    public Dominio getMyDominioContact() {
+        return myDominioContact;
+    }
+
+    /**
+     * @param myDominioContact the myDominioContact to set
+     */
+    public void setMyDominioContact(Dominio myDominioContact) {
+        this.myDominioContact = myDominioContact;
+    }
+
+    /**
+     * @return the company_contact_id
+     */
+    public String getCompany_contact_id() {
+        return company_contact_id;
+    }
+
+    /**
+     * @param company_contact_id the company_contact_id to set
+     */
+    public void setCompany_contact_id(String company_contact_id) {
+        this.company_contact_id = company_contact_id;
+    }
+
     private void setDefaultValues(){
         company_address = "DIRECCION DE TU EMRPESA";
         company_rate_primos = 0;
@@ -444,14 +490,29 @@ public class CompanyBean {
             myEmpresa.setStrRazonSocial(this.company_name);
             myEmpresa.setDtmFechaFundacion(this.company_fundation_date);
 
-            /**if(this.company_logo_file.getFileName().equals("")){
+            //Verificar que hay imagen y guardar
+            if(this.company_logo_file.getFileName().equals("")){
                 Blob myImgBlob = new SerialBlob(this.company_logo_file.getContents());
                 myEmpresa.setImgLogo(myImgBlob);
             }
-            else{*/
+            else{
                 myEmpresa.setImgLogo(null);
-            //}
+            }
+            
             CompanyWSClient.registerCompany(myEmpresa);
+            
+            //Traer la información de la empresa
+            List<Empresa> myListEmpresa = CompanyWSClient.getCompany(UserSessionManager.getInstance().getUser((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getIdUsuario());
+            
+            if(myListEmpresa.size() > 0){
+                Empresa myEmpresaConsulta = myListEmpresa.get(0);
+                
+                //Crear el objeto sucursal y guadarlo en la base de datos
+                Sucursal mySucursal = new Sucursal(this.company_sucursal_name, true, myEmpresaConsulta);
+            }
+            else{
+                // TODO lanzar Excepción
+            }
         }
         catch(Exception e){
             e.printStackTrace();

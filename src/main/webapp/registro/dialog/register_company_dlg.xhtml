@@ -54,6 +54,8 @@
                             </p:selectOneMenu>
                             <p:outputLabel for="PRSucursalAddress" value="Direccion sucursal:" />
                             <p:inputText id="PRSucursalAddress" value="#{CompanyBean.company_sucursal_address}" required="true" requiredMessage="Debe ingresar la direccion de una sucursal"/>
+                            <p:outputLabel for="PRSSucAddressComplemento" value="Complemento Direccion:" />
+                            <p:inputText id="PRSSucAddressComplemento" value="#{CompanyBean.company_sucursal_address_complemento}"/>
                             <p:outputLabel for="PRSucursalName" value="Nombre sucursal:" />
                             <p:inputText id="PRSucursalName" value="#{CompanyBean.company_sucursal_name}" required="true" requiredMessage="Debe ingresar un nombre para la sucursal"/>
                         </p:panelGrid>
@@ -61,6 +63,13 @@
                     <p:tab id="company_contact" title="Contacto">
                         <p>En caso de necesitar tu ayuda con quien nos podremos comunicar:</p>
                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                            <p:outputLabel for="PRContactTipoIdentificacion" value="Tipo de Identificación:"/>
+                            <p:selectOneMenu id="PRContactTipoIdentificacion" value="#{CompanyBean.myDominioContact.idDominio}" required="true" requiredMessage="Debe seleccionar un tipo de Identificación">
+                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                                <f:selectItems value="#{CompanyBean.obtenerListadoDominioTipo('2')}"></f:selectItems>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="PRContactID" value="Número Identificación:" />
+                            <p:inputText id="PRContactID" value="#{CompanyBean.company_contact_id}" required="true" requiredMessage="Debe ingresar un número de Identificación."/>
                             <p:outputLabel for="PRContactName" value="Nombre:" />
                             <p:inputText id="PRContactName" value="#{CompanyBean.company_contact_name}" required="true" requiredMessage="Debe ingresar un nombre de contacto."/>
                             <p:outputLabel for="PRContactSurname" value="Apellido:" />
