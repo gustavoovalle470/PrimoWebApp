@@ -9,14 +9,6 @@ package com.primo.model;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  * Clase que representa el Objeto Contacto
@@ -28,31 +20,36 @@ public class Contacto implements Serializable {
     
     /** Atributos de Clase **/
     private BigInteger idContacto;
-    
-    
     private String strIdentificacion;
-    
-    
     private String strNombre;
-    
-    
     private String strApellido;
-    
-    
     private String strDireccion;
-    
-    
     private String strTelefono;
-    
-    
     private String strEmail;
-    
-    
     private Date dtmFechaNacimiento;
- 
     private Empresa myEmpresa;
-    
     private Dominio myDominio;
+
+    /**
+     * Constructor vacio de la Clase Contacto
+     */
+    public Contacto(){
+        super();
+    }
+    
+    public Contacto(String strIdentificacion,String strNombre,String strApellido,
+                    String strDireccion,String strTelefono,String strEmail,Date dtmFechaNacimiento,Empresa myEmpresa,
+                    Dominio myDominio){
+        this.strIdentificacion = strIdentificacion;
+        this.strNombre = strNombre;
+        this.strApellido = strApellido;
+        this.strDireccion = strDireccion;
+        this.strTelefono = strTelefono;
+        this.strEmail = strEmail;
+        this.dtmFechaNacimiento = dtmFechaNacimiento;
+        this.myEmpresa = myEmpresa;
+        this.myDominio = myDominio;
+    }
 
     /**
      * @return the idContacto

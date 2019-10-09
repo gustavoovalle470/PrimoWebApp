@@ -14,6 +14,21 @@ public class PrimoMsg {
     private boolean succes;
     private String response;
     
+    /**
+     * Constructor vacio de la clase PrimoMsg
+     */
+    public PrimoMsg(){
+        super();
+    }
+
+    /**
+     * Constructor de la clase PrimoMsg
+     * @param response 
+     */
+    public PrimoMsg(String response){
+        this.response = response;
+    }
+    
     public Object getMessage_object() {
         return message_object;
     }

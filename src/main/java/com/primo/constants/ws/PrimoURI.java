@@ -20,4 +20,8 @@ public class PrimoURI {
     public final static String CHG_PASS_WS="http://localhost:7001/PrimoApp/cambiarContrasena";
     public final static String GET_DOM_WS="http://localhost:7001/PrimoApp/dominio/";
     public final static String REG_COMP_WS="http://localhost:7001/PrimoApp/empresa";
+    public final static String REG_SUC_WS="http://localhost:7001/PrimoApp/sucursal";
+    public final static String REG_DIR_WS="http://localhost:7001/PrimoApp/direccion";
+    public final static String REG_SUC_DIR_WS="http://localhost:7001/PrimoApp/sucursalDireccion";
+    public final static String REG_CONT_WS="http://localhost:7001/PrimoApp/contacto";
 }

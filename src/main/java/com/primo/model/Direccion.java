@@ -8,14 +8,6 @@ package com.primo.model;
  */
 import java.io.Serializable;
 import java.math.BigInteger;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  * Clase que representa el Objeto Direccion
@@ -23,25 +15,35 @@ import javax.persistence.Table;
  * @version 1.0
  * @date 15/08/2019
  */
-
-
 public class Direccion implements Serializable {
     
     /** Atributos de Clase **/
-    
     private BigInteger idDireccion;
- 
-    
     private String strDireccion;
-
-    
     private String strDescripcion;
-
-    
     private boolean bitPrincipal;
-    
-
     private Dominio myDominio;
+    
+    /**
+     * Constructor Vacio de la Clase Dirección
+     */
+    public Direccion(){
+        super();
+    }
+
+    /**
+     * Constructor de la Clase Dirección
+     * @param strDireccion
+     * @param strDescripcion
+     * @param bitPrincipal
+     * @param myDominio 
+     */
+    public Direccion(String strDireccion,String strDescripcion,boolean bitPrincipal,Dominio myDominio){
+        this.strDireccion = strDireccion;
+        this.strDescripcion = strDescripcion;
+        this.bitPrincipal = bitPrincipal;
+        this.myDominio = myDominio;
+    }
 
     /**
      * @return the idDireccion

@@ -20,10 +20,20 @@ public class SucursalDireccion implements Serializable {
 
     /** Atributos de Clase **/
     private BigInteger idSucursalDireccion;
-
     private Sucursal mySucursal;
-   
     private Direccion myDireccion;
+
+    /**
+     * Constructor vacio de la clase SucursalDireccion
+     */
+    public SucursalDireccion(){
+        super();
+    }
+    
+    public SucursalDireccion(Sucursal mySucursal,Direccion myDireccion){
+        this.mySucursal = mySucursal;
+        this.myDireccion = myDireccion;
+    }
 
     /**
      * @return the idSucursalDireccion

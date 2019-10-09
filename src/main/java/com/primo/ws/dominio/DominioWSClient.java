@@ -1,15 +1,17 @@
 /*
  * PACKAGE
  */
-package co.com.primo.ws.dominio;
+package com.primo.ws.dominio;
 
+/*
+ * IMPORTS
+ */
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.primo.constants.ws.PrimoURI;
 import com.primo.model.Dominio;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

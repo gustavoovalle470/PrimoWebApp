@@ -5,11 +5,18 @@
  */
 package org.primefaces.customize.UI.company;
 
-import co.com.primo.ws.dominio.DominioWSClient;
+import com.primo.model.Contacto;
+import com.primo.model.Direccion;
+import com.primo.ws.dominio.DominioWSClient;
 import com.primo.model.Dominio;
 import com.primo.model.Empresa;
 import com.primo.model.Sucursal;
+import com.primo.model.SucursalDireccion;
+import com.primo.ws.PrimoMsg;
 import com.primo.ws.company.CompanyWSClient;
+import com.primo.ws.contacto.ContactoWSClient;
+import com.primo.ws.direccion.DireccionWSClient;
+import com.primo.ws.sucursal.SucursalWSClient;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Blob;
@@ -509,9 +516,39 @@ public class CompanyBean {
                 
                 //Crear el objeto sucursal y guadarlo en la base de datos
                 Sucursal mySucursal = new Sucursal(this.company_sucursal_name, true, myEmpresaConsulta);
+                mySucursal = SucursalWSClient.guardarSucursal(mySucursal);
+                
+                //Validar que se cree la sucursal
+                if(mySucursal.getIdSucursal().equals(BigInteger.ZERO)){
+                    PrimoMsg myMensaje = new PrimoMsg("Error al crear la Sucursal de la Empresa");
+                    throw new Exception(myMensaje.getResponse());
+                }
+                
+                //Crear el objeto dirección y guardarlo en la base de datos
+                Dominio myDominioCiudad = new Dominio();
+                myDominioCiudad.setIdDominio(myIdCiudad);
+                Direccion myDireccion = new Direccion(company_sucursal_address, company_sucursal_address_complemento, true, myDominioCiudad);
+                myDireccion = DireccionWSClient.guardarDireccion(myDireccion);
+                
+                //Validar que se cree la dirección
+                if(myDireccion.getIdDireccion().equals(BigInteger.ZERO)){
+                    PrimoMsg myMensaje = new PrimoMsg("Error al crear la dirección de la Sucursal");
+                    throw new Exception(myMensaje.getResponse());
+                }
+                
+                //Relacionar la dirección con la Sucursal
+                SucursalDireccion mySucursalDireccion= new SucursalDireccion(mySucursal, myDireccion);
+                SucursalWSClient.guardarSucursalDireccion(mySucursalDireccion);
+                
+                //Crear la información del Contacto
+                Contacto myContacto = new Contacto(this.company_contact_id, this.company_contact_name, this.company_contact_surname, 
+                                                   this.company_contact_address, this.company_contact_phone, this.company_contact_email, 
+                                                   this.company_contact_birthdate, myEmpresa, myDominioContact);
+                ContactoWSClient.guardarContacto(myContacto);
             }
             else{
-                // TODO lanzar Excepción
+                PrimoMsg myMensaje = new PrimoMsg("Error al crear la información de la Empresa");
+                throw new Exception(myMensaje.getResponse());
             }
         }
         catch(Exception e){
