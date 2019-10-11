@@ -36,7 +36,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 import org.primefaces.customize.UI.utils.UIMessageManagement;
 import org.primefaces.customize.controllers.security.UserSessionManager;
-import org.primefaces.model.DefaultUploadedFile;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -83,6 +83,7 @@ public class CompanyBean {
     private Map<String,String> myListDepartamento;
     private Map<String,String> myListCiudad;
     private Dominio myDominioContact;
+    private Blob myBlobImagen;
     
     public CompanyBean(){
         
@@ -415,6 +416,20 @@ public class CompanyBean {
         this.company_contact_id = company_contact_id;
     }
 
+    /**
+     * @return the myBlobImagen
+     */
+    public Blob getMyBlobImagen() {
+        return myBlobImagen;
+    }
+
+    /**
+     * @param myBlobImagen the myBlobImagen to set
+     */
+    public void setMyBlobImagen(Blob myBlobImagen) {
+        this.myBlobImagen = myBlobImagen;
+    }
+
     private void setDefaultValues(){
         company_address = "DIRECCION DE TU EMRPESA";
         company_rate_primos = 0;
@@ -426,9 +441,9 @@ public class CompanyBean {
         company_recurrent_client=0;
 
         this.myDominio = new Dominio();
+        this.myDominioContact = new Dominio();
         this.company_identification = "";
         this.company_fundation_date = new Date();
-        this.company_logo_file = new DefaultUploadedFile();
     }
     
     public void change_status_company(){
@@ -496,16 +511,8 @@ public class CompanyBean {
             myEmpresa.setStrIdentificacion(this.company_identification);
             myEmpresa.setStrRazonSocial(this.company_name);
             myEmpresa.setDtmFechaFundacion(this.company_fundation_date);
-
-            //Verificar que hay imagen y guardar
-            if(this.company_logo_file.getFileName().equals("")){
-                Blob myImgBlob = new SerialBlob(this.company_logo_file.getContents());
-                myEmpresa.setImgLogo(myImgBlob);
-            }
-            else{
-                myEmpresa.setImgLogo(null);
-            }
-            
+            myEmpresa.setImgLogo(this.myBlobImagen);
+          
             CompanyWSClient.registerCompany(myEmpresa);
             
             //Traer la información de la empresa
@@ -602,6 +609,29 @@ public class CompanyBean {
                 this.myListCiudad = new HashMap<String, String>();
             }
         } catch (IOException ex) {
+            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Método que se encarga de traer las ciudad por departamento
+     * @param event
+     */
+    public void cargarImagen(FileUploadEvent event) {
+        try {
+            //Atributos de Metodo
+             UploadedFile myUploadedFile = event.getFile();
+             System.out.println("Entre");
+            //Verificar que hay imagen y guardar
+            if(!myUploadedFile.getFileName().equals("")){
+             System.out.println("Entre 2");
+                Blob myImgBlob = new SerialBlob(myUploadedFile.getContents());
+                this.myBlobImagen = myImgBlob;
+            }
+            else{
+                this.myBlobImagen = null;
+            }
+        } catch (Exception ex) {
             Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
