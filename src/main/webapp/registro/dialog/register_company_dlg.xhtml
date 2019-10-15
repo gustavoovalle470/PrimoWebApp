@@ -29,7 +29,7 @@
                             <p:outputLabel for="PRRegFundDate" value="Fecha de fundación:" />
                             <p:calendar id="PRRegFundDate" showOn="button" value="#{CompanyBean.company_fundation_date}" required="true" requiredMessage="Debe seleccionar una fecha"/>
                             <p:outputLabel for="PRRegLogo" value="Logo:"/>
-                            <p:fileUpload id="PRRegLogo" mode="simple" skinSimple="true" fileUploadListener="#{CompanyBean.cargarImagen}" auto="true"/>
+                            <p:fileUpload id="PRRegLogo" skinSimple="false" fileUploadListener="#{CompanyBean.cargarImagen}" auto="true" style="width: 200px;"/>
                         </p:panelGrid>
                     </p:tab>
                     <p:tab id="company_address" title="Direccion">

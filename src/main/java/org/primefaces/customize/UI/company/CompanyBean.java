@@ -621,10 +621,8 @@ public class CompanyBean {
         try {
             //Atributos de Metodo
              UploadedFile myUploadedFile = event.getFile();
-             System.out.println("Entre");
             //Verificar que hay imagen y guardar
             if(!myUploadedFile.getFileName().equals("")){
-             System.out.println("Entre 2");
                 Blob myImgBlob = new SerialBlob(myUploadedFile.getContents());
                 this.myBlobImagen = myImgBlob;
             }
