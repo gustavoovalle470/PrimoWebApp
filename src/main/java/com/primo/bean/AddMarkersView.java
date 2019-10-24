@@ -118,7 +118,7 @@ public class AddMarkersView implements Serializable {
         System.out.println("Click");
         try {
             GeoApiContext context = new GeoApiContext.Builder()
-		    .apiKey("AIzaSyClXdX5gQMy9ehI3s7F9UW7qCZQxVJVRqA")
+		    .apiKey("AA")
 		    .build();
             GeocodingResult[] results =  GeocodingApi.geocode(context,
                     getAdrress()).await();
