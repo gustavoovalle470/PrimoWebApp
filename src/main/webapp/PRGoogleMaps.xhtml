@@ -49,13 +49,33 @@
                 return false;
             }
         </script>
- 
+        <script type="text/javascript">
+            function geocode() {
+                window.alert("Geocode")
+                PF('map').geocode(document.getElementById('address').value);
+            }
+
+            function reverseGeocode() {
+                var lat = document.getElementById('lat').value,
+                    lng = document.getElementById('lng').value;
+
+                PF('revGeoMap').reverseGeocode(lat, lng);
+            }
+        </script>
     </h:head>
     <h:body>
+        <h:form id="MapFormMarker" prependId="false">
+            <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+                <p:outputLabel for="address" value="Address:" />
+                <p:inputText id="address" value="#{addMarkersView.adrress}"/>
+                <p:commandButton value="Geocode" icon="pi pi-search" action="#{addMarkersView.putAdress}" update="MapFormMarker"/>
+            </h:panelGrid>
             <p:growl id="messages" showDetail="true" />
- 
-            <p:gmap id="gmap" center="4.724480,-74.125483" zoom="13" type="MAP" style="width:100%;height:400px"
-                model="#{addMarkersView.emptyModel}" onPointClick="handlePointClick(event);" widgetVar="map" />
+            <p:outputLabel value="Mapa que agrega marcadores"/>
+            <p:gmap id="gmap1" center="#{addMarkersView.coordToCenter}" zoom="#{addMarkersView.zoom}" type="MAP" style="width:100%;height:400px"
+                    model="#{addMarkersView.emptyModel}" onPointClick="handlePointClick(event);" widgetVar="map">
+            </p:gmap>
+        </h:form>
 
             <p:dialog widgetVar="dlg" showEffect="fade">
                 <h:form prependId="false">
@@ -64,7 +84,7 @@
                         <p:inputText id="title" value="#{addMarkersView.title}" />
 
                         <f:facet name="footer">
-                            <p:commandButton value="Add" action="#{addMarkersView.addMarker}" oncomplete="markerAddComplete()" update="messages"/>
+                            <p:commandButton value="Add" action="#{addMarkersView.addMarker}" oncomplete="markerAddComplete()" update="messages,gmap1"/>
                             <p:commandButton value="Cancel" onclick="return cancel()" />
                         </f:facet>
                     </h:panelGrid>
@@ -72,6 +92,6 @@
                     <h:inputHidden id="lat" value="#{addMarkersView.lat}" />
                     <h:inputHidden id="lng" value="#{addMarkersView.lng}" />
                 </h:form>
-            </p:dialog>
+            </p:dialog>        
     </h:body>
 </html>
