@@ -36,6 +36,7 @@ public class AddMarkersView implements Serializable {
     private String coordToCenter="4.71098860,-74.07209200";
     private String zoom="12";
     private Marker markerSelect;
+    private final String ApiKey="";
       
     private double lat;
       
@@ -129,12 +130,15 @@ public class AddMarkersView implements Serializable {
     public void onMarkerDrag(MarkerDragEvent event) {
         markerSelect = event.getMarker();     
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Dragged", "Lat:" + markerSelect.getLatlng().getLat() + ", Lng:" + markerSelect.getLatlng().getLng()));
+        LatLng coords=new LatLng(markerSelect.getLatlng().getLat(), markerSelect.getLatlng().getLng());
+        markerSelect.setTitle(getAddress(coords));
+        adrress=getAddress(coords);
     }
     public void putAdress(){
         System.out.println("Click");
         try {
             GeoApiContext context = new GeoApiContext.Builder()
-		    .apiKey("")
+		    .apiKey(ApiKey)
 		    .build();
             GeocodingResult[] results =  GeocodingApi.geocode(context,
                     getAdrress()).await();
@@ -154,5 +158,26 @@ public class AddMarkersView implements Serializable {
         } catch (IOException ex) {
             Logger.getLogger(AddMarkersView.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public String getAddress(LatLng coords){
+        try {
+            GeoApiContext context = new GeoApiContext.Builder()
+                    .apiKey(ApiKey)
+                    .build();
+            GeocodingResult[] results= GeocodingApi.reverseGeocode(context, coords).await();
+            for(Object o : results){
+                System.out.println(o.toString());
+            }
+            System.out.println("Direccion: "+results[0].formattedAddress);
+            return results[0].formattedAddress;
+        } catch (ApiException ex) {
+            Logger.getLogger(AddMarkersView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AddMarkersView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AddMarkersView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 }

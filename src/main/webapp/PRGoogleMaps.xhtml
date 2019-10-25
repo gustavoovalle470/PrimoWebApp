@@ -74,7 +74,7 @@
             <p:outputLabel value="Mapa que agrega marcadores"/>
             <p:gmap id="gmap1" center="#{addMarkersView.coordToCenter}" zoom="#{addMarkersView.zoom}" type="MAP" style="width:100%;height:400px"
                     model="#{addMarkersView.emptyModel}" onPointClick="handlePointClick(event);" widgetVar="map">
-                <p:ajax event="markerDrag" listener="#{addMarkersView.onMarkerDrag}" update="messages" />
+                <p:ajax event="markerDrag" listener="#{addMarkersView.onMarkerDrag}" update="messages,address" />
                 <p:ajax event="overlaySelect" listener="#{addMarkersView.onMarkerSelect}" />
                 <p:gmapInfoWindow id="infoWindow">
                     <p:outputPanel style="text-align: center; display: block; margin: auto">
