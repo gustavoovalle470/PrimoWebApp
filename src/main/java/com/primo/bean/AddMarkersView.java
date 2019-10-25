@@ -18,20 +18,24 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.map.MarkerDragEvent;
+import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 
 @ManagedBean
+@ViewScoped
 public class AddMarkersView implements Serializable {
      
     private MapModel emptyModel;
-    private Marker marker;
     private String title;
     private String adrress="";
     private String coordToCenter="4.71098860,-74.07209200";
     private String zoom="12";
+    private Marker markerSelect;
       
     private double lat;
       
@@ -39,6 +43,7 @@ public class AddMarkersView implements Serializable {
   
     @PostConstruct
     public void init() {
+        System.out.println("Creacion");
         emptyModel = new DefaultMapModel();
         for(Marker m: MarkersController.getInstance().getMarkers()){
             emptyModel.addOverlay(m);
@@ -81,15 +86,7 @@ public class AddMarkersView implements Serializable {
     public void setLng(double lng) {
         this.lng = lng;
     }
-
-    public Marker getMarker() {
-        return marker;
-    }
-
-    public void setMarker(Marker marker) {
-        this.marker = marker;
-    }
-
+    
     public String getCoordToCenter() {
         return coordToCenter;
     }
@@ -105,20 +102,39 @@ public class AddMarkersView implements Serializable {
     public void setCoordToCenter(String coordToCenter) {
         this.coordToCenter = coordToCenter;
     }
-    
+
+    public Marker getMarkerSelect() {
+        return markerSelect;
+    }
+
+    public void setMarkerSelect(Marker markerSelect) {
+        this.markerSelect = markerSelect;
+    }
+      
     public void addMarker() {
         Marker markerToAdd = new Marker(new org.primefaces.model.map.LatLng(lat, lng), title);
         markerToAdd.setId("1");
+        markerToAdd.setDraggable(true);
         emptyModel.addOverlay(markerToAdd);
         MarkersController.getInstance().putMarker(markerToAdd);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));
     }
     
+    public void onMarkerSelect(OverlaySelectEvent event){
+        System.out.println("Evento: "+event);
+        markerSelect = (Marker) event.getOverlay();
+        System.out.println("Marcador: "+markerSelect);
+    }
+    
+    public void onMarkerDrag(MarkerDragEvent event) {
+        markerSelect = event.getMarker();     
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Dragged", "Lat:" + markerSelect.getLatlng().getLat() + ", Lng:" + markerSelect.getLatlng().getLng()));
+    }
     public void putAdress(){
         System.out.println("Click");
         try {
             GeoApiContext context = new GeoApiContext.Builder()
-		    .apiKey("AA")
+		    .apiKey("")
 		    .build();
             GeocodingResult[] results =  GeocodingApi.geocode(context,
                     getAdrress()).await();
@@ -127,6 +143,7 @@ public class AddMarkersView implements Serializable {
             System.out.println("Coordenadas: "+coordToCenter);
             String[] data=coordToCenter.split(",");
             Marker markerToAdd = new Marker(new org.primefaces.model.map.LatLng(Double.parseDouble(data[0]), Double.parseDouble(data[1])), getAdrress());
+            markerToAdd.setDraggable(true);
             emptyModel.addOverlay(markerToAdd);
             MarkersController.getInstance().putMarker(markerToAdd);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + markerToAdd.getLatlng().getLat() + ", Lng:" + markerToAdd.getLatlng().getLat()));

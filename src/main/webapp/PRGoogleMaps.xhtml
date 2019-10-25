@@ -13,7 +13,7 @@
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
         <title>#{SystemInfoBean.header_view}</title>
-        <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AA"></script>
+        <script type="text/javascript" src="https://maps.google.com/maps/api/js"></script>
         <script type="text/javascript">
             var currentMarker = null;
              
@@ -74,6 +74,13 @@
             <p:outputLabel value="Mapa que agrega marcadores"/>
             <p:gmap id="gmap1" center="#{addMarkersView.coordToCenter}" zoom="#{addMarkersView.zoom}" type="MAP" style="width:100%;height:400px"
                     model="#{addMarkersView.emptyModel}" onPointClick="handlePointClick(event);" widgetVar="map">
+                <p:ajax event="markerDrag" listener="#{addMarkersView.onMarkerDrag}" update="messages" />
+                <p:ajax event="overlaySelect" listener="#{addMarkersView.onMarkerSelect}" />
+                <p:gmapInfoWindow id="infoWindow">
+                    <p:outputPanel style="text-align: center; display: block; margin: auto">
+                            <h:outputText value="#{addMarkersView.markerSelect.title}" />
+                    </p:outputPanel>
+                </p:gmapInfoWindow>
             </p:gmap>
         </h:form>
 
