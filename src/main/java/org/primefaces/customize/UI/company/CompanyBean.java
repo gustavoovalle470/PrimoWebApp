@@ -534,7 +534,8 @@ public class CompanyBean {
                 //Crear el objeto dirección y guardarlo en la base de datos
                 Dominio myDominioCiudad = new Dominio();
                 myDominioCiudad.setIdDominio(myIdCiudad);
-                Direccion myDireccion = new Direccion(company_sucursal_address, company_sucursal_address_complemento, true, myDominioCiudad);
+                Direccion myDireccion = new Direccion(company_sucursal_address, company_sucursal_address_complemento, true, 
+                                                      myDominioCiudad,"0","0");
                 myDireccion = DireccionWSClient.guardarDireccion(myDireccion);
                 
                 //Validar que se cree la dirección
