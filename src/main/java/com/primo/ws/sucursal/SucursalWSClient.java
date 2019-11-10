@@ -8,10 +8,6 @@ package com.primo.ws.sucursal;
  */
 import com.primo.constants.ws.PrimoURI;
 import com.primo.model.Sucursal;
-import com.primo.model.SucursalDireccion;
-import com.primo.model.Usuario;
-import com.primo.ws.PrimoMsg;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -47,7 +43,7 @@ public class SucursalWSClient {
 
         //Crear el cliente
         Client myClient = builder.hostnameVerifier(hostnameVerifier).build();
-	WebTarget resourceTarget= myClient.target(PrimoURI.REG_SUC_DIR_WS);
+	WebTarget resourceTarget= myClient.target(PrimoURI.REG_SUC_WS);
 	
         //Invocar el servicio 
         Invocation.Builder invocationBuilder = resourceTarget.request();
@@ -58,29 +54,5 @@ public class SucursalWSClient {
         
         //Retornar el elemento
         return mySucursalTemp;
-    }
-    
-    public static void guardarSucursalDireccion(SucursalDireccion mySucursalDireccion) throws IOException, Exception{
-
-        //Crear Contexto
-        SSLContext ctx = SSLContext.getDefault();
-        HostnameVerifier hostnameVerifier = SSLConnectionSocketFactory.getDefaultHostnameVerifier();
-        ClientBuilder builder = ClientBuilder.newBuilder().sslContext(ctx);
-
-        //Crear el cliente
-        Client myClient = builder.hostnameVerifier(hostnameVerifier).build();
-	WebTarget resourceTarget= myClient.target(PrimoURI.REG_SUC_DIR_WS);
-
-        //Invocar el servicio 
-        Invocation.Builder invocationBuilder = resourceTarget.request();
-        Response response= invocationBuilder.post(Entity.json(mySucursalDireccion));
-
-        //Traer la respuesta del servicio Web
-        PrimoMsg respuesta=response.readEntity(PrimoMsg.class);
-
-        //Verificar la respuesta del Web Services
-        if(!respuesta.isSucces()){
-            throw new Exception(respuesta.getResponse());
-        }
     }
 }

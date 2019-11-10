@@ -6,16 +6,13 @@
 package org.primefaces.customize.UI.company;
 
 import com.primo.model.Contacto;
-import com.primo.model.Direccion;
 import com.primo.ws.dominio.DominioWSClient;
 import com.primo.model.Dominio;
 import com.primo.model.Empresa;
 import com.primo.model.Sucursal;
-import com.primo.model.SucursalDireccion;
 import com.primo.ws.PrimoMsg;
 import com.primo.ws.company.CompanyWSClient;
 import com.primo.ws.contacto.ContactoWSClient;
-import com.primo.ws.direccion.DireccionWSClient;
 import com.primo.ws.sucursal.SucursalWSClient;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -65,8 +62,6 @@ public class CompanyBean {
     private int company_recurrent_client;
     private boolean company_is_register;
 
-    private String company_sucursal_address;
-    private String company_sucursal_address_complemento;
     private String company_sucursal_name;
     
     private String company_contact_id;
@@ -77,9 +72,6 @@ public class CompanyBean {
     private String company_contact_email;
     private Date company_contact_birthdate;
     
-    private BigInteger myIdPais;
-    private BigInteger myIdDepartamento;
-    private BigInteger myIdCiudad;
     private Map<String,String> myListDepartamento;
     private Map<String,String> myListCiudad;
     private Dominio myDominioContact;
@@ -104,13 +96,6 @@ public class CompanyBean {
         setDefaultValues();
     }
 
-    public String getCompany_sucursal_address() {
-        return company_sucursal_address;
-    }
-
-    public void setCompany_sucursal_address(String company_sucursal_address) {
-        this.company_sucursal_address = company_sucursal_address;
-    }
 
     public String getCompany_sucursal_name() {
         return company_sucursal_name;
@@ -305,34 +290,6 @@ public class CompanyBean {
     }
 
     /**
-     * @return the myIdPais
-     */
-    public BigInteger getMyIdPais() {
-        return myIdPais;
-    }
-
-    /**
-     * @param myIdPais the myIdPais to set
-     */
-    public void setMyIdPais(BigInteger myIdPais) {
-        this.myIdPais = myIdPais;
-    }
-
-    /**
-     * @return the myIdDepartamento
-     */
-    public BigInteger getMyIdDepartamento() {
-        return myIdDepartamento;
-    }
-
-    /**
-     * @param myIdDepartamento the myIdDepartamento to set
-     */
-    public void setMyIdDepartamento(BigInteger myIdDepartamento) {
-        this.myIdDepartamento = myIdDepartamento;
-    }
-
-    /**
      * @return the myListDepartamento
      */
     public Map<String,String> getMyListDepartamento() {
@@ -347,20 +304,6 @@ public class CompanyBean {
     }
 
     /**
-     * @return the myIdCiudad
-     */
-    public BigInteger getMyIdCiudad() {
-        return myIdCiudad;
-    }
-
-    /**
-     * @param myIdCiudad the myIdCiudad to set
-     */
-    public void setMyIdCiudad(BigInteger myIdCiudad) {
-        this.myIdCiudad = myIdCiudad;
-    }
-
-    /**
      * @return the myListCiudad
      */
     public Map<String,String> getMyListCiudad() {
@@ -372,20 +315,6 @@ public class CompanyBean {
      */
     public void setMyListCiudad(Map<String,String> myListCiudad) {
         this.myListCiudad = myListCiudad;
-    }
-
-    /**
-     * @return the company_sucursal_address_complemento
-     */
-    public String getCompany_sucursal_address_complemento() {
-        return company_sucursal_address_complemento;
-    }
-
-    /**
-     * @param company_sucursal_address_complemento the company_sucursal_address_complemento to set
-     */
-    public void setCompany_sucursal_address_complemento(String company_sucursal_address_complemento) {
-        this.company_sucursal_address_complemento = company_sucursal_address_complemento;
     }
 
     /**
@@ -522,7 +451,7 @@ public class CompanyBean {
                 Empresa myEmpresaConsulta = myListEmpresa.get(0);
                 
                 //Crear el objeto sucursal y guadarlo en la base de datos
-                Sucursal mySucursal = new Sucursal(this.company_sucursal_name, true, myEmpresaConsulta);
+                Sucursal mySucursal = new Sucursal(this.company_sucursal_name, true, "0", "0", myEmpresaConsulta);
                 mySucursal = SucursalWSClient.guardarSucursal(mySucursal);
                 
                 //Validar que se cree la sucursal
@@ -531,27 +460,10 @@ public class CompanyBean {
                     throw new Exception(myMensaje.getResponse());
                 }
                 
-                //Crear el objeto dirección y guardarlo en la base de datos
-                Dominio myDominioCiudad = new Dominio();
-                myDominioCiudad.setIdDominio(myIdCiudad);
-                Direccion myDireccion = new Direccion(company_sucursal_address, company_sucursal_address_complemento, true, 
-                                                      myDominioCiudad,"0","0");
-                myDireccion = DireccionWSClient.guardarDireccion(myDireccion);
-                
-                //Validar que se cree la dirección
-                if(myDireccion.getIdDireccion().equals(BigInteger.ZERO)){
-                    PrimoMsg myMensaje = new PrimoMsg("Error al crear la dirección de la Sucursal");
-                    throw new Exception(myMensaje.getResponse());
-                }
-                
-                //Relacionar la dirección con la Sucursal
-                SucursalDireccion mySucursalDireccion= new SucursalDireccion(mySucursal, myDireccion);
-                SucursalWSClient.guardarSucursalDireccion(mySucursalDireccion);
-                
                 //Crear la información del Contacto
                 Contacto myContacto = new Contacto(this.company_contact_id, this.company_contact_name, this.company_contact_surname, 
                                                    this.company_contact_address, this.company_contact_phone, this.company_contact_email, 
-                                                   this.company_contact_birthdate, myEmpresa, myDominioContact);
+                                                   this.company_contact_birthdate, myEmpresaConsulta, myDominioContact);
                 ContactoWSClient.guardarContacto(myContacto);
             }
             else{
@@ -564,56 +476,6 @@ public class CompanyBean {
         }
     }
     
-    /**
-     * Método que se encarga de traer los departamentos por ciudad
-     */
-    public void onPaisChange() {
-        try {
-            //Verificar que se seleccionó un valor
-            if(this.myIdPais != null && !this.myIdPais.equals("")){
-                //Traer la Lista de Dominios
-                List<Dominio> myListDominio = DominioWSClient.traerDominiosPorPadre(myIdPais);
-                
-                //Cargar la lista
-                myListDepartamento = new HashMap<String, String>();
-                
-                for(Dominio myDominio : myListDominio){
-                    myListDepartamento.put(myDominio.getStrDescripcion(),myDominio.getIdDominio().toString());
-                }
-            }
-            else{
-                this.myListDepartamento = new HashMap<String, String>();
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Método que se encarga de traer las ciudad por departamento
-     */
-    public void onDepartamentoChange() {
-        try {
-            //Verificar que se seleccionó un valor
-            if(this.myIdDepartamento != null && !this.myIdDepartamento.equals("")){
-                //Traer la Lista de Dominios
-                List<Dominio> myListDominio = DominioWSClient.traerDominiosPorPadre(myIdDepartamento);
-                
-                //Cargar la lista
-                myListCiudad = new HashMap<String, String>();
-                
-                for(Dominio myDominio : myListDominio){
-                    myListCiudad.put(myDominio.getStrDescripcion(),myDominio.getIdDominio().toString());
-                }
-            }
-            else{
-                this.myListCiudad = new HashMap<String, String>();
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     /**
      * Método que se encarga de traer las ciudad por departamento
      * @param event

@@ -8,14 +8,6 @@ package com.primo.model;
  */
 import java.io.Serializable;
 import java.math.BigInteger;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  * Clase que representa el Objeto Sucursal
@@ -29,6 +21,8 @@ public class Sucursal implements Serializable {
     private BigInteger idSucursal;
     private String strNombre;
     private boolean bitPrincipal;
+    private String latitud;
+    private String longitud;
     private Empresa myEmpresa;
 
     /**
@@ -42,12 +36,17 @@ public class Sucursal implements Serializable {
      * Constructor de la Clase Sucursal
      * @param strNombre
      * @param bitPrincipal
+     * @param latitud
+     * @param longitud
      * @param myEmpresa 
      */
-    public Sucursal(String strNombre, boolean bitPrincipal, Empresa myEmpresa){
+    public Sucursal(String strNombre, boolean bitPrincipal, String latitud, 
+                    String longitud, Empresa myEmpresa){
         this.strNombre = strNombre;
         this.bitPrincipal = bitPrincipal;
         this.myEmpresa = myEmpresa;
+        this.latitud = latitud;
+        this.longitud = latitud;
     }
 
     /**
@@ -79,6 +78,20 @@ public class Sucursal implements Serializable {
     }
 
     /**
+     * @return the latitud
+     */
+    public String getLatitud() {
+        return latitud;
+    }
+
+    /**
+     * @return the longitud
+     */
+    public String getLongitud() {
+        return longitud;
+    }
+
+    /**
      * @param idSucursal the idSucursal to set
      */
     public void setIdSucursal(BigInteger idSucursal) {
@@ -104,5 +117,19 @@ public class Sucursal implements Serializable {
      */
     public void setMyEmpresa(Empresa myEmpresa) {
         this.myEmpresa = myEmpresa;
+    }
+
+    /**
+     * @param latitud the latitud to set
+     */
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    /**
+     * @param longitud the longitud to set
+     */
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
     }
 }

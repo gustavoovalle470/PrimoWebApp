@@ -32,30 +32,9 @@
                             <p:fileUpload id="PRRegLogo" skinSimple="false" fileUploadListener="#{CompanyBean.cargarImagen}" auto="true" style="width: 200px;"/>
                         </p:panelGrid>
                     </p:tab>
-                    <p:tab id="company_address" title="Direccion">
-                        <p>En que lugar se encuentra tu sucursal principal.</p>
+                    <p:tab id="company_address" title="Sucursal">
+                        <p>Configuración de la sucursal principal.</p>
                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
-                            <p:outputLabel for="PRRegPais" value="País:"/>
-                            <p:selectOneMenu id="PRRegPais" value="#{CompanyBean.myIdPais}">
-                                <p:ajax listener="#{CompanyBean.onPaisChange}" update="PRRegDepartamento" />
-                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
-                                <f:selectItems value="#{CompanyBean.obtenerListadoDominioTipo('4')}"></f:selectItems>
-                            </p:selectOneMenu>
-                            <p:outputLabel for="PRRegDepartamento" value="Departamento:"/>
-                            <p:selectOneMenu id="PRRegDepartamento" value="#{CompanyBean.myIdDepartamento}">
-                                <p:ajax listener="#{CompanyBean.onDepartamentoChange}" update="PRRegCiudad" />
-                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
-                                <f:selectItems value="#{CompanyBean.myListDepartamento}"></f:selectItems>
-                            </p:selectOneMenu>
-                            <p:outputLabel for="PRRegCiudad" value="Ciudad:"/>
-                            <p:selectOneMenu id="PRRegCiudad" value="#{CompanyBean.myIdCiudad}">
-                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
-                                <f:selectItems value="#{CompanyBean.myListCiudad}"></f:selectItems>
-                            </p:selectOneMenu>
-                            <p:outputLabel for="PRSucursalAddress" value="Direccion sucursal:" />
-                            <p:inputText id="PRSucursalAddress" value="#{CompanyBean.company_sucursal_address}"/>
-                            <p:outputLabel for="PRSSucAddressComplemento" value="Complemento Direccion:" />
-                            <p:inputText id="PRSSucAddressComplemento" value="#{CompanyBean.company_sucursal_address_complemento}"/>
                             <p:outputLabel for="PRSucursalName" value="Nombre sucursal:" />
                             <p:inputText id="PRSucursalName" value="#{CompanyBean.company_sucursal_name}"/>
                         </p:panelGrid>
