@@ -1,0 +1,124 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>#{SystemInfoBean.header_view}</title>
+        <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyClXdX5gQMy9ehI3s7F9UW7qCZQxVJVRqA"></script>
+        <script type="text/javascript">
+            var currentMarker = null;
+             
+            function handlePointClick(event) {
+                if(currentMarker === null) {
+                    document.getElementById('lat').value = event.latLng.lat();
+                    document.getElementById('lng').value = event.latLng.lng();
+ 
+                    currentMarker = new google.maps.Marker({
+                        position:new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
+                    });
+     
+                    PF('map').addOverlay(currentMarker);
+ 
+                    PF('dlg').show();
+                }   
+            }
+ 
+            function markerAddComplete() {
+                var title = document.getElementById('title');
+                currentMarker.setTitle(title.value);
+                title.value = "";
+ 
+                currentMarker = null;
+                PF('dlg').hide();
+            }
+ 
+            function cancel() {
+                PF('dlg').hide();
+                currentMarker.setMap(null);
+                currentMarker = null;
+ 
+                return false;
+            }
+        </script>
+        <script type="text/javascript">
+            function geocode() {
+                window.alert("Geocode")
+                PF('map').geocode(document.getElementById('address').value);
+            }
+
+            function reverseGeocode() {
+                var lat = document.getElementById('lat').value,
+                    lng = document.getElementById('lng').value;
+
+                PF('revGeoMap').reverseGeocode(lat, lng);
+            }
+        </script>
+    </h:head>
+    <p:dialog header="Ubicar tu dirección" 
+              widgetVar="addSucursalDlg" 
+              resizable="false" 
+              modal="true" 
+              style="size: 300px;"
+              closable="true">
+            <h:form id="MapFormMarker" prependId="false">
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:outputLabel for="PRSucursalName" value="Nombre sucursal:" />
+                    <p:inputText id="PRSucursalName" value="#{CompanyBean.company_sucursal_name}"/>
+                    <p:outputLabel for="PRSucursalAddress" value="Direccion:" />
+                    <p:inputText id="PRSucursalAddress" value="#{CompanyBean.company_sucursal_address}"/>
+                    <p:outputLabel/>
+                    <p:commandButton value="Ubicar mi negocio" icon="fa fa-search" action="#{CompanyBean.putAdress}" update="MapFormMarker"/>
+                </h:panelGrid>
+                <p:growl id="messages" showDetail="true" />
+                <p:outputLabel value="Mapa que agrega marcadores"/>
+                <p:gmap id="gmap1" center="#{CompanyBean.coordToCenter}" zoom="#{CompanyBean.zoom}" type="MAP" style="width:100%;height:400px"
+                        model="#{CompanyBean.emptyModel}" onPointClick="handlePointClick(event);" widgetVar="map">
+                    <p:ajax event="markerDrag" listener="#{CompanyBean.onMarkerDrag}" update="messages,address" />
+                    <p:ajax event="overlaySelect" listener="#{CompanyBean.onMarkerSelect}" />
+                    <p:gmapInfoWindow id="infoWindow">
+                        <p:outputPanel style="text-align: center; display: block; margin: auto">
+                                <h:outputText value="#{CompanyBean.markerSelect.title}" />
+                        </p:outputPanel>
+                    </p:gmapInfoWindow>
+                </p:gmap>
+                <f:facet name="footer">
+                    <div align="right">
+                        <p:commandButton value="Cancelar" onclick="PF('companyregisterdlg').hide()"/>
+                    </div>
+                </f:facet>  
+            </h:form>
+
+            <p:dialog widgetVar="dlg" showEffect="fade">
+                <h:form prependId="false">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="title" value="Title:" />
+                        <p:inputText id="title" value="#{CompanyBean.title}" />
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Add" action="#{CompanyBean.addMarker}" oncomplete="markerAddComplete()" update="messages,gmap1"/>
+                            <p:commandButton value="Cancel" onclick="return cancel()" />
+                        </f:facet>
+                    </h:panelGrid>
+
+                    <h:inputHidden id="lat" value="#{CompanyBean.lat}" />
+                    <h:inputHidden id="lng" value="#{CompanyBean.lng}" />
+                </h:form>
+            </p:dialog>       
+            <f:facet name="footer">
+                <h:form>
+                    <div align="right">
+                        <p:commandButton value="Guardar"  action="#{CompanyBean.saveSucursal()}" oncomplete="PF('addSucursalDlg').hide()"/>
+                        <p:commandButton value="Cancelar" onclick="PF('addSucursalDlg').hide()"/>
+                    </div>
+                </h:form>
+            </f:facet>  
+    </p:dialog>
+</ui:composition>

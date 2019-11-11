@@ -58,7 +58,7 @@
                                     <p:commandLink action="#{CompanyBean.change_status_company()}" update="PRCompanyStatus">
                                         <p:graphicImage id="PRCompanyStatus" name="images/#{CompanyBean.company_status}.png" library="manhattan-layout" height="80"/>
                                     </p:commandLink>
-                                    <p:commandButton style="color: #000000; background: transparent" value="#{CompanyBean.company_address}" onclick="PF('companyregisterdlg').show();"/>
+                                    <p:commandButton style="color: #000000; background: transparent" value="#{CompanyBean.company_address}" onclick="PF('addSucursalDlg').show();"/>
                                 </p:panelGrid>
                                 <p:spacer height="40"/>
                             </div>

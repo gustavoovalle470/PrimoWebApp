@@ -5,6 +5,13 @@
  */
 package org.primefaces.customize.UI.company;
 
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
+import com.primo.bean.AddMarkersView;
+import com.primo.bean.MarkersController;
 import com.primo.model.Contacto;
 import com.primo.ws.dominio.DominioWSClient;
 import com.primo.model.Dominio;
@@ -34,7 +41,12 @@ import javax.sql.rowset.serial.SerialBlob;
 import org.primefaces.customize.UI.utils.UIMessageManagement;
 import org.primefaces.customize.controllers.security.UserSessionManager;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.map.MarkerDragEvent;
+import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.MapModel;
+import org.primefaces.model.map.Marker;
 
 /**
  *
@@ -44,6 +56,15 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 public class CompanyBean {
 
+    private MapModel emptyModel;
+    private String title;
+    private String coordToCenter="4.71098860,-74.07209200";
+    private String zoom="12";
+    private Marker markerSelect;
+    private final String ApiKey="AIzaSyClXdX5gQMy9ehI3s7F9UW7qCZQxVJVRqA";
+    private double lat;
+    private double lng;
+    
     /** Atributos de Clase **/
     private Empresa company;
     private Dominio myDominio;
@@ -63,6 +84,7 @@ public class CompanyBean {
     private boolean company_is_register;
 
     private String company_sucursal_name;
+    private String company_sucursal_address;
     
     private String company_contact_id;
     private String company_contact_name;
@@ -78,15 +100,24 @@ public class CompanyBean {
     private Blob myBlobImagen;
     
     public CompanyBean(){
+        emptyModel = new DefaultMapModel();
+        for(Marker m: MarkersController.getInstance().getMarkers()){
+            emptyModel.addOverlay(m);
+        }
         
         //Traer la información de la empresa
         List<Empresa> myListEmpresa = CompanyWSClient.getCompany(UserSessionManager.getInstance().getUser((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getIdUsuario());
-        
         //Validar si existe la empresa
         if(myListEmpresa.size() > 0){
             this.company = myListEmpresa.get(0);
             this.company_name=company.getStrRazonSocial();
             this.company_is_register = true;
+            //List<Sucursal> myListSucursal= SucursalWSClient.traerSucursalesPorEmpresa(this.company.getIdEmpresa());
+            //if(myListSucursal.size()>0){
+                //company_sucursal_name=myListSucursal.get(0).getStrNombre();
+                //company_sucursal_address=getAddress(new LatLng(Double.parseDouble(myListSucursal.get(0).getLatitud()), Double.parseDouble(myListSucursal.get(0).getLongitud())));
+              //  company_address=company_sucursal_name+" - "+company_sucursal_address;
+            //}
         }else{
             this.company_name = "NOMBRE DE TU EMPRESA";
             this.company_is_register = false;
@@ -96,6 +127,69 @@ public class CompanyBean {
         setDefaultValues();
     }
 
+    public MapModel getEmptyModel() {
+        return emptyModel;
+    }
+
+    public void setEmptyModel(MapModel emptyModel) {
+        this.emptyModel = emptyModel;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCoordToCenter() {
+        return coordToCenter;
+    }
+
+    public void setCoordToCenter(String coordToCenter) {
+        this.coordToCenter = coordToCenter;
+    }
+
+    public String getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(String zoom) {
+        this.zoom = zoom;
+    }
+
+    public Marker getMarkerSelect() {
+        return markerSelect;
+    }
+
+    public void setMarkerSelect(Marker markerSelect) {
+        this.markerSelect = markerSelect;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+    
+    public String getCompany_sucursal_address() {
+        return company_sucursal_address;
+    }
+
+    public void setCompany_sucursal_address(String company_sucursal_address) {
+        this.company_sucursal_address = company_sucursal_address;
+    }
 
     public String getCompany_sucursal_name() {
         return company_sucursal_name;
@@ -449,17 +543,7 @@ public class CompanyBean {
             
             if(myListEmpresa.size() > 0){
                 Empresa myEmpresaConsulta = myListEmpresa.get(0);
-                
-                //Crear el objeto sucursal y guadarlo en la base de datos
-                Sucursal mySucursal = new Sucursal(this.company_sucursal_name, true, "0", "0", myEmpresaConsulta);
-                mySucursal = SucursalWSClient.guardarSucursal(mySucursal);
-                
-                //Validar que se cree la sucursal
-                if(mySucursal.getIdSucursal().equals(BigInteger.ZERO)){
-                    PrimoMsg myMensaje = new PrimoMsg("Error al crear la Sucursal de la Empresa");
-                    throw new Exception(myMensaje.getResponse());
-                }
-                
+                                
                 //Crear la información del Contacto
                 Contacto myContacto = new Contacto(this.company_contact_id, this.company_contact_name, this.company_contact_surname, 
                                                    this.company_contact_address, this.company_contact_phone, this.company_contact_email, 
@@ -494,6 +578,99 @@ public class CompanyBean {
             }
         } catch (Exception ex) {
             Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void addMarker() {
+        Marker markerToAdd = new Marker(new org.primefaces.model.map.LatLng(lat, lng), title);
+        markerToAdd.setId("1");
+        markerToAdd.setDraggable(true);
+        emptyModel.addOverlay(markerToAdd);
+        MarkersController.getInstance().putMarker(markerToAdd);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));
+    }
+    
+    public void onMarkerSelect(OverlaySelectEvent event){
+        System.out.println("Evento: "+event);
+        markerSelect = (Marker) event.getOverlay();
+        System.out.println("Marcador: "+markerSelect);
+    }
+    
+    public void onMarkerDrag(MarkerDragEvent event) {
+        markerSelect = event.getMarker();     
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Dragged", "Lat:" + markerSelect.getLatlng().getLat() + ", Lng:" + markerSelect.getLatlng().getLng()));
+        LatLng coords=new LatLng(markerSelect.getLatlng().getLat(), markerSelect.getLatlng().getLng());
+        markerSelect.setTitle(getAddress(coords));
+        company_sucursal_address=getAddress(coords);
+    }
+    public void putAdress(){
+        try {
+            System.out.println("Click "+company_sucursal_address);
+            GeoApiContext context = new GeoApiContext.Builder()
+                    .apiKey(ApiKey)
+                    .build();
+            GeocodingResult[] results =  GeocodingApi.geocode(context,
+                    company_sucursal_address).await();
+            zoom="16";
+            coordToCenter = (results[0].geometry.location).toString();
+            System.out.println("Coordenadas: "+coordToCenter);
+            String[] data=coordToCenter.split(",");
+            Marker markerToAdd = new Marker(new org.primefaces.model.map.LatLng(Double.parseDouble(data[0]), Double.parseDouble(data[1])), company_sucursal_address);
+            markerToAdd.setDraggable(true);
+            emptyModel.addOverlay(markerToAdd);
+            company_address=company_sucursal_name+" - "+company_sucursal_address;
+            lat=markerToAdd.getLatlng().getLat();
+            lng=markerToAdd.getLatlng().getLng();
+            MarkersController.getInstance().putMarker(markerToAdd);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + markerToAdd.getLatlng().getLat() + ", Lng:" + markerToAdd.getLatlng().getLng()));
+        } catch (ApiException ex) {
+            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String getAddress(LatLng coords){
+        try {
+            GeoApiContext context = new GeoApiContext.Builder()
+                    .apiKey(ApiKey)
+                    .build();
+            GeocodingResult[] results= GeocodingApi.reverseGeocode(context, coords).await();
+            for(Object o : results){
+                System.out.println(o.toString());
+            }
+            System.out.println("Direccion: "+results[0].formattedAddress);
+            return results[0].formattedAddress;
+        } catch (ApiException ex) {
+            Logger.getLogger(AddMarkersView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AddMarkersView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AddMarkersView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+    
+    public void saveSucursal(){
+        if(company!= null){
+            //Crear el objeto sucursal y guadarlo en la base de datos
+            Sucursal mySucursal = new Sucursal(this.company_sucursal_name, true, ""+lat, ""+lng, company);
+            try {
+                mySucursal = SucursalWSClient.guardarSucursal(mySucursal);
+                //Validar que se cree la sucursal
+                if(mySucursal.getIdSucursal().equals(BigInteger.ZERO)){
+                    PrimoMsg myMensaje = new PrimoMsg("Error al crear la Sucursal de la Empresa");
+                    try {
+                        throw new Exception(myMensaje.getResponse());
+                    } catch (Exception ex) {
+                        Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

@@ -32,13 +32,6 @@
                             <p:fileUpload id="PRRegLogo" skinSimple="false" fileUploadListener="#{CompanyBean.cargarImagen}" auto="true" style="width: 200px;"/>
                         </p:panelGrid>
                     </p:tab>
-                    <p:tab id="company_address" title="Sucursal">
-                        <p>Configuración de la sucursal principal.</p>
-                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
-                            <p:outputLabel for="PRSucursalName" value="Nombre sucursal:" />
-                            <p:inputText id="PRSucursalName" value="#{CompanyBean.company_sucursal_name}"/>
-                        </p:panelGrid>
-                    </p:tab>
                     <p:tab id="company_contact" title="Contacto">
                         <p>En caso de necesitar tu ayuda con quien nos podremos comunicar:</p>
                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
