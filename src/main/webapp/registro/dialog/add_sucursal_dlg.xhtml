@@ -51,7 +51,7 @@
         <script type="text/javascript">
             function geocode() {
                 window.alert("Geocode")
-                PF('map').geocode(document.getElementById('address').value);
+                PF('map').geocode(document.getElementById('PRSucursalAddress').value);
             }
 
             function reverseGeocode() {
@@ -81,7 +81,7 @@
                 <p:outputLabel value="Mapa que agrega marcadores"/>
                 <p:gmap id="gmap1" center="#{CompanyBean.coordToCenter}" zoom="#{CompanyBean.zoom}" type="MAP" style="width:100%;height:400px"
                         model="#{CompanyBean.emptyModel}" onPointClick="handlePointClick(event);" widgetVar="map">
-                    <p:ajax event="markerDrag" listener="#{CompanyBean.onMarkerDrag}" update="messages,address" />
+                    <p:ajax event="markerDrag" listener="#{CompanyBean.onMarkerDrag}" update="messages,PRSucursalAddress" />
                     <p:ajax event="overlaySelect" listener="#{CompanyBean.onMarkerSelect}" />
                     <p:gmapInfoWindow id="infoWindow">
                         <p:outputPanel style="text-align: center; display: block; margin: auto">

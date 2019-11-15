@@ -26,7 +26,6 @@ import java.math.BigInteger;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -112,7 +111,7 @@ public class CompanyBean {
             this.company = myListEmpresa.get(0);
             this.company_name=company.getStrRazonSocial();
             this.company_is_register = true;
-            //List<Sucursal> myListSucursal= SucursalWSClient.traerSucursalesPorEmpresa(this.company.getIdEmpresa());
+            //List<Sucursal> myListSucursal= SucursalWSClient.getSucursal(this.company.getIdEmpresa());
             //if(myListSucursal.size()>0){
                 //company_sucursal_name=myListSucursal.get(0).getStrNombre();
                 //company_sucursal_address=getAddress(new LatLng(Double.parseDouble(myListSucursal.get(0).getLatitud()), Double.parseDouble(myListSucursal.get(0).getLongitud())));
