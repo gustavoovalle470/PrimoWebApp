@@ -24,6 +24,7 @@ import com.primo.ws.sucursal.SucursalWSClient;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Blob;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -525,6 +526,7 @@ public class CompanyBean {
         
         //Atributos de Método
         Empresa myEmpresa = new Empresa();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         
         try{
             //Crear el objeto Empresa
@@ -532,7 +534,7 @@ public class CompanyBean {
             myEmpresa.setMyDominio(this.myDominio);
             myEmpresa.setStrIdentificacion(this.company_identification);
             myEmpresa.setStrRazonSocial(this.company_name);
-            myEmpresa.setDtmFechaFundacion(this.company_fundation_date);
+            myEmpresa.setDtmFechaFundacion(format.format(this.company_fundation_date));
             myEmpresa.setImgLogo(this.myBlobImagen);
           
             CompanyWSClient.registerCompany(myEmpresa);

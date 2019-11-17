@@ -31,7 +31,7 @@ public class Empresa implements Serializable {
     private String strRazonSocial;
     
     
-    private Date dtmFechaFundacion;
+    private String dtmFechaFundacion;
     
     
     private Blob imgLogo;
@@ -64,7 +64,7 @@ public class Empresa implements Serializable {
     /**
      * @return the dtmFechaFundacion
      */
-    public Date getDtmFechaFundacion() {
+    public String getDtmFechaFundacion() {
         return dtmFechaFundacion;
     }
 
@@ -113,7 +113,7 @@ public class Empresa implements Serializable {
     /**
      * @param dtmFechaFundacion the dtmFechaFundacion to set
      */
-    public void setDtmFechaFundacion(Date dtmFechaFundacion) {
+    public void setDtmFechaFundacion(String dtmFechaFundacion) {
         this.dtmFechaFundacion = dtmFechaFundacion;
     }
 

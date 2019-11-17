@@ -6,6 +6,7 @@
 package com.primo.ws.company;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.primo.constants.ws.PrimoURI;
 import com.primo.model.Empresa;
@@ -54,7 +55,7 @@ public class CompanyWSClient {
      */
     public static List<Empresa> getCompany(BigInteger idUser){
         //Atributos de Metodo
-        Gson myGson = new Gson();
+        Gson myGson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         Client myClient = ClientBuilder.newClient();
         
         //Traer la información de la empresa
