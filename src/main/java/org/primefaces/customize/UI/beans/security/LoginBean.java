@@ -7,6 +7,7 @@ package org.primefaces.customize.UI.beans.security;
 
 import com.primo.model.Usuario;
 import com.primo.ws.user.UserWSClient;
+import java.math.BigInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -105,8 +106,10 @@ public class LoginBean {
             Usuario user = new Usuario();
             user.setStrUsuario(username);
             user.setStrPassword(password);
-            user.setIntNumIntentos(3);
+            user.setIntNumIntentos(0);
             user.setBitActivo(true);
+            user.setIntTipoUsuario(new BigInteger("1"));
+
             try {
                 UserWSClient.registerUser(user);
                 return login();

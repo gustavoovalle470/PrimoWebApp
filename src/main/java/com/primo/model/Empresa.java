@@ -9,7 +9,7 @@ package com.primo.model;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.Blob;
-import java.util.Date;
+
 
 /**
  * Clase que representa el Objeto Empresa
@@ -22,22 +22,11 @@ public class Empresa implements Serializable {
     
     /** Atributos de Clase **/
     private BigInteger idEmpresa;
-    
-    
     private String strIdentificacion;
-    
-    
-    
     private String strRazonSocial;
-    
-    
     private String dtmFechaFundacion;
-    
-    
     private Blob imgLogo;
-    
     private Usuario myUsuario;
-    
     private Dominio myDominio;
 
     /**

@@ -7,14 +7,6 @@ package com.primo.model;
  * IMPORTS
  */
 import java.math.BigInteger;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
 /**
  * Clase que representa el Objeto Usuario
@@ -27,17 +19,10 @@ public class Usuario {
 
     /** Atributos de Clase **/
     private BigInteger idUsuario;
-    
-    
+    private BigInteger intTipoUsuario;
     private String strUsuario;
-    
-    
     private String strPassword;
-    
-    
     private int intNumIntentos;
-    
-    
     private boolean bitActivo;
 
     /**
@@ -108,5 +93,19 @@ public class Usuario {
      */
     public void setBitActivo(boolean bitActivo) {
         this.bitActivo = bitActivo;
+    }
+
+    /**
+     * @return the intTipoUsuario
+     */
+    public BigInteger getIntTipoUsuario() {
+        return intTipoUsuario;
+    }
+
+    /**
+     * @param intTipoUsuario the intTipoUsuario to set
+     */
+    public void setIntTipoUsuario(BigInteger intTipoUsuario) {
+        this.intTipoUsuario = intTipoUsuario;
     }
 }
