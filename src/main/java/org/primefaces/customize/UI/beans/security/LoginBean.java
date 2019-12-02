@@ -84,6 +84,7 @@ public class LoginBean {
             Usuario myUsuario = new Usuario();
             myUsuario.setStrUsuario(username);
             myUsuario.setStrPassword(password);
+            myUsuario.setIntTipoUsuario(new BigInteger("1"));
             Usuario myUsuarioTemp = UserWSClient.login(myUsuario);
             
             if(myUsuarioTemp != null){

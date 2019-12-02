@@ -53,7 +53,7 @@ public class UserWSClient {
      */
     public static Usuario login(Usuario myUusario) throws IOException{
         Client myClient = ClientBuilder.newClient();
-        String myURL = PrimoURI.LOG_USER_WS + myUusario.getStrUsuario() + "/" + myUusario.getStrPassword();
+        String myURL = PrimoURI.LOG_USER_WS + myUusario.getStrUsuario() + "/" + myUusario.getStrPassword() + "/" + myUusario.getIntTipoUsuario();
         Usuario myUsuarioTemp = myClient.target(myURL).request(MediaType.APPLICATION_JSON_TYPE).get(Usuario.class);
         myClient.close();
         return myUsuarioTemp;
