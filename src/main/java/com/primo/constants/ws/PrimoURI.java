@@ -24,4 +24,6 @@ public class PrimoURI {
     public final static String REG_DIR_WS="http://localhost:7001/PrimoApp/direccion";
     public final static String REG_SUC_DIR_WS="http://localhost:7001/PrimoApp/sucursalDireccion";
     public final static String REG_CONT_WS="http://localhost:7001/PrimoApp/contacto";
+    public final static String GET_SERV_WS="http://localhost:7001/PrimoApp/servicio";
+    public final static String REG_SERV_WS="http://localhost:7001/PrimoApp/sucursalServicio";
 }

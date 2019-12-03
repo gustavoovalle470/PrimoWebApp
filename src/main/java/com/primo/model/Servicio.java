@@ -30,9 +30,6 @@ public class Servicio implements Serializable {
 
     
     private String strNombre;
-
-    
-    private double  dblValor;
     
     private Dominio myDominio;
 
@@ -49,14 +46,7 @@ public class Servicio implements Serializable {
     public String getStrNombre() {
         return strNombre;
     }
-
-    /**
-     * @return the dblValor
-     */
-    public double getDblValor() {
-        return dblValor;
-    }
-
+    
     /**
      * @return the myDominio
      */
@@ -76,13 +66,6 @@ public class Servicio implements Serializable {
      */
     public void setStrNombre(String strNombre) {
         this.strNombre = strNombre;
-    }
-
-    /**
-     * @param dblValor the dblValor to set
-     */
-    public void setDblValor(double dblValor) {
-        this.dblValor = dblValor;
     }
 
     /**

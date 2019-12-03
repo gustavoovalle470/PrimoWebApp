@@ -1,0 +1,34 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <p:dialog header="Registra tus servicios" 
+              widgetVar="addServiceDlg" 
+              resizable="false" 
+              modal="true" 
+              style="size: 300px;"
+              closable="true">
+            <h:form id="ServiceForm" prependId="false">
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:outputLabel for="PRServiceCategory" value="Tipo de servicio:" />
+                    <p:selectOneMenu id="PRServiceCategory" value="#{ServiceBean.service.idServicio}">
+                        <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{ServiceBean.obtenerListadoServicios()}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="PRServicePrice" value="Valor:" />
+                    <p:inputText id="PRServicePrice" value="#{ServiceBean.service_price}"/>
+                </h:panelGrid>
+            </h:form>
+
+            <f:facet name="footer">
+                <h:form>
+                    <div align="right">
+                        <p:commandButton value="Guardar"  action="#{ServiceBean.saveService()}" oncomplete="PF('addServiceDlg').hide()"/>
+                        <p:commandButton value="Cancelar" onclick="PF('addServiceDlg').hide()"/>
+                    </div>
+                </h:form>
+            </f:facet>  
+    </p:dialog>
+</ui:composition>

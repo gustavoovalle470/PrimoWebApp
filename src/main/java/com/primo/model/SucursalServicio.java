@@ -26,6 +26,8 @@ public class SucursalServicio implements Serializable {
 
     private Servicio myServicio;
 
+    private double  dblValor;
+    
     /**
      * @return the idSucursalServicio
      */
@@ -66,5 +68,13 @@ public class SucursalServicio implements Serializable {
      */
     public void setMyServicio(Servicio myServicio) {
         this.myServicio = myServicio;
+    }
+
+    public double getDblValor() {
+        return dblValor;
+    }
+
+    public void setDblValor(double dblValor) {
+        this.dblValor = dblValor;
     }
 }

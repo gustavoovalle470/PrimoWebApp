@@ -76,4 +76,19 @@ public class SucursalWSClient {
         //Retornar la información de las empresas
         return myListDominio;
     }
+
+    public static void addService(BigInteger idSucursal, BigInteger idService, String service_price) throws NoSuchAlgorithmException {
+        //Crear Contexto
+        SSLContext ctx = SSLContext.getDefault();
+        HostnameVerifier hostnameVerifier = SSLConnectionSocketFactory.getDefaultHostnameVerifier();
+        ClientBuilder builder = ClientBuilder.newBuilder().sslContext(ctx);
+
+        //Crear el cliente
+        Client myClient = builder.hostnameVerifier(hostnameVerifier).build();
+	WebTarget resourceTarget= myClient.target(PrimoURI.REG_SERV_WS+"/"+idSucursal+"/"+idService+"/"+service_price);
+	
+        //Invocar el servicio 
+        Invocation.Builder invocationBuilder = resourceTarget.request();
+        invocationBuilder.get();
+    }
 }

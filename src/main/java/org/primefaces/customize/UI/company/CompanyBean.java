@@ -112,12 +112,12 @@ public class CompanyBean {
             this.company = myListEmpresa.get(0);
             this.company_name=company.getStrRazonSocial();
             this.company_is_register = true;
-            //List<Sucursal> myListSucursal= SucursalWSClient.getSucursal(this.company.getIdEmpresa());
-            //if(myListSucursal.size()>0){
-                //company_sucursal_name=myListSucursal.get(0).getStrNombre();
-                //company_sucursal_address=getAddress(new LatLng(Double.parseDouble(myListSucursal.get(0).getLatitud()), Double.parseDouble(myListSucursal.get(0).getLongitud())));
-              //  company_address=company_sucursal_name+" - "+company_sucursal_address;
-            //}
+            List<Sucursal> myListSucursal= SucursalWSClient.getSucursal(this.company.getIdEmpresa());
+            if(myListSucursal.size()>0){
+                company_sucursal_name=myListSucursal.get(0).getStrNombre();
+                company_sucursal_address=getAddress(new LatLng(Double.parseDouble(myListSucursal.get(0).getLatitud()), Double.parseDouble(myListSucursal.get(0).getLongitud())));
+                company_address=company_sucursal_name+" - "+company_sucursal_address;
+            }
         }else{
             this.company_name = "NOMBRE DE TU EMPRESA";
             this.company_is_register = false;
@@ -634,6 +634,7 @@ public class CompanyBean {
     }
     
     public String getAddress(LatLng coords){
+        System.out.println("Coordenadas: "+coords.toString());
         try {
             GeoApiContext context = new GeoApiContext.Builder()
                     .apiKey(ApiKey)
