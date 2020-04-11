@@ -36,7 +36,7 @@ public class AddMarkersView implements Serializable {
     private String coordToCenter="4.71098860,-74.07209200";
     private String zoom="12";
     private Marker markerSelect;
-    private final String ApiKey="";
+    private final String ApiKey="AIzaSyClXdX5gQMy9ehI3s7F9UW7qCZQxVJVRqA";
       
     private double lat;
       

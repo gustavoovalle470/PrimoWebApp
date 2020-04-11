@@ -9,6 +9,7 @@ import com.primo.model.Dominio;
 import com.primo.model.Empresa;
 import com.primo.model.Servicio;
 import com.primo.model.Sucursal;
+import com.primo.model.SucursalServicio;
 import com.primo.ws.company.CompanyWSClient;
 import com.primo.ws.dominio.DominioWSClient;
 import com.primo.ws.sucursal.ServicioWSClient;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
@@ -31,8 +32,8 @@ import org.primefaces.customize.controllers.security.UserSessionManager;
  *
  * @author OvalleGA
  */
-@ManagedBean(name="ServiceBean")
 @SessionScoped
+@Named("ServiceBean")
 public class ServiceBean implements Serializable{
     private Empresa company;
     private Sucursal sucursal;
@@ -40,6 +41,7 @@ public class ServiceBean implements Serializable{
     private String service_category;
     private String service_price="0";
     private Dominio myDominio;
+    private List<SucursalServicio>serviceBySucursal=new ArrayList();
     
     
     public ServiceBean(){
@@ -50,6 +52,13 @@ public class ServiceBean implements Serializable{
         sucursal=mySucursals.get(0);
         this.myDominio = new Dominio();
         this.service=new Servicio();
+        this.service.setIdServicio(BigInteger.ONE);
+        this.service.setStrNombre("MONTAJE DE LLANTAS");
+        SucursalServicio ss = new SucursalServicio();
+        ss.setIdSucursalServicio(sucursal.getIdSucursal());
+        ss.setMyServicio(service);
+        ss.setMySucursal(sucursal);
+        serviceBySucursal.add(ss);
     }
 
     public Servicio getService() {
@@ -98,6 +107,14 @@ public class ServiceBean implements Serializable{
 
     public void setMyDominio(Dominio myDominio) {
         this.myDominio = myDominio;
+    }
+
+    public List<SucursalServicio> getServiceBySucursal() {
+        return serviceBySucursal;
+    }
+
+    public void setServiceBySucursal(List<SucursalServicio> serviceBySucursal) {
+        this.serviceBySucursal = serviceBySucursal;
     }
     
     public void saveService(){

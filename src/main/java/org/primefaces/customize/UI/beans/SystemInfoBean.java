@@ -5,15 +5,7 @@
  */
 package org.primefaces.customize.UI.beans;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -24,24 +16,14 @@ import javax.faces.bean.SessionScoped;
  */
 @SessionScoped
 @ManagedBean(name = "SystemInfoBean")
-public class SystemInfoBean implements Serializable{
-    /** Atributos de Clase **/
-    private InputStream myInputStream;
-    private Properties myProperties = new Properties();
+public class SystemInfoBean{
+
     private String app_name;
     private String header_view;
 
     {
-        try {
-            myInputStream = new FileInputStream("C:\\Users\\OvalleGA\\Documents\\NetBeansProjects\\PrimoApp\\src\\main\\resources\\application.properties");
-            myProperties.load(myInputStream);
-            this.app_name = myProperties.getProperty("appName");
-            this.header_view = myProperties.getProperty("appName");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SystemInfoBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(SystemInfoBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.app_name = "PRIMOS";
+        this.header_view = "MODULO DE CLIENTE";
     };
     
     public String getApp_name() {

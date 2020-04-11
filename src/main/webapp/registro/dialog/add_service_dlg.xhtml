@@ -13,9 +13,9 @@
             <h:form id="ServiceForm" prependId="false">
                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                     <p:outputLabel for="PRServiceCategory" value="Tipo de servicio:" />
-                    <p:selectOneMenu id="PRServiceCategory" value="#{ServiceBean.service.idServicio}">
+                    <p:selectOneMenu id="PRServiceCategory" >
                         <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
-                        <f:selectItems value="#{ServiceBean.obtenerListadoServicios()}"></f:selectItems>
+                        <f:selectItems></f:selectItems>
                     </p:selectOneMenu>
                     <p:outputLabel for="PRServicePrice" value="Valor:" />
                     <p:inputText id="PRServicePrice" value="#{ServiceBean.service_price}"/>
