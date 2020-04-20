@@ -1,0 +1,69 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:form enctype="multipart/form-data">
+        <p:dialog header="Registre su empresa" 
+                  widgetVar="companyregisterdlg" 
+                  resizable="false" 
+                  modal="true" 
+                  style="size: 300px;"
+                  closable="true"
+                  visible="#{!companyBean.register}">
+            <p>Bienvenido queremos saber mas de tu empresa:</p>
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:wizard>
+                    <p:tab id="company_info" title="Informacion basica">
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                            <p:outputLabel for="PRRegTipoIdentificacion" value="Tipo de Identificación:"/>
+                            <p:selectOneMenu id="PRRegTipoIdentificacion" value="#{companyBean.prcompany.company.myDominio.idDominio}">
+                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                                <f:selectItems value="#{companyBean.idTypeCompany}"></f:selectItems>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="PRRegNumIdentificacion" value="Número Identificación:"/>
+                            <p:inputText id="PRRegNumIdentificacion" value="#{companyBean.prcompany.company.strIdentificacion}"/>
+                            <p:outputLabel for="PRRegCompName" value="Nombre o razón social:"/>
+                            <p:inputText id="PRRegCompName" value="#{companyBean.prcompany.company.strRazonSocial}"/>
+                            <p:outputLabel for="PRRegFundDate" value="Fecha de fundación:" />
+                            <p:calendar mask="true" pattern="dd-MM-yyyy" id="PRRegFundDate" showOn="button" value="#{companyBean.prcompany.company.dtmFechaFundacion}"/>
+                            <!--<p:outputLabel for="PRRegLogo" value="Logo:"/>
+                            <p:fileUpload id="PRRegLogo" skinSimple="false" fileUploadListener="#{CompanyBean.cargarImagen}" auto="true" style="width: 200px;"/>-->
+                        </p:panelGrid>
+                    </p:tab>
+                    <p:tab id="company_contact" title="Contacto">
+                        <p>En caso de necesitar tu ayuda con quien nos podremos comunicar:</p>
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                            <p:outputLabel for="PRContactTipoIdentificacion" value="Tipo de Identificación:"/>
+                            <p:selectOneMenu id="PRContactTipoIdentificacion" value="#{companyBean.prcompany.contact.myDominio.idDominio}">
+                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                                <f:selectItems value="#{companyBean.idTypeCompany}"></f:selectItems>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="PRContactID" value="Número Identificación:" />
+                            <p:inputText id="PRContactID" value="#{companyBean.prcompany.contact.strIdentificacion}"/>
+                            <p:outputLabel for="PRContactName" value="Nombre:" />
+                            <p:inputText id="PRContactName" value="#{companyBean.prcompany.contact.strNombre}"/>
+                            <p:outputLabel for="PRContactSurname" value="Apellido:" />
+                            <p:inputText id="PRContactSurname" value="#{companyBean.prcompany.contact.strApellido}"/>
+                            <p:outputLabel for="PRContactAddress" value="Dirección:" />
+                            <p:inputText id="PRContactAddress" value="#{companyBean.prcompany.contact.strDireccion}"/>
+                            <p:outputLabel for="PRContactPhone" value="Telefono:" />
+                            <p:inputText id="PRContactPhone" value="#{companyBean.prcompany.contact.strTelefono}"/>
+                            <p:outputLabel for="PRContactEmail" value="Correo electronico:" />
+                            <p:inputText id="PRContactEmail" value="#{companyBean.prcompany.contact.strEmail}"/>
+                            <p:outputLabel for="PRContactBirthday" value="Fecha de nacimiento:" />
+                            <p:calendar id="PRContactBirthday" mask="true" pattern="dd-MM-yyyy" showOn="button" value="#{companyBean.prcompany.contact.dtmFechaNacimiento}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" oncomplete="PF('companyregisterdlg').hide()" action="#{companyBean.saveCompany()}"/>
+                    </p:tab>                
+                </p:wizard>
+                <f:facet name="footer">
+                    <div align="right">
+                        <p:commandButton value="Cancelar" onclick="PF('companyregisterdlg').hide()"/>
+                    </div>
+                </f:facet>  
+            </h:panelGrid>
+        </p:dialog>    
+    </h:form>
+</ui:composition>

@@ -6,9 +6,11 @@
     xmlns:p="http://primefaces.org/ui">
     
     <div class="layout-footer clearfix">
-        <a href="dashboard.xhtml">
-            <p:graphicImage name="images/primo_name.png" library="manhattan-layout" height="30"/>
-        </a>
+        <h:form id="PRFooter">
+            <p:commandLink action="/dashboard.xhtml?faces-redirect=true">
+                <p:graphicImage id="PRCompanyStatus" name="images/primo_name.png" library="manhattan-layout" height="40"/>
+            </p:commandLink>
+        </h:form>
         <div class="layout-footer-icons">
             <a href="https://www.facebook.com/groups/primefaces"><i class="fa fa-facebook"></i></a>
             <a href="http://twitter.com/primefaces"><i class="fa fa-twitter"></i></a>
