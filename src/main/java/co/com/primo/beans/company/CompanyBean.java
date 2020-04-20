@@ -33,7 +33,6 @@ public class CompanyBean {
 
     private PRCompany prcompany;
     private String status="close";
-    private String branch="REGISTRE UNA SUCURSAL";
     private boolean register=true;
     private List<SelectItem> idTypeCompany=DomainController.obtenerListadoDominioTipo("2");
     
@@ -44,9 +43,6 @@ public class CompanyBean {
             prcompany.setCompany(getDefaultCompany());
             prcompany.setContact(getDefaultContact());
             this.register = false;
-            branch="REGISTRA UNA SUCURSAL";
-        }else{
-            branch=prcompany.getBranchName();
         }
     }
     
@@ -56,14 +52,6 @@ public class CompanyBean {
 
     public void setPrcompany(PRCompany prcompany) {
         this.prcompany = prcompany;
-    }
-
-    public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String company_branch) {
-        this.branch = company_branch;
     }
 
     public String getStatus() {
@@ -112,6 +100,7 @@ public class CompanyBean {
                 UserSessionManager.getInstance().reloadCompany((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true));
                 prcompany.getContact().setMyEmpresa(prcompany.getCompany());
                 ContactoWSClient.guardarContacto(prcompany.getContact());
+                register=true;
             }
         } catch (Exception ex) {
             UIMessageManagement.putException(ex);

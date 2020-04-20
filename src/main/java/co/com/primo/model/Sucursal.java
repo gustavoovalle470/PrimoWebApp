@@ -46,7 +46,7 @@ public class Sucursal implements Serializable {
         this.bitPrincipal = bitPrincipal;
         this.myEmpresa = myEmpresa;
         this.latitud = latitud;
-        this.longitud = latitud;
+        this.longitud = longitud;
     }
 
     /**

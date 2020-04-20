@@ -58,7 +58,7 @@
                                     <p:commandLink action="#{companyBean.changeCompanyStatus()}" update="PRCompanyStatus">
                                         <p:graphicImage id="PRCompanyStatus" name="images/#{companyBean.status}.png" library="manhattan-layout" height="80"/>
                                     </p:commandLink>
-                                    <p:commandButton style="color: #000000; background: transparent" value="#{companyBean.branch}" action="/system/core/branch_offices.xhtml?faces-redirect=true"/>
+                                    <p:commandButton style="color: #000000; background: transparent" value="#{companyBean.prcompany.branchConnected.strNombre}" action="/system/core/branch_offices.xhtml?faces-redirect=true"/>
                                 </p:panelGrid>
                                 <p:spacer height="40"/>
                             </div>

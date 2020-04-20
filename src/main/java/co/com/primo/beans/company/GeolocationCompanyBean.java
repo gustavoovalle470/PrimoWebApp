@@ -12,10 +12,15 @@ import co.com.primo.model.Sucursal;
 import co.com.primo.ui.constants.GlobalConstants;
 import co.com.primo.ui.utils.UIMessageManagement;
 import co.com.primo.ws.sucursal.SucursalWSClient;
+import com.google.maps.errors.ApiException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
@@ -38,23 +43,30 @@ public class GeolocationCompanyBean {
     private String branchAddress;
     private final HttpSession session= (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     private Sucursal branchSelected=null;
+    private String newBranchName;
+    private boolean connected=false;
     
     public GeolocationCompanyBean(){
         this.prcompany=UserSessionManager.getInstance().getCompanyContainer(session);
         branchMap = new DefaultMapModel();
-        if(prcompany.getBranchOffices()!=null && !prcompany.getBranchOffices().isEmpty()){
-            for(Sucursal s : prcompany.getBranchOffices()){
-                if(s.isBitPrincipal()){
-                    branchSelected=s;
-                    branchAddress=GeolocaliaztionController.getAddress(branchSelected.getLatitud(), branchSelected.getLongitud());
-                }
-                branchMap.addOverlay(new Marker(new LatLng(Double.parseDouble(s.getLatitud()), 
-                                                 Double.parseDouble(s.getLongitud())), 
-                                                 s.getStrNombre()));
-            }
-        }else{
-            branchAddress=prcompany.getContact().getStrDireccion();
-        }
+        setConnectBranch();
+        putBranches();
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+
+    public String getNewBranchName() {
+        return newBranchName;
+    }
+
+    public void setNewBranchName(String newBranchName) {
+        this.newBranchName = newBranchName;
     }
     
     public Sucursal getBranchSelected() {
@@ -116,26 +128,62 @@ public class GeolocationCompanyBean {
     public void onMarkerSelect(OverlaySelectEvent event){
         Marker markerSelect = (Marker) event.getOverlay();
         branchSelected=prcompany.getBranch(markerSelect.getLatlng());
+        connected=prcompany.getBranchConnected().equals(branchSelected);
         branchAddress=GeolocaliaztionController.getAddress(branchSelected.getLatitud(), branchSelected.getLongitud());        
     }
     
-    public void saveBranch(){
+    public void updateBranch(){
         try {
-            Marker markerToAdd = new Marker(GeolocaliaztionController.getGeolocalization(branchAddress), branchName);
-            markerToAdd.setDraggable(true);
-            branchSelected.setLatitud(""+markerToAdd.getLatlng().getLat());
-            branchSelected.setLongitud(""+markerToAdd.getLatlng().getLng());
-            boolean isUpdate=UserSessionManager.getInstance().putSucursal(session, branchSelected);
-            branchMap.addOverlay(markerToAdd);
-            UIMessageManagement.putInfoMessage((isUpdate?"Se actualizo la sucursal ":"Se agrego la sucursal ")+branchSelected.getStrNombre());
+            saveBranch(branchSelected, new LatLng(Double.parseDouble(branchSelected.getLatitud()),
+                                                  Double.parseDouble(branchSelected.getLongitud())));
         } catch (Exception ex) {
             UIMessageManagement.putException(ex);
         }
     }
     
-    public void newBranch(){
-        System.out.println("CLick nueva branch");
-        branchAddress=new String();
-        branchSelected=new Sucursal("", false, null, null, prcompany.getCompany());
+    public String saveNewBranch(){
+        try {
+            LatLng location = GeolocaliaztionController.getGeolocalization(branchAddress);
+            System.out.println(""+location.getLat()+", "+location.getLng());
+            branchSelected=new Sucursal(newBranchName, false, ""+location.getLat(), ""+location.getLng(), prcompany.getCompany());
+            saveBranch(branchSelected, location);
+        } catch (Exception ex) {
+            UIMessageManagement.putException(ex);
+        }
+        return "/system/core/branch_offices.xhtml?faces-redirect=true";
+    }
+    
+    public void changeBranch(ValueChangeEvent event){
+        boolean connect= (boolean)event.getNewValue();
+        if(connect){
+            UserSessionManager.getInstance().changeBranchConnected(session, branchSelected);
+            UIMessageManagement.putInfoMessage("Se conecto a la sucursal"+branchSelected.getStrNombre() );
+        }
+    }
+    
+    private void saveBranch(Sucursal sucursal, LatLng coords) throws ApiException, InterruptedException, IOException, Exception{
+        Marker markerToAdd = new Marker(coords, sucursal.getStrNombre());
+        markerToAdd.setDraggable(true);
+        UserSessionManager.getInstance().putSucursal(session, sucursal);
+        branchMap.addOverlay(markerToAdd);
+        UIMessageManagement.putInfoMessage("Se actualizo la sucursal "+branchSelected.getStrNombre());
+    }
+
+    private void putBranches() {
+        if(prcompany.getBranchOffices()!=null && !prcompany.getBranchOffices().isEmpty()){
+            for(Sucursal s : prcompany.getBranchOffices()){
+                branchMap.addOverlay(new Marker(new LatLng(Double.parseDouble(s.getLatitud()), 
+                                                 Double.parseDouble(s.getLongitud())), 
+                                                 s.getStrNombre()));
+            }
+        }
+    }
+
+    private void setConnectBranch() {
+        if(prcompany.getBranchConnected()!=null && prcompany.getBranchConnected().getLatitud()!=null){
+            connected=true; 
+            branchSelected=prcompany.getBranchConnected();
+            branchAddress=GeolocaliaztionController.getAddress(branchSelected.getLatitud(), branchSelected.getLongitud());
+        }
     }
 }

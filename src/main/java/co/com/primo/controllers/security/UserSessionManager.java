@@ -52,6 +52,7 @@ public class UserSessionManager {
             company.setContact(getContact(company.getCompany()));
             company.setBranchOffices(getBranchOffices(company.getCompany()));
             company.setServices(getServices());
+            company.connectBranch(getDefaultBranchConect(user, company.getBranchOffices()));
         }
         companies_online.put(session, company);
     }
@@ -69,6 +70,7 @@ public class UserSessionManager {
     public void reloadCompany(HttpSession session){
         PRCompany company= getCompanyContainer(session);
         company.setCompany(getCompany(company.getUser()));
+        company.setBranchOffices(getBranchOffices(company.getCompany()));
     }
     
     private Empresa getCompany(Usuario user) {
@@ -97,15 +99,44 @@ public class UserSessionManager {
         return contacto;
     }
 
-    public boolean putSucursal(HttpSession session, Sucursal s) throws Exception {
-        boolean isUpdate=true;
+    public void putSucursal(HttpSession session, Sucursal s) throws Exception {
+        System.out.println("Sucursal: "+s.getStrNombre());
+        System.out.println("Principal?: "+s.isBitPrincipal());
+        if(s.isBitPrincipal()){
+            takeOffAllBranches(session);
+            s.setBitPrincipal(true);
+        }
         if(getCompanyContainer(session).getBranch(new LatLng(Double.parseDouble(s.getLatitud()), Double.parseDouble(s.getLongitud())))!= null){
+            System.out.println("Actualizando sigue siendo principal?: "+s.isBitPrincipal());
             SucursalWSClient.updateSucursal(s);
         }else{
+            if(getCompanyContainer(session).getBranchOffices().isEmpty()){
+                s.setBitPrincipal(true);
+                changeBranchConnected(session, s);
+            }
             SucursalWSClient.guardarSucursal(s);
-            isUpdate=false;
         }
-        getCompanyContainer(session).addSucursal(s);
-        return isUpdate;
+        reloadCompany(session);
+    }
+
+    private void takeOffAllBranches(HttpSession session) throws Exception {
+        for(Sucursal s : getCompanyContainer(session).getBranchOffices()){
+            s.setBitPrincipal(false);
+            SucursalWSClient.updateSucursal(s);
+        }
+    }
+
+    private Sucursal getDefaultBranchConect(Usuario user, List<Sucursal> branchOffices) {
+        // if(USER.GETBRANCHDEFAULT)ESTO NO EXISTE
+        for(Sucursal s: branchOffices){
+            if(s.isBitPrincipal()){
+                return s;
+            }
+        }
+        return new Sucursal("Registre una sucursal", false, null, null,null);
+    }
+
+    public void changeBranchConnected(HttpSession session, Sucursal branchSelected) {
+        getCompanyContainer(session).setBranchConnected(branchSelected);
     }
 }

@@ -21,8 +21,17 @@ public class PRCompany {
     private Usuario user;
     private Empresa company;
     private Contacto contact;
+    private Sucursal branchConnected;
     private List<Sucursal> branchOffices;
     private List<SucursalServicio> services;
+
+    public Sucursal getBranchConnected() {
+        return branchConnected;
+    }
+
+    public void setBranchConnected(Sucursal branchConnected) {
+        this.branchConnected = branchConnected;
+    }
 
     public Usuario getUser() {
         return user;
@@ -83,5 +92,9 @@ public class PRCompany {
             }
         }
         return null;
+    }
+    
+    public void connectBranch(Sucursal conectBranch){
+        this.branchConnected=conectBranch;
     }
 }
