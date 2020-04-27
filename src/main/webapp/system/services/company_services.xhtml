@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Dashboard</ui:define>
+
+    <ui:define name="head">
+           <script type="text/javascript">
+               //<![CDATA[
+               function skinBar() {
+                   this.cfg.shadow = false;
+                   this.cfg.title = '';
+                   this.cfg.seriesColors = ['#3984b8','#7e8dcd'];
+                   this.cfg.grid = {
+                       background: '#ffffff',
+                       borderColor: '#ffffff',
+                       gridLineColor: '#dee4e9',
+                       shadow: false
+                   };
+                   this.cfg.axesDefaults = {
+                       borderWidth: 0.1,
+                       borderColor: 'dce2e7',
+                       rendererOptions: {
+                           textColor: '#757575'
+                       }
+                   };
+                   this.cfg.seriesDefaults = {
+                       shadow: false,
+                       lineWidth: 1,
+                       renderer: $.jqplot.BarRenderer,
+                       markerOptions: {
+                           shadow: false,
+                           size: 7,
+                           style: 'circle'
+                       }
+                   }
+               }
+               //]]>
+           </script>
+           <style type="text/css">
+               .main-content {
+                   padding: 0;
+               }
+           </style>
+       </ui:define>
+
+    <ui:define name="content">
+        <h:form id="PRRegisterService">
+            <p:autoUpdate disabled="false" />
+            <h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="5">
+                <h:panelGrid title="Servicio seleccionado" columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:fieldset legend="Servicio seleccionado" style="margin-bottom:20px">
+                        <h:panelGrid title="Servicio seleccionado" columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <p:outputLabel for="PRServiceBranchName" value="Sucursal:" />
+                            <p:inputText id="PRServiceBranchName" value="#{ServiceBean.prcompany.branchConnected.strNombre}" readonly="true"/>
+                            <p:outputLabel for="PRVehicleCategory" value="Tipo vehiculo:" />
+                            <p:selectOneMenu id="PRVehicleCategory" value="#{ServiceBean.vehicleCategoryId}">
+                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                                <f:selectItems value="#{ServiceBean.allVehicleCategory}"/>
+                                <p:ajax update="PRServiceCategory" oncomplete="#{ServiceBean.updateServicesTypes()}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="PRServiceCategory" value="Categoria servicio:" />
+                            <p:selectOneMenu id="PRServiceCategory" value="#{ServiceBean.serviceCategoryId}">
+                                <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
+                                <f:selectItems value="#{ServiceBean.allServiceCategory}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="PRServiceName" value="Servicio:" />
+                            <p:inputText id="PRServiceName" value="#{ServiceBean.serviceName}"/>
+                            <p:commandButton value="Guardar" icon="fa fa-check" action="#{ServiceBean.saveService()}" update="PRRegisterService,PRServicesRegistred"    />
+                            <p:commandButton value="Limpiar" icon="fa fa-cancel" action="#{ServiceBean.clean()}" update="PRRegisterService"/>
+                        </h:panelGrid>
+                    </p:fieldset>
+                </h:panelGrid>
+                <h:form id="PRServicesRegistred">
+                    <p:graphicImage id="PRNoServices" name="images/withoutResults.png" library="manhattan-layout" rendered="#{!ServiceBean.isHaveServices()}"/>
+                    <p:repeat value="#{ServiceBean.prcompany.services}" var="service">
+                        <p:fieldset legend="Servicio" style="margin-bottom:20px" rendered="#{ServiceBean.isHaveServices()}">
+                            <h:panelGrid columns="1" style="margin-bottom:10px;margin: 0 auto;" cellpadding="5">
+                                <p:outputLabel value="#{service.iddominio.myDominioPadre.strDescripcion}" style="font-weight:bold"/>
+                                <p:outputLabel value="#{service.iddominio.strDescripcion}" style="font-weight:bold"/>
+                                <p:graphicImage id="PRServiceIcon" name="images/ServiceIcon.png" library="manhattan-layout" height="100"/>
+                                <p:inputText value="#{service.strnombre}" style="font-weight:bold"/>
+                                <p:outputLabel value="SUCURSALES QUE PRESTAN EL SERVICIO: #{ServiceBean.price}" style="font-weight:bold"/>
+                                <p:selectBooleanCheckbox id="PRServiceActive" itemLabel="#{(service.bitActivo?'El servicio se esta prestando':'Este servicio no se esta prestando')}" value="#{service.bitActivo}" >
+                                    <p:ajax update="PRServiceActive"/>
+                                </p:selectBooleanCheckbox>
+                                <h:panelGrid columns="4" style="margin-bottom:10px;margin: 0 auto;" cellpadding="5">
+                                    <p:commandButton value="Guardar" action="#{ServiceBean.updateService(service)}"/>
+                                    <p:commandButton value="Ver sucursales" action="#{ServiceBean.goToAsignBranches(service)}"/>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:fieldset>
+                    </p:repeat>
+                </h:form>                
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -5,7 +5,6 @@
  */
 package co.com.primo.ws;
 
-import co.com.primo.ws.constants.PrimoURI;
 import java.security.NoSuchAlgorithmException;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;

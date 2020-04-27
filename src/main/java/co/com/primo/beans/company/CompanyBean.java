@@ -40,6 +40,7 @@ public class CompanyBean {
     public CompanyBean(){
         this.prcompany=UserSessionManager.getInstance().getCompanyContainer((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true));
         if(prcompany.getCompany()==null){
+            System.out.println("Entre.");
             prcompany.setCompany(getDefaultCompany());
             prcompany.setContact(getDefaultContact());
             this.register = false;

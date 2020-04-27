@@ -58,7 +58,7 @@
                                     <p:commandLink action="#{companyBean.changeCompanyStatus()}" update="PRCompanyStatus">
                                         <p:graphicImage id="PRCompanyStatus" name="images/#{companyBean.status}.png" library="manhattan-layout" height="80"/>
                                     </p:commandLink>
-                                    <p:commandButton style="color: #000000; background: transparent" value="#{companyBean.prcompany.branchConnected.strNombre}" action="/system/core/branch_offices.xhtml?faces-redirect=true"/>
+                                    <p:commandButton style="color: #000000; background: transparent" value="#{companyBean.prcompany.branchConnected.strNombre}" action="/system/branch/branch_offices.xhtml?faces-redirect=true"/>
                                 </p:panelGrid>
                                 <p:spacer height="40"/>
                             </div>
@@ -102,7 +102,7 @@
                         <div class="ui-g overview-box overview-box-0">
                             <div align="center" class="ui-g-12 button-container">
                                 <p:panelGrid columns="1" styleClass="ui-panelgrid-blank form-group">
-                                    <p:commandButton value="Registrar servicio" style="background: gray;width: 270px; height: 40px;" action="/registro/company_service.xhtml?faces-redirect=true"/>
+                                    <p:commandButton value="Registrar servicio" style="background: gray;width: 270px; height: 40px;" action="/system/services/company_services.xhtml?faces-redirect=true"/>
                                     <p:commandButton value="Lanzar promociones" style="background: gray;width: 270px; height: 40px;"/>
                                     <p:commandButton value="Servicios programados" style="background: gray;width: 270px; height: 40px;"/>
                                     <p:commandButton value="Mi vitrina" style="background: gray;width: 270px; height: 40px;"/>

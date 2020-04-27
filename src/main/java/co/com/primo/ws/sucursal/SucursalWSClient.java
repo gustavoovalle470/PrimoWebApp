@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import co.com.primo.ws.constants.PrimoURI;
 import co.com.primo.model.Sucursal;
+import co.com.primo.model.SucursalServicio;
 import co.com.primo.ws.PrimoMsg;
 import co.com.primo.ws.PrimoWSBuilder;
 import com.google.gson.GsonBuilder;
@@ -91,5 +92,16 @@ public class SucursalWSClient {
             throw new Exception(respuesta.getResponse());
         }
         return mySucursal;
+    }
+
+    public static SucursalServicio assignService(SucursalServicio sServicio) throws Exception {
+        System.out.println("GUSTAVO SERVICIO: "+sServicio.getDblValor());
+        WebTarget resourceTarget= PrimoWSBuilder.getContext(PrimoURI.REG_SERV_SUC_WS);
+	Invocation.Builder invocationBuilder = resourceTarget.request();
+        PrimoMsg respuesta=invocationBuilder.post(Entity.json(sServicio)).readEntity(PrimoMsg.class);
+        if(!respuesta.isSucces()){
+            throw new Exception(respuesta.getResponse());
+        }
+        return sServicio;
     }
 }

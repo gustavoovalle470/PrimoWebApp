@@ -150,7 +150,7 @@ public class GeolocationCompanyBean {
         } catch (Exception ex) {
             UIMessageManagement.putException(ex);
         }
-        return "/system/core/branch_offices.xhtml?faces-redirect=true";
+        return GlobalConstants.BRANCH_URL;
     }
     
     public void changeBranch(ValueChangeEvent event){

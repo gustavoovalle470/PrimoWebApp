@@ -1,77 +1,75 @@
 /*
- * PACKAGE
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package co.com.primo.model;
 
-/*
- * IMPORTS
- */
 import java.io.Serializable;
 import java.math.BigInteger;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
- * Clase que representa el Objeto Servicio
- * @author Mauricio Alejandro Rocuts
- * @version 1.0
- * @date 15/08/2019
+ *
+ * @author OvalleGA
  */
 public class Servicio implements Serializable {
-
-    /** Atributos de Clase **/
-    private BigInteger idServicio;
-
     
-    private String strNombre;
+    private static final long serialVersionUID = 1L;
+    private BigInteger idservicio;
+    private String strnombre;
+    private Dominio iddominio;
+    private Empresa idempresa;
+    private boolean bitActivo;
     
-    private Dominio myDominio;
-
-    /**
-     * @return the idServicio
-     */
-    public BigInteger getIdServicio() {
-        return idServicio;
+    public Servicio() {
     }
 
-    /**
-     * @return the strNombre
-     */
-    public String getStrNombre() {
-        return strNombre;
-    }
-    
-    /**
-     * @return the myDominio
-     */
-    public Dominio getMyDominio() {
-        return myDominio;
+    public Servicio(BigInteger idservicio) {
+        this.idservicio = idservicio;
     }
 
-    /**
-     * @param idServicio the idServicio to set
-     */
-    public void setIdServicio(BigInteger idServicio) {
-        this.idServicio = idServicio;
+    public Servicio(BigInteger idservicio, String strnombre) {
+        this.idservicio = idservicio;
+        this.strnombre = strnombre;
     }
 
-    /**
-     * @param strNombre the strNombre to set
-     */
-    public void setStrNombre(String strNombre) {
-        this.strNombre = strNombre;
+    public BigInteger getIdservicio() {
+        return idservicio;
     }
 
-    /**
-     * @param myDominio the myDominio to set
-     */
-    public void setMyDominio(Dominio myDominio) {
-        this.myDominio = myDominio;
+    public void setIdservicio(BigInteger idservicio) {
+        this.idservicio = idservicio;
+    }
+
+    public String getStrnombre() {
+        return strnombre;
+    }
+
+    public void setStrnombre(String strnombre) {
+        this.strnombre = strnombre;
+    }
+
+    public Dominio getIddominio() {
+        return iddominio;
+    }
+
+    public void setIddominio(Dominio iddominio) {
+        this.iddominio = iddominio;
+    }
+
+    public Empresa getIdempresa() {
+        return idempresa;
+    }
+
+    public void setIdempresa(Empresa idempresa) {
+        this.idempresa = idempresa;
+    }    
+
+    public boolean isBitActivo() {
+        return bitActivo;
+    }
+
+    public void setBitActivo(boolean bitActivo) {
+        this.bitActivo = bitActivo;
     }
 }

@@ -45,4 +45,43 @@ public class DomainController {
         }
         return myListSelectItems;
     }
+    
+    public static List<SelectItem> obtenerListadoDominioPadre(String myIdTipoDominio) {
+        List<SelectItem> myListSelectItems= new ArrayList<>();
+        try {
+            List<Dominio> myListDominio = DominioWSClient.traerDominiosPorPadre(new BigInteger(myIdTipoDominio));
+            myListDominio.stream().map((myDominioTemp) -> {
+                SelectItem item = new SelectItem();
+                item.setLabel(myDominioTemp.getStrDescripcion());
+                item.setDescription(myDominioTemp.getStrDescripcion());
+                item.setValue(myDominioTemp.getIdDominio());
+                return item;                
+            }).forEachOrdered((item) -> {
+                myListSelectItems.add(item);
+            });
+        } catch (IOException ex) {
+            Logger.getLogger(CompanyBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return myListSelectItems;
+    }
+    
+    public static Dominio getDomainByType(BigInteger domainId, BigInteger myIdTipoDominio) throws IOException{
+        List<Dominio> myListDominio = DominioWSClient.traerDominiosPorTipo(myIdTipoDominio);
+        for(Dominio d: myListDominio){
+            if(d.getIdDominio().equals(domainId)){
+                return d;
+            }
+        }
+        return null;
+    }
+    
+    public static Dominio getDomainByParent(BigInteger domainId, BigInteger myIdTipoDominio) throws IOException{
+        List<Dominio> myListDominio = DominioWSClient.traerDominiosPorPadre(new BigInteger(""+domainId));
+        for(Dominio d: myListDominio){
+            if(d.getIdDominio().equals(myIdTipoDominio)){
+                return d;
+            }
+        }
+        return null;
+    }
 }

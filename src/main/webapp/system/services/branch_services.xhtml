@@ -48,27 +48,29 @@
        </ui:define>
 
     <ui:define name="content">
-        <h:form id="PRBoardPrincipalForm">
+        <h:form id="PRRegisterService">
             <p:autoUpdate disabled="false" />
-            <p:dataTable var="service" value="#{ServiceBean.serviceBySucursal}" reflow="true" rows="5" paginator="true">
-            <p:column headerText="Id">
-                <h:outputText value="#{service.idSucursalServicio}" />
-            </p:column>
-
-            <p:column headerText="Sucursal">
-                <h:outputText value="#{service.mySucursal.strNombre}" />
-            </p:column>
-
-            <p:column headerText="Servicio">
-                <h:outputText value="#{service.myServicio.strNombre}" />
-            </p:column>
-
-            <p:column headerText="Valor">
-                <h:outputText value="#{service.dblValor}" />
-            </p:column>
-        </p:dataTable>
-            <p:commandButton value="Adicionar" onclick="PF('addServiceDlg').show();"/>
+            <p:fieldset legend="Servicio" style="margin-bottom:20px">
+                <h:panelGrid columns="1" style="margin-bottom:10px;margin: 0 auto;" cellpadding="5">
+                    <p:outputLabel value="#{ServiceByBranchBean.prcompany.serviceSelected.iddominio.myDominioPadre.strDescripcion}" style="font-weight:bold"/>
+                    <p:outputLabel value="#{ServiceByBranchBean.prcompany.serviceSelected.iddominio.strDescripcion}" style="font-weight:bold"/>
+                    <p:graphicImage id="PRServiceIcon" name="images/ServiceIcon.png" library="manhattan-layout" height="100"/>
+                    <p:inputText value="#{ServiceByBranchBean.prcompany.serviceSelected.strnombre}" style="font-weight:bold"/>
+                </h:panelGrid>
+            </p:fieldset>
+            <br/>
+            <p:fieldset legend="Sucursales asignadas" style="margin-bottom:20px">
+                <p:pickList id="pickList" value="#{ServiceByBranchBean.branches}" 
+                            var="branch" itemLabel="#{branch}" 
+                            itemValue="#{branch}">
+                    <p:ajax event="transfer"
+                            listener="#{ServiceByBranchBean.onTransfer}"
+                            oncomplete="PF('addServiceDlg').show()"
+                            update="ServiceForm"/>
+                </p:pickList>
+            </p:fieldset>
         </h:form>
     </ui:define>
 
 </ui:composition>
+

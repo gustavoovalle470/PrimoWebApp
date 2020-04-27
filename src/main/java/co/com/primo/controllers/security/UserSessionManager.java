@@ -9,13 +9,16 @@ import co.com.primo.containers.PRCompany;
 import co.com.primo.model.Contacto;
 import co.com.primo.model.Dominio;
 import co.com.primo.model.Empresa;
+import co.com.primo.model.Servicio;
 import co.com.primo.model.Sucursal;
 import co.com.primo.model.SucursalServicio;
 import co.com.primo.model.Usuario;
 import co.com.primo.ws.company.CompanyWSClient;
 import co.com.primo.ws.contacto.ContactoWSClient;
+import co.com.primo.ws.sucursal.ServicioWSClient;
 import co.com.primo.ws.sucursal.SucursalWSClient;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -51,7 +54,7 @@ public class UserSessionManager {
         if(company.getCompany()!= null){
             company.setContact(getContact(company.getCompany()));
             company.setBranchOffices(getBranchOffices(company.getCompany()));
-            company.setServices(getServices());
+            company.setServices(getServices(company.getCompany()));
             company.connectBranch(getDefaultBranchConect(user, company.getBranchOffices()));
         }
         companies_online.put(session, company);
@@ -71,6 +74,7 @@ public class UserSessionManager {
         PRCompany company= getCompanyContainer(session);
         company.setCompany(getCompany(company.getUser()));
         company.setBranchOffices(getBranchOffices(company.getCompany()));
+        company.setServices(getServices(company.getCompany()));
     }
     
     private Empresa getCompany(Usuario user) {
@@ -86,8 +90,8 @@ public class UserSessionManager {
         return (List<Sucursal>) SucursalWSClient.getSucursal(company.getIdEmpresa());
     }
 
-    private List<SucursalServicio> getServices() {
-        return null;
+    private List<Servicio> getServices(Empresa company) {
+        return ServicioWSClient.traerServicios(company);
     }
 
     private Contacto getContact(Empresa company) {
@@ -100,14 +104,11 @@ public class UserSessionManager {
     }
 
     public void putSucursal(HttpSession session, Sucursal s) throws Exception {
-        System.out.println("Sucursal: "+s.getStrNombre());
-        System.out.println("Principal?: "+s.isBitPrincipal());
         if(s.isBitPrincipal()){
             takeOffAllBranches(session);
             s.setBitPrincipal(true);
         }
         if(getCompanyContainer(session).getBranch(new LatLng(Double.parseDouble(s.getLatitud()), Double.parseDouble(s.getLongitud())))!= null){
-            System.out.println("Actualizando sigue siendo principal?: "+s.isBitPrincipal());
             SucursalWSClient.updateSucursal(s);
         }else{
             if(getCompanyContainer(session).getBranchOffices().isEmpty()){
@@ -138,5 +139,29 @@ public class UserSessionManager {
 
     public void changeBranchConnected(HttpSession session, Sucursal branchSelected) {
         getCompanyContainer(session).setBranchConnected(branchSelected);
+    }
+
+    public void addService(HttpSession session, Servicio s) throws Exception {
+        ServicioWSClient.saveService(s);
+        reloadCompany(session);
+    }
+
+    public void updateService(Servicio s) throws Exception {
+        ServicioWSClient.updateSercice(s);
+    }
+
+    public void putServiceSelected(HttpSession session, Servicio s) {
+        getCompanyContainer(session).setServiceSelected(s);
+    }
+    
+    public List<SucursalServicio> getAllServicesAviable(HttpSession session){
+        List<SucursalServicio> services=new ArrayList<>();
+        for(Servicio s: getServices(getCompanyContainer(session).getCompany())){
+            SucursalServicio ss= new SucursalServicio();
+            ss.setMyServicio(s);
+            ss.setMySucursal(getCompanyContainer(session).getBranchConnected());
+            services.add(ss);
+        }
+        return services;
     }
 }

@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import co.com.primo.ui.utils.UIMessageManagement;
 import co.com.primo.controllers.security.UserSessionManager;
+import co.com.primo.ui.constants.GlobalConstants;
 
 
 /**
@@ -90,15 +91,14 @@ public class LoginBean {
             if(myUsuarioTemp != null){
                 UserSessionManager.getInstance().connectUser(myUsuarioTemp, (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true));
                 UIMessageManagement.putInfoMessage("Bienvenido "+username);
-                return "/dashboard.xhtml?faces-redirect=true";
+                return GlobalConstants.DASHBO_URL;
             }else{
                 UIMessageManagement.putErrorMessage("Usuario o Contraseña incorrecta");
-                return "/login.xhtml?faces-redirect=true";
+                return GlobalConstants.LOGIN_URL;
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
             UIMessageManagement.putErrorMessage(ex.getMessage());
-            return "/login.xhtml?faces-redirect=true";
+            return GlobalConstants.LOGIN_URL;
         }
     }
     
@@ -117,13 +117,13 @@ public class LoginBean {
                 return login();
             } catch (Exception ex) {
                 UIMessageManagement.putException(ex);
-                return "/login.xhtml?faces-redirect=true";
+                return GlobalConstants.LOGIN_URL;
             }
         }
         if(!acept_terms){
             UIMessageManagement.putWarnMessage("Le recomendamos leer y si esta de acuerdo aceptar nuestros terminos y condiciones de uso de esta aplicacion.");
         }
-        return "/login.xhtml?faces-redirect=true";
+        return GlobalConstants.LOGIN_URL;
     }
 
     public String recuperarContrasena(){
@@ -145,14 +145,14 @@ public class LoginBean {
                     UIMessageManagement.putInfoMessage(myResultado);
                 }
                 
-                return "/dashboard.xhtml?faces-redirect=true";
+                return GlobalConstants.DASHBO_URL;
             } catch (Exception ex) {
                 UIMessageManagement.putException(ex);
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-                return "/login.xhtml?faces-redirect=true";
+                return GlobalConstants.LOGIN_URL;
             }
         }
-        return "/login.xhtml?faces-redirect=true";
+        return GlobalConstants.LOGIN_URL;
     }
     
     /**
@@ -170,6 +170,7 @@ public class LoginBean {
                 Usuario myUsuario = new Usuario();
                 myUsuario.setStrUsuario(myUser);
                 myUsuario.setStrPassword(contrasenaAnt);
+                myUsuario.setIntTipoUsuario(new BigInteger("1"));
                 Usuario myUsuarioTemp = UserWSClient.login(myUsuario);
 
                 if(myUsuarioTemp != null){
@@ -183,21 +184,21 @@ public class LoginBean {
                         UIMessageManagement.putInfoMessage(myResultado);
                     }
 
-                    return "autowired";
+                    return GlobalConstants.LOGIN_URL;
                 }
                 else{
                     UIMessageManagement.putErrorMessage("La contraseña anterior no coincide");
-                    return "denied";
+                    return GlobalConstants.DASHBO_URL;
                 }
            }
            else{
                 UIMessageManagement.putErrorMessage("Las contraseñas no coinciden");
-                return "denied";
+                return GlobalConstants.DASHBO_URL;
            }
         } 
          catch (Exception ex) {
             UIMessageManagement.putErrorMessage(ex.getMessage());
-            return "denied";
+            return GlobalConstants.DASHBO_URL;
         }
     }
 
@@ -213,6 +214,7 @@ public class LoginBean {
                 Usuario myUsuario = new Usuario();
                 myUsuario.setStrUsuario(username);
                 myUsuario.setStrPassword(contrasenaAnt);
+                myUsuario.setIntTipoUsuario(new BigInteger("1"));
                 Usuario myUsuarioTemp = UserWSClient.login(myUsuario);
 
                 if(myUsuarioTemp != null){

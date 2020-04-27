@@ -28,6 +28,9 @@ public class PrimoURI {
     public final static String REG_CONT_WS="http://localhost:8084/PrimoApp/contacto";
     public final static String GET_CONT_WS="http://localhost:8084/PrimoApp/contacto/"+URL_CHAR_CHANGE;
     public final static String UPD_CONT_WS="http://localhost:8084/PrimoApp/actualizarContacto";
-    public final static String GET_SERV_WS="http://localhost:8084/PrimoApp/servicio";
-    public final static String REG_SERV_WS="http://localhost:8084/PrimoApp/sucursalServicio";
+    public final static String GET_SERV_WS="http://localhost:8084/PrimoApp/servicio/"+URL_CHAR_CHANGE;
+    public final static String GET_SERV_COMP_WS="http://localhost:8084/PrimoApp/servicio/empresa/"+URL_CHAR_CHANGE;
+    public final static String REG_SERV_WS="http://localhost:8084/PrimoApp/servicio";
+    public final static String UPD_SER_WS="http://localhost:8084/PrimoApp/actualizarServicio";
+    public final static String REG_SERV_SUC_WS="http://localhost:8084/PrimoApp/sucursalServicio";
 }

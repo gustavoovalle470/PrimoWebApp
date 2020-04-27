@@ -7,8 +7,8 @@ package co.com.primo.containers;
 
 import co.com.primo.model.Contacto;
 import co.com.primo.model.Empresa;
+import co.com.primo.model.Servicio;
 import co.com.primo.model.Sucursal;
-import co.com.primo.model.SucursalServicio;
 import co.com.primo.model.Usuario;
 import java.util.List;
 import org.primefaces.model.map.LatLng;
@@ -22,8 +22,9 @@ public class PRCompany {
     private Empresa company;
     private Contacto contact;
     private Sucursal branchConnected;
+    private Servicio serviceSelected;
     private List<Sucursal> branchOffices;
-    private List<SucursalServicio> services;
+    private List<Servicio> services;
 
     public Sucursal getBranchConnected() {
         return branchConnected;
@@ -49,11 +50,11 @@ public class PRCompany {
         this.company = company;
     }
 
-    public List<SucursalServicio> getServices() {
+    public List<Servicio> getServices() {
         return services;
     }
 
-    public void setServices(List<SucursalServicio> services) {
+    public void setServices(List<Servicio> services) {
         this.services = services;
     }
 
@@ -71,6 +72,14 @@ public class PRCompany {
 
     public void setBranchOffices(List<Sucursal> branchOffices) {
         this.branchOffices = branchOffices;
+    }
+
+    public Servicio getServiceSelected() {
+        return serviceSelected;
+    }
+
+    public void setServiceSelected(Servicio serviceSelected) {
+        this.serviceSelected = serviceSelected;
     }
 
     public String getBranchName(){
