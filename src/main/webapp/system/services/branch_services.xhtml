@@ -50,6 +50,10 @@
     <ui:define name="content">
         <h:form id="PRRegisterService">
             <p:autoUpdate disabled="false" />
+            <h:form id="ReturnLogin">
+                <p:commandButton icon="fa fa-arrow-left" action="/system/services/company_services.xhtml?faces-redirect=true"/>
+            </h:form>
+            <br/>
             <p:fieldset legend="Servicio" style="margin-bottom:20px">
                 <h:panelGrid columns="1" style="margin-bottom:10px;margin: 0 auto;" cellpadding="5">
                     <p:outputLabel value="#{ServiceByBranchBean.prcompany.serviceSelected.iddominio.myDominioPadre.strDescripcion}" style="font-weight:bold"/>

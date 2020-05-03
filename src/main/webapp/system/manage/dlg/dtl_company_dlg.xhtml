@@ -5,17 +5,17 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
     <h:form enctype="multipart/form-data">
-        <p:dialog header="Registre su empresa" 
+        <p:dialog header="Informacion su empresa" 
                   widgetVar="companyregisterdlg" 
                   resizable="false" 
                   modal="true" 
                   style="size: 300px;"
                   closable="true"
                   visible="#{!companyBean.register}">
-            <p>Bienvenido queremos saber mas de tu empresa:</p>
             <h:panelGrid columns="2" cellpadding="5">
                 <p:wizard>
-                    <p:tab id="company_info" title="Informacion basica">
+                    <p:tab id="company_info" title="Informacion de su compañia">
+                        <p>Queremos conocer mas de tu empresa:</p>
                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
                             <p:outputLabel for="PRRegTipoIdentificacion" value="Tipo de Identificación:"/>
                             <p:selectOneMenu id="PRRegTipoIdentificacion" value="#{companyBean.prcompany.company.myDominio.idDominio}">
@@ -32,7 +32,7 @@
                             <p:fileUpload id="PRRegLogo" skinSimple="false" fileUploadListener="#{CompanyBean.cargarImagen}" auto="true" style="width: 200px;"/>-->
                         </p:panelGrid>
                     </p:tab>
-                    <p:tab id="company_contact" title="Contacto">
+                    <p:tab id="company_contact_person" title="Datos personales de contacto">
                         <p>En caso de necesitar tu ayuda con quien nos podremos comunicar:</p>
                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
                             <p:outputLabel for="PRContactTipoIdentificacion" value="Tipo de Identificación:"/>
@@ -46,17 +46,22 @@
                             <p:inputText id="PRContactName" value="#{companyBean.prcompany.contact.strNombre}"/>
                             <p:outputLabel for="PRContactSurname" value="Apellido:" />
                             <p:inputText id="PRContactSurname" value="#{companyBean.prcompany.contact.strApellido}"/>
+                            <p:outputLabel for="PRContactBirthday" value="Fecha de nacimiento:" />
+                            <p:calendar id="PRContactBirthday" mask="true" pattern="dd-MM-yyyy" showOn="button" value="#{companyBean.prcompany.contact.dtmFechaNacimiento}"/>
+                        </p:panelGrid>
+                    </p:tab>
+                    <p:tab id="company_contact_data" title="Datos de contacto">
+                        <p>Indica la informacion de contacto:</p>
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
                             <p:outputLabel for="PRContactAddress" value="Dirección:" />
                             <p:inputText id="PRContactAddress" value="#{companyBean.prcompany.contact.strDireccion}"/>
                             <p:outputLabel for="PRContactPhone" value="Telefono:" />
                             <p:inputText id="PRContactPhone" value="#{companyBean.prcompany.contact.strTelefono}"/>
                             <p:outputLabel for="PRContactEmail" value="Correo electronico:" />
                             <p:inputText id="PRContactEmail" value="#{companyBean.prcompany.contact.strEmail}"/>
-                            <p:outputLabel for="PRContactBirthday" value="Fecha de nacimiento:" />
-                            <p:calendar id="PRContactBirthday" mask="true" pattern="dd-MM-yyyy" showOn="button" value="#{companyBean.prcompany.contact.dtmFechaNacimiento}"/>
                         </p:panelGrid>
                         <p:commandButton value="Guardar" oncomplete="PF('companyregisterdlg').hide()" action="#{companyBean.saveCompany()}"/>
-                    </p:tab>                
+                    </p:tab>
                 </p:wizard>
                 <f:facet name="footer">
                     <div align="right">

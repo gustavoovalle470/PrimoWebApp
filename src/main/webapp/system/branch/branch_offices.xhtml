@@ -105,6 +105,10 @@
     <ui:define name="content">
         <h:form id="PRGeolocationForm" prependId="false">
             <p:growl id="Geomessages" showDetail="true" />
+            <h:form id="ReturnLogin">
+                <p:commandButton icon="fa fa-arrow-left" action="/system/dashboard.xhtml?faces-redirect=true"/>
+            </h:form>
+            <br/>
             <h:panelGrid title="Sucursal seleccionada" columns="2" style="margin-bottom:10px" cellpadding="5">
                 <p:fieldset legend="SUCURSAL SELECCIONADA" style="margin-bottom:20px">
                     <h:panelGrid title="Sucursal seleccionada" columns="2" style="margin-bottom:10px" cellpadding="5">
@@ -133,12 +137,6 @@
                                  value="#{GeolocationCompanyBean.branchService}" var="service"
                                  rows="10" paginator="true">
                         <p:ajax event="rowEdit" listener="#{GeolocationCompanyBean.onRowEdit}"/>
-                        <p:column headerText="Vehiculo" resizable="true">
-                            <h:outputText value="#{service.myServicio.iddominio.myDominioPadre.strDescripcion}"/>
-                        </p:column>
-                        <p:column headerText="Categoria">
-                            <h:outputText value="#{service.myServicio.iddominio.strDescripcion}"/>
-                        </p:column>
                         <p:column headerText="Nombre">
                             <h:outputText value="#{service.myServicio.strnombre}"/>
                         </p:column>
