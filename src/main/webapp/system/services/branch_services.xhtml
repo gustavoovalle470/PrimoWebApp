@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Dashboard</ui:define>
+    <ui:define name="title">PRIMO - #{companyBean.prcompany.company.strRazonSocial}</ui:define>
 
     <ui:define name="head">
            <script type="text/javascript">
@@ -64,9 +64,7 @@
                             var="branch" itemLabel="#{branch}" 
                             itemValue="#{branch}">
                     <p:ajax event="transfer"
-                            listener="#{ServiceByBranchBean.onTransfer}"
-                            oncomplete="PF('addServiceDlg').show()"
-                            update="ServiceForm"/>
+                            listener="#{ServiceByBranchBean.onTransfer}"/>
                 </p:pickList>
             </p:fieldset>
         </h:form>

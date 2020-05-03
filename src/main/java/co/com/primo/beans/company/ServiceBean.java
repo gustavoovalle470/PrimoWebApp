@@ -10,9 +10,13 @@ import co.com.primo.controllers.domain.DomainController;
 import co.com.primo.controllers.security.UserSessionManager;
 import co.com.primo.model.Servicio;
 import co.com.primo.ui.utils.UIMessageManagement;
+import co.com.primo.ws.sucursal.SucursalWSClient;
 import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -31,7 +35,6 @@ public class ServiceBean{
     private final String dominio="8";
     private BigInteger vehicleCategoryId=BigInteger.ONE;
     private BigInteger serviceCategoryId;
-    private int price=0;
     private String serviceName;
     private List<SelectItem> allVehicleCategory=DomainController.obtenerListadoDominioTipo(dominio);
     private List<SelectItem> allServiceCategory=new ArrayList<>();
@@ -81,14 +84,6 @@ public class ServiceBean{
         this.serviceCategoryId = serviceCategoryId;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public String getServiceName() {
         return serviceName;
     }
@@ -99,6 +94,15 @@ public class ServiceBean{
     
     public void updateServicesTypes(){
         allServiceCategory=DomainController.obtenerListadoDominioPadre(vehicleCategoryId.toString());
+    }
+    
+    public int getBranchesCount(Servicio s){
+        try {
+            return UserSessionManager.getInstance().getBranchesByService(prcompany.getCompany(), s).size();
+        } catch (NoSuchAlgorithmException ex) {
+            UIMessageManagement.putException(ex);
+        }
+        return 0;
     }
     
     public void saveService(){

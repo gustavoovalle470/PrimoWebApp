@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Dashboard</ui:define>
+    <ui:define name="title">PRIMO - #{companyBean.prcompany.company.strRazonSocial}</ui:define>
 
     <ui:define name="head">
            <script type="text/javascript">
@@ -51,11 +51,9 @@
         <h:form id="PRRegisterService">
             <p:autoUpdate disabled="false" />
             <h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="5">
-                <h:panelGrid title="Servicio seleccionado" columns="2" style="margin-bottom:10px" cellpadding="5">
-                    <p:fieldset legend="Servicio seleccionado" style="margin-bottom:20px">
-                        <h:panelGrid title="Servicio seleccionado" columns="2" style="margin-bottom:10px" cellpadding="5">
-                            <p:outputLabel for="PRServiceBranchName" value="Sucursal:" />
-                            <p:inputText id="PRServiceBranchName" value="#{ServiceBean.prcompany.branchConnected.strNombre}" readonly="true"/>
+                <h:panelGrid title="Nuevo servicio" columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:fieldset legend="Nuevo servicio" style="margin-bottom:20px">
+                        <h:panelGrid title="Nuevo servicio" columns="2" style="margin-bottom:10px" cellpadding="5">
                             <p:outputLabel for="PRVehicleCategory" value="Tipo vehiculo:" />
                             <p:selectOneMenu id="PRVehicleCategory" value="#{ServiceBean.vehicleCategoryId}">
                                 <f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"></f:selectItem>
@@ -83,7 +81,7 @@
                                 <p:outputLabel value="#{service.iddominio.strDescripcion}" style="font-weight:bold"/>
                                 <p:graphicImage id="PRServiceIcon" name="images/ServiceIcon.png" library="manhattan-layout" height="100"/>
                                 <p:inputText value="#{service.strnombre}" style="font-weight:bold"/>
-                                <p:outputLabel value="SUCURSALES QUE PRESTAN EL SERVICIO: #{ServiceBean.price}" style="font-weight:bold"/>
+                                <p:outputLabel value="SUCURSALES QUE PRESTAN EL SERVICIO: #{ServiceBean.getBranchesCount(service)}" style="font-weight:bold"/>
                                 <p:selectBooleanCheckbox id="PRServiceActive" itemLabel="#{(service.bitActivo?'El servicio se esta prestando':'Este servicio no se esta prestando')}" value="#{service.bitActivo}" >
                                     <p:ajax update="PRServiceActive"/>
                                 </p:selectBooleanCheckbox>

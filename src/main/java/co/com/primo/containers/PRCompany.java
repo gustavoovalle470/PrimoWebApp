@@ -106,4 +106,13 @@ public class PRCompany {
     public void connectBranch(Sucursal conectBranch){
         this.branchConnected=conectBranch;
     }
+
+    public boolean isRegisterService(Servicio serviceToRegister) {
+        for(Servicio s: services){
+            System.out.println("COMPARANDO: "+s.getStrnombre().toUpperCase()+" VS "+serviceToRegister.getStrnombre().toUpperCase());
+            if(s.getStrnombre().toUpperCase().equals(serviceToRegister.getStrnombre().toUpperCase())) 
+                return true;
+        }
+        return false;
+    }
 }

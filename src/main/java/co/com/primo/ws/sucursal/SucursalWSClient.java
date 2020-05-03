@@ -6,6 +6,8 @@ package co.com.primo.ws.sucursal;
 /*
  * IMPORTS
  */
+import co.com.primo.model.Empresa;
+import co.com.primo.model.Servicio;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import co.com.primo.ws.constants.PrimoURI;
@@ -96,12 +98,31 @@ public class SucursalWSClient {
 
     public static SucursalServicio assignService(SucursalServicio sServicio) throws Exception {
         System.out.println("GUSTAVO SERVICIO: "+sServicio.getDblValor());
-        WebTarget resourceTarget= PrimoWSBuilder.getContext(PrimoURI.REG_SERV_SUC_WS);
+        WebTarget resourceTarget= PrimoWSBuilder.getContext(PrimoURI.SERV_SUC_WS);
 	Invocation.Builder invocationBuilder = resourceTarget.request();
         PrimoMsg respuesta=invocationBuilder.post(Entity.json(sServicio)).readEntity(PrimoMsg.class);
         if(!respuesta.isSucces()){
             throw new Exception(respuesta.getResponse());
         }
         return sServicio;
+    }
+
+    public static List<Sucursal> getBranchesForService(Empresa company, Servicio serviceSelected) throws NoSuchAlgorithmException {
+        Gson myGson = new GsonBuilder().setDateFormat("dd-MM-yyyy").create();
+        String url=PrimoURI.SERV_SUC_WS+"/"+company.getIdEmpresa()+"/"+(serviceSelected!=null?serviceSelected.getIdservicio():"0");
+        System.out.println("URL TO REQUEST: "+url);
+        WebTarget resourceTarget= PrimoWSBuilder.getContext(url);
+	String myStringList = resourceTarget.request(MediaType.APPLICATION_JSON).get(String.class);
+        List<Sucursal> myListDominio = myGson.fromJson(myStringList, new TypeToken<List<Sucursal>>(){}.getType());
+        return myListDominio;
+    }
+
+    public static void removeService(SucursalServicio sServicio) throws NoSuchAlgorithmException, Exception {
+        String url=PrimoURI.SERV_SUC_WS+"/"+sServicio.getMySucursal().getMyEmpresa().getIdEmpresa()+"/"+sServicio.getMySucursal().getIdSucursal()+"/"+sServicio.getMyServicio().getIdservicio();
+        WebTarget resourceTarget= PrimoWSBuilder.getContext(url);
+	PrimoMsg respuesta = resourceTarget.request(MediaType.APPLICATION_JSON).get(PrimoMsg.class);
+        if(!respuesta.isSucces()){
+            throw new Exception(respuesta.getResponse());
+        }
     }
 }

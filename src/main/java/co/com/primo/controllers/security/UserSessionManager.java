@@ -18,6 +18,7 @@ import co.com.primo.ws.contacto.ContactoWSClient;
 import co.com.primo.ws.sucursal.ServicioWSClient;
 import co.com.primo.ws.sucursal.SucursalWSClient;
 import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,13 +52,10 @@ public class UserSessionManager {
         PRCompany company = new PRCompany();
         company.setUser(user);
         company.setCompany(getCompany(user));
-        if(company.getCompany()!= null){
-            company.setContact(getContact(company.getCompany()));
-            company.setBranchOffices(getBranchOffices(company.getCompany()));
-            company.setServices(getServices(company.getCompany()));
-            company.connectBranch(getDefaultBranchConect(user, company.getBranchOffices()));
-        }
         companies_online.put(session, company);
+        if(company.getCompany()!= null){
+            reloadCompany(session);
+        }
     }
     
     public boolean disconectUser(HttpSession session){        
@@ -72,9 +70,13 @@ public class UserSessionManager {
 
     public void reloadCompany(HttpSession session){
         PRCompany company= getCompanyContainer(session);
+        System.out.println("GUSTAVO: "+company);
+        System.out.println("GUSTAVO 2: "+company.getCompany());
         company.setCompany(getCompany(company.getUser()));
-        company.setBranchOffices(getBranchOffices(company.getCompany()));
-        company.setServices(getServices(company.getCompany()));
+        company.setBranchOffices(SucursalWSClient.getSucursal(company.getCompany().getIdEmpresa()));
+        company.connectBranch(getDefaultBranchConect(company.getUser(), company.getBranchOffices()));
+        company.setServices(ServicioWSClient.traerServicios(company.getCompany()));
+        company.setContact(getContact(company.getCompany()));
     }
     
     private Empresa getCompany(Usuario user) {
@@ -84,14 +86,6 @@ public class UserSessionManager {
             return CompanyWSClient.getCompany(user.getIdUsuario()).get(0);
         }
         return null;
-    }
-
-    private List<Sucursal> getBranchOffices(Empresa company) {
-        return (List<Sucursal>) SucursalWSClient.getSucursal(company.getIdEmpresa());
-    }
-
-    private List<Servicio> getServices(Empresa company) {
-        return ServicioWSClient.traerServicios(company);
     }
 
     private Contacto getContact(Empresa company) {
@@ -142,8 +136,12 @@ public class UserSessionManager {
     }
 
     public void addService(HttpSession session, Servicio s) throws Exception {
-        ServicioWSClient.saveService(s);
-        reloadCompany(session);
+        if(!getCompanyContainer(session).isRegisterService(s)){
+            ServicioWSClient.saveService(s);
+            reloadCompany(session);
+        }else{
+            throw new Exception("El servicio "+s.getStrnombre()+" ya se encuentra registrado para su compañia.");
+        }
     }
 
     public void updateService(Servicio s) throws Exception {
@@ -156,12 +154,21 @@ public class UserSessionManager {
     
     public List<SucursalServicio> getAllServicesAviable(HttpSession session){
         List<SucursalServicio> services=new ArrayList<>();
-        for(Servicio s: getServices(getCompanyContainer(session).getCompany())){
+        for(Servicio s: getCompanyContainer(session).getServices()){
             SucursalServicio ss= new SucursalServicio();
             ss.setMyServicio(s);
             ss.setMySucursal(getCompanyContainer(session).getBranchConnected());
             services.add(ss);
         }
         return services;
+    }
+    
+    public List<Sucursal> getBranchesByService(HttpSession session) throws NoSuchAlgorithmException{
+        return SucursalWSClient.getBranchesForService(getCompanyContainer(session).getCompany(),
+                                                      getCompanyContainer(session).getServiceSelected());
+    }
+    
+    public List<Sucursal> getBranchesByService(Empresa company, Servicio service) throws NoSuchAlgorithmException{
+        return SucursalWSClient.getBranchesForService(company, service);
     }
 }

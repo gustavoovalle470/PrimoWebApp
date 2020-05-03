@@ -10,7 +10,7 @@ package co.com.primo.ws.constants;
  * @author OvalleGA
  */
 public class PrimoURI {
-    public final static String URL_CHAR_CHANGE="?";
+    public final static String URL_CHAR_CHANGE="$";
     public final static String ALL_PERSON_WS="http://localhost:8084/PrimoApp/persona/";
     public final static String GET_PERSON_WS="http://localhost:8084/PrimoApp/persona/"+URL_CHAR_CHANGE;
     public final static String REG_PERSON_WS="http://localhost:8084/PrimoApp/persona/register";
@@ -32,5 +32,5 @@ public class PrimoURI {
     public final static String GET_SERV_COMP_WS="http://localhost:8084/PrimoApp/servicio/empresa/"+URL_CHAR_CHANGE;
     public final static String REG_SERV_WS="http://localhost:8084/PrimoApp/servicio";
     public final static String UPD_SER_WS="http://localhost:8084/PrimoApp/actualizarServicio";
-    public final static String REG_SERV_SUC_WS="http://localhost:8084/PrimoApp/sucursalServicio";
+    public final static String SERV_SUC_WS="http://localhost:8084/PrimoApp/sucursalServicio";
 }
