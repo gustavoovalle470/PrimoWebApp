@@ -9,19 +9,23 @@ import co.com.primo.containers.PRCompany;
 import co.com.primo.controllers.geolocalization.GeolocaliaztionController;
 import co.com.primo.controllers.security.UserSessionManager;
 import co.com.primo.model.Sucursal;
+import co.com.primo.model.SucursalServicio;
 import co.com.primo.ui.constants.GlobalConstants;
 import co.com.primo.ui.utils.UIMessageManagement;
 import co.com.primo.ws.sucursal.SucursalWSClient;
 import com.google.maps.errors.ApiException;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -45,12 +49,14 @@ public class GeolocationCompanyBean {
     private Sucursal branchSelected=null;
     private String newBranchName;
     private boolean connected=false;
-    
+    private List<SucursalServicio> branchService= new ArrayList<>();
+            
     public GeolocationCompanyBean(){
         this.prcompany=UserSessionManager.getInstance().getCompanyContainer(session);
         branchMap = new DefaultMapModel();
         setConnectBranch();
         putBranches();
+        putServices();
     }
 
     public boolean isConnected() {
@@ -125,11 +131,20 @@ public class GeolocationCompanyBean {
         this.zoom = zoom;
     }
 
+    public List<SucursalServicio> getBranchService() {
+        return branchService;
+    }
+
+    public void setBranchService(List<SucursalServicio> branchService) {
+        this.branchService = branchService;
+    }
+    
     public void onMarkerSelect(OverlaySelectEvent event){
         Marker markerSelect = (Marker) event.getOverlay();
         branchSelected=prcompany.getBranch(markerSelect.getLatlng());
         connected=prcompany.getBranchConnected().equals(branchSelected);
         branchAddress=GeolocaliaztionController.getAddress(branchSelected.getLatitud(), branchSelected.getLongitud());        
+        putServices();
     }
     
     public void updateBranch(){
@@ -185,5 +200,25 @@ public class GeolocationCompanyBean {
             branchSelected=prcompany.getBranchConnected();
             branchAddress=GeolocaliaztionController.getAddress(branchSelected.getLatitud(), branchSelected.getLongitud());
         }
+    }
+
+    private void putServices() {
+        try {
+            branchService=SucursalWSClient.getServicesForBranch(branchSelected);
+        } catch (NoSuchAlgorithmException ex) {
+            UIMessageManagement.putException(ex);
+        }
+    }
+    
+    public void onRowEdit(RowEditEvent event) {
+        SucursalServicio ss=(SucursalServicio) event.getObject();
+        System.out.println(ss);
+        try {
+            SucursalWSClient.updateServiceForSucursal(ss);
+            UIMessageManagement.putInfoMessage("Se ha asignado un valor de "+ss.getDblValor()+" al servicio "+ss.getMyServicio().getStrnombre()+" en la sucursal "+ss.getMySucursal().getStrNombre());
+        } catch (Exception ex) {
+            UIMessageManagement.putException(ex);
+        }
+        UserSessionManager.getInstance().reloadCompany(session);
     }
 }

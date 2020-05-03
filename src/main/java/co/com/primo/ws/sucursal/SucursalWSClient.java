@@ -109,7 +109,7 @@ public class SucursalWSClient {
 
     public static List<Sucursal> getBranchesForService(Empresa company, Servicio serviceSelected) throws NoSuchAlgorithmException {
         Gson myGson = new GsonBuilder().setDateFormat("dd-MM-yyyy").create();
-        String url=PrimoURI.SERV_SUC_WS+"/"+company.getIdEmpresa()+"/"+(serviceSelected!=null?serviceSelected.getIdservicio():"0");
+        String url=PrimoURI.SERV_SUC_WS+"/sucursal/"+company.getIdEmpresa()+"/"+(serviceSelected!=null?serviceSelected.getIdservicio():"0");
         System.out.println("URL TO REQUEST: "+url);
         WebTarget resourceTarget= PrimoWSBuilder.getContext(url);
 	String myStringList = resourceTarget.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -121,6 +121,25 @@ public class SucursalWSClient {
         String url=PrimoURI.SERV_SUC_WS+"/"+sServicio.getMySucursal().getMyEmpresa().getIdEmpresa()+"/"+sServicio.getMySucursal().getIdSucursal()+"/"+sServicio.getMyServicio().getIdservicio();
         WebTarget resourceTarget= PrimoWSBuilder.getContext(url);
 	PrimoMsg respuesta = resourceTarget.request(MediaType.APPLICATION_JSON).get(PrimoMsg.class);
+        if(!respuesta.isSucces()){
+            throw new Exception(respuesta.getResponse());
+        }
+    }
+
+    public static List<SucursalServicio> getServicesForBranch(Sucursal branchSelected) throws NoSuchAlgorithmException {
+        Gson myGson = new GsonBuilder().setDateFormat("dd-MM-yyyy").create();
+        String url=PrimoURI.SERV_SUC_WS+"/servicio/"+branchSelected.getMyEmpresa().getIdEmpresa()+"/"+branchSelected.getIdSucursal();
+        System.out.println("URL TO REQUEST: "+url);
+        WebTarget resourceTarget= PrimoWSBuilder.getContext(url);
+	String myStringList = resourceTarget.request(MediaType.APPLICATION_JSON).get(String.class);
+        List<SucursalServicio> myListDominio = myGson.fromJson(myStringList, new TypeToken<List<SucursalServicio>>(){}.getType());
+        return myListDominio;
+    }
+
+    public static void updateServiceForSucursal(SucursalServicio ss) throws NoSuchAlgorithmException, Exception {
+        WebTarget resourceTarget= PrimoWSBuilder.getContext(PrimoURI.SERV_SUC_WS+"/actualizar");
+	Invocation.Builder invocationBuilder = resourceTarget.request();
+        PrimoMsg respuesta=invocationBuilder.post(Entity.json(ss)).readEntity(PrimoMsg.class);
         if(!respuesta.isSucces()){
             throw new Exception(respuesta.getResponse());
         }
