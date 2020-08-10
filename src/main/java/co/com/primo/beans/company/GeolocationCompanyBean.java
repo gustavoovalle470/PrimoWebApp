@@ -203,10 +203,13 @@ public class GeolocationCompanyBean {
     }
 
     private void putServices() {
-        try {
-            branchService=SucursalWSClient.getServicesForBranch(branchSelected);
-        } catch (NoSuchAlgorithmException ex) {
-            UIMessageManagement.putException(ex);
+        System.out.println("branchSelected: "+branchSelected);
+        if(branchSelected != null){
+            try {
+                branchService=SucursalWSClient.getServicesForBranch(branchSelected);
+                } catch (NoSuchAlgorithmException ex) {
+                    UIMessageManagement.putException(ex);
+                }
         }
     }
     
